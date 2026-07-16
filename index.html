@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Резюме.Про — Конструктор резюме</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  /* ── СВЕТЛАЯ ТЕМА ── */
+  --bg:#F7F5F0;
+  --bg2:#FFFFFF;
+  --panel:#FFFFFF;
+  --border:#E8E2D8;
+  --border2:#D4CBBF;
+  --gold:#B8882A;
+  --gold2:#D4A843;
+  --gold-light:#FDF3DC;
+  --gold-mid:#F5E4B8;
+  --text:#1C1917;
+  --text2:#44403C;
+  --muted:#78716C;
+  --paper:#ffffff;
+  --paper-line:#E7E5E4;
+  --green:#16A34A;
+  --red:#DC2626;
+  --radius:12px;
+  /* редактор остаётся тёмным */
+  --ed-bg:#18181B;
+  --ed-panel:#1F1F23;
+  --ed-border:#2E2E35;
+  --ed-text:#E4E4E7;
+  --ed-muted:#71717A;
+  --ed-input:#111113;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden;}
+
+
+/* ════════════════════════════════════════
+   NAV
+════════════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 40px;
+  background:rgba(255,255,255,.92);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  box-shadow:0 1px 12px rgba(0,0,0,.06);
+}
+.nav-brand{font-family:'Playfair Display',serif;font-size:20px;color:var(--gold);cursor:pointer;}
+.nav-links{display:flex;align-items:center;gap:26px;}
+.nav-links a{color:var(--muted);font-size:13.5px;text-decoration:none;transition:.2s;}
+.nav-links a:hover{color:var(--text);}
+.nav-cta{background:var(--gold);color:#fff;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;cursor:pointer;border:none;transition:.2s;}
+.nav-cta:hover{background:var(--gold2);}
+@media(max-width:640px){.nav-links{display:none;}}
+
+/* ════════════════════════════════════════
+   PAGES
+════════════════════════════════════════ */
+.page{display:none;}
+.page.active{display:block;}
+
+/* ════════════════════════════════════════
+   LANDING
+════════════════════════════════════════ */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:130px 24px 90px;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,#FFFDF7 0%,#F7F2E8 50%,#F0EAD8 100%);
+}
+.hero-bg{position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 50% -10%,rgba(184,136,42,.13) 0%,transparent 65%),
+  radial-gradient(ellipse 40% 40% at 90% 90%,rgba(184,136,42,.06) 0%,transparent 60%);}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(184,136,42,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(184,136,42,.06) 1px,transparent 1px);
+  background-size:56px 56px;
+  mask-image:radial-gradient(ellipse 80% 70% at 50% 40%,black 20%,transparent 100%);
+}
+.hero-content{position:relative;z-index:1;max-width:800px;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(184,136,42,.1);border:1px solid rgba(184,136,42,.3);
+  padding:6px 16px;border-radius:999px;font-size:12px;color:var(--gold);font-weight:600;letter-spacing:.06em;margin-bottom:28px;
+}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+h1{font-family:'Playfair Display',serif;font-size:clamp(36px,6vw,66px);line-height:1.08;color:#1C1917;letter-spacing:-.02em;margin-bottom:22px;}
+h1 em{color:var(--gold);font-style:italic;}
+.hero-sub{font-size:clamp(14px,2vw,17px);color:var(--text2);line-height:1.7;max-width:560px;margin:0 auto 40px;}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-primary{background:var(--gold);color:#fff;padding:14px 32px;border-radius:10px;font-size:14.5px;font-weight:700;text-decoration:none;border:none;cursor:pointer;transition:.2s;box-shadow:0 4px 16px rgba(184,136,42,.3);}
+.btn-primary:hover{background:var(--gold2);transform:translateY(-1px);box-shadow:0 6px 20px rgba(184,136,42,.4);}
+.btn-ghost{background:#fff;color:var(--text2);padding:14px 26px;border-radius:10px;font-size:14.5px;font-weight:500;text-decoration:none;border:1px solid var(--border2);transition:.2s;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
+.hero-stats{display:flex;gap:36px;justify-content:center;flex-wrap:wrap;margin-top:56px;padding-top:40px;border-top:1px solid var(--border2);}
+.stat-num{font-family:'Playfair Display',serif;font-size:30px;color:var(--gold);font-weight:700;}
+.stat-lbl{font-size:11.5px;color:var(--muted);margin-top:3px;}
+
+/* MOCKUP */
+.mockup-section{padding:0 24px 100px;display:flex;justify-content:center;background:linear-gradient(180deg,#F0EAD8 0%,var(--bg) 100%);}
+.mockup-frame{width:100%;max-width:840px;background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.1),0 4px 16px rgba(0,0,0,.06);}
+.mockup-bar{background:#F7F5F2;padding:11px 16px;display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--border);}
+.dot{width:11px;height:11px;border-radius:50%;}
+.mock-body{display:grid;grid-template-columns:280px 1fr;height:380px;}
+.mock-ed{background:#0d1526;border-right:1px solid var(--border);padding:18px;overflow:hidden;}
+.ms{margin-bottom:14px;}
+.ms-t{font-size:8.5px;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;font-weight:700;}
+.mf{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:5px;padding:6px 9px;margin-bottom:5px;font-size:10.5px;color:var(--muted);}
+.mf.on{color:var(--text);border-color:rgba(201,168,76,.3);}
+.mchips{display:flex;gap:4px;flex-wrap:wrap;}
+.mc{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);color:var(--gold);font-size:9.5px;padding:3px 7px;border-radius:999px;}
+.mock-prev{background:#f9f8f5;padding:22px 26px;overflow:hidden;}
+.mp-name{font-family:'Playfair Display',serif;font-size:19px;color:#1a1a2e;font-weight:700;}
+.mp-role{font-size:11px;color:var(--gold);margin-top:2px;font-weight:600;}
+.mp-contacts{display:flex;gap:9px;margin-top:7px;font-size:8.5px;color:#9ca3af;}
+.mp-div{height:1.5px;background:#1a1a2e;margin:11px 0;}
+.mp-st{font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;color:#1a1a2e;margin-bottom:7px;font-weight:700;}
+.mp-txt{font-size:9px;color:#374151;line-height:1.6;}
+.mp-skills{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px;}
+.mp-skill{border:1px solid #e5e7eb;border-radius:3px;padding:2px 6px;font-size:8px;color:#374151;}
+@media(max-width:640px){.mock-ed{display:none;}.mock-body{grid-template-columns:1fr;height:auto;}}
+
+/* SECTIONS */
+.ls{padding:80px 24px;background:var(--bg);}
+.ls-inner{max-width:1000px;margin:0 auto;}
+.ls-lbl{font-size:10.5px;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:11px;}
+.ls-title{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,40px);color:var(--text);margin-bottom:14px;line-height:1.15;}
+.ls-sub{font-size:14.5px;color:var(--text2);max-width:500px;line-height:1.65;margin-bottom:48px;}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:2px;background:var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.06);}
+.step{background:#fff;padding:30px 26px;}
+.step-n{font-family:'Playfair Display',serif;font-size:36px;color:var(--gold-mid);font-weight:700;margin-bottom:14px;}
+.step-t{font-size:14px;font-weight:700;color:var(--text);margin-bottom:7px;}
+.step-d{font-size:12.5px;color:var(--text2);line-height:1.6;}
+.feats{padding:80px 24px;background:#FBF8F3;}
+.feats-inner{max-width:1000px;margin:0 auto;}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px;}
+.feat-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:28px;transition:.2s;box-shadow:0 2px 8px rgba(0,0,0,.04);}
+.feat-card:hover{border-color:var(--gold2);transform:translateY(-3px);box-shadow:0 8px 24px rgba(184,136,42,.12);}
+.feat-icon{font-size:28px;margin-bottom:14px;}
+.feat-t{font-size:14px;font-weight:700;color:var(--text);margin-bottom:7px;}
+.feat-d{font-size:12.5px;color:var(--text2);line-height:1.6;}
+
+/* PRICING */
+.pricing{padding:80px 24px;background:var(--bg);}
+.pricing-inner{max-width:780px;margin:0 auto;}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.plan{background:#fff;border:1px solid var(--border);border-radius:16px;padding:34px 30px;position:relative;box-shadow:0 4px 16px rgba(0,0,0,.06);}
+.plan.feat{border-color:var(--gold);background:linear-gradient(145deg,#FFFBF0 0%,#fff 100%);box-shadow:0 8px 32px rgba(184,136,42,.15);}
+.plan-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--gold);color:#fff;font-size:10px;font-weight:700;padding:3px 14px;border-radius:999px;white-space:nowrap;}
+.plan-name{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;}
+.plan-price{font-family:'Playfair Display',serif;font-size:46px;color:var(--text);font-weight:700;line-height:1;}
+.plan-price span{font-size:16px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:400;}
+.plan-desc{font-size:13px;color:var(--text2);margin:10px 0 22px;line-height:1.5;}
+.plan-feats{list-style:none;margin-bottom:28px;}
+.plan-feats li{font-size:13px;color:var(--text2);padding:7px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.plan-feats li:last-child{border:none;}
+.pcheck{color:var(--green);}
+.plan-btn{width:100%;padding:13px;border-radius:9px;font-size:13.5px;font-weight:700;cursor:pointer;border:none;transition:.2s;}
+.pbtn-g{background:transparent;color:var(--gold);border:1.5px solid var(--gold);}
+.pbtn-g:hover{background:var(--gold-light);}
+.pbtn-s{background:var(--gold);color:#fff;box-shadow:0 4px 12px rgba(184,136,42,.3);}
+.pbtn-s:hover{background:var(--gold2);}
+@media(max-width:500px){.plans{grid-template-columns:1fr;}}
+
+/* FAQ */
+.faq{padding:80px 24px;background:#FBF8F3;}
+.faq-inner{max-width:680px;margin:0 auto;}
+.faq-item{border-bottom:1px solid var(--border);padding:20px 0;cursor:pointer;}
+.faq-q{font-size:15px;color:var(--text);font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:14px;}
+.faq-a{font-size:13.5px;color:var(--text2);line-height:1.7;margin-top:10px;display:none;}
+.faq-item.open .faq-a{display:block;}
+.faq-arrow{transition:.2s;flex-shrink:0;color:var(--muted);}
+.faq-item.open .faq-arrow{transform:rotate(180deg);color:var(--gold);}
+
+/* CTA */
+.cta-sec{padding:100px 24px;text-align:center;background:linear-gradient(160deg,#FFFBF0 0%,#F7F2E4 100%);position:relative;overflow:hidden;}
+.cta-glow{position:absolute;top:0;left:50%;transform:translateX(-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(184,136,42,.12) 0%,transparent 70%);}
+.cta-inner{position:relative;z-index:1;max-width:600px;margin:0 auto;}
+.cta-title{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,48px);color:var(--text);line-height:1.1;margin-bottom:14px;}
+.cta-sub{font-size:16px;color:var(--text2);margin-bottom:36px;line-height:1.65;}
+
+/* FOOTER */
+footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px;}
+.footer-inner{max-width:1000px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.footer-brand{font-family:'Playfair Display',serif;font-size:18px;color:var(--gold);}
+.footer-links{display:flex;gap:22px;}
+.footer-links a{font-size:12.5px;color:var(--muted);text-decoration:none;}
+.footer-links a:hover{color:var(--gold);}
+.footer-copy{font-size:11.5px;color:var(--muted);text-align:center;margin-top:20px;}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .55s,transform .55s;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* ════════════════════════════════════════
+   BUILDER PAGE
+════════════════════════════════════════ */
+.builder-wrap{display:flex;height:100vh;flex-direction:column;}
+.builder-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 20px;background:#18181B;border-bottom:1px solid #2E2E35;
+  flex-wrap:wrap;gap:10px;flex-shrink:0;
+}
+.builder-bar-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.score-ring{position:relative;width:36px;height:36px;flex-shrink:0;}
+.score-ring svg{transform:rotate(-90deg);}
+.score-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--gold);}
+.lang-sw{display:flex;background:#0d1117;border:1px solid var(--border);border-radius:999px;padding:2px;gap:2px;}
+.lang-btn{border:none;background:transparent;color:var(--muted);padding:4px 11px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;transition:.15s;}
+.lang-btn.on{background:var(--gold);color:#0d0a00;}
+.tmpl-sw{display:flex;gap:4px;}
+.tmpl-btn{border:1px solid var(--border);background:transparent;color:var(--muted);padding:5px 10px;border-radius:6px;font-size:11px;cursor:pointer;transition:.15s;}
+.tmpl-btn.on{border-color:var(--gold);color:var(--gold);}
+.dl-btn{display:flex;align-items:center;gap:6px;background:var(--gold);color:#0d0a00;border:none;padding:8px 14px;border-radius:7px;font-weight:700;font-size:12.5px;cursor:pointer;}
+.dl-btn:hover{background:var(--gold2);}
+.back-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:7px 12px;border-radius:7px;font-size:12px;cursor:pointer;}
+.back-btn:hover{border-color:var(--gold);color:var(--gold);}
+
+.builder-body{display:flex;flex:1;overflow:hidden;}
+
+/* EDITOR */
+.editor{width:360px;min-width:300px;overflow-y:auto;background:var(--ed-bg);border-right:1px solid var(--ed-border);}
+.ed-sec{border-bottom:1px solid var(--ed-border);}
+.ed-hd{width:100%;display:flex;justify-content:space-between;align-items:center;padding:11px 16px;background:transparent;border:none;color:var(--gold);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;}
+.ed-hd:hover{background:rgba(255,255,255,.04);}
+.ed-body{padding:4px 16px 14px;}
+.f{display:flex;flex-direction:column;gap:4px;margin-bottom:8px;}
+.f label{font-size:10.5px;color:var(--ed-muted);font-weight:500;}
+.f input,.f textarea{background:var(--ed-input);border:1px solid var(--ed-border);border-radius:6px;padding:7px 9px;color:var(--ed-text);font-family:'Inter',sans-serif;font-size:12.5px;resize:vertical;outline:none;transition:border .15s;}
+.f input:focus,.f textarea:focus{border-color:var(--gold);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px;}
+.chip{border:1px solid var(--ed-border);background:transparent;color:var(--ed-muted);padding:4px 10px;border-radius:999px;font-size:11px;cursor:pointer;transition:.15s;}
+.chip.on{border-color:var(--gold);color:var(--gold);background:rgba(184,136,42,.12);}
+.tog-row{display:flex;gap:14px;padding:4px 0 8px;}
+.tog-lbl{display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer;color:var(--ed-text);}
+.tog-track{width:32px;height:18px;border-radius:999px;background:var(--ed-border);position:relative;transition:.2s;flex-shrink:0;}
+.tog-track.on{background:var(--gold);}
+.tog-knob{position:absolute;top:3px;left:3px;width:12px;height:12px;border-radius:50%;background:#fff;transition:.2s;}
+.tog-track.on .tog-knob{left:17px;}
+.card{border:1px solid var(--ed-border);border-radius:8px;padding:12px;margin-bottom:8px;background:rgba(255,255,255,.03);}
+.card-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.card-hd span{font-size:10px;color:var(--ed-muted);text-transform:uppercase;letter-spacing:.07em;}
+.rm{background:transparent;border:none;color:var(--muted);cursor:pointer;}
+.rm:hover{color:#f87171;}
+.add-btn{width:100%;border:1px dashed var(--ed-border);background:transparent;color:var(--ed-muted);padding:7px;border-radius:7px;font-size:12px;cursor:pointer;margin-top:4px;}
+.add-btn:hover{border-color:var(--gold);color:var(--gold);}
+.photo-row{display:flex;align-items:center;gap:11px;margin-bottom:10px;}
+.photo-c{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);}
+.photo-e{width:56px;height:56px;border-radius:50%;border:1.5px dashed var(--ed-border);display:flex;align-items:center;justify-content:center;color:var(--ed-muted);cursor:pointer;font-size:20px;}
+.photo-e:hover{border-color:var(--gold);}
+.photo-acts{display:flex;flex-direction:column;gap:5px;}
+.photo-acts button{font-size:11px;padding:5px 9px;border-radius:5px;border:1px solid var(--ed-border);background:transparent;color:var(--ed-muted);cursor:pointer;}
+.photo-acts button:hover{border-color:var(--gold);color:var(--gold);}
+
+/* PREVIEW */
+.preview-pane{flex:1;background:#E8E4DC;overflow-y:auto;display:flex;justify-content:center;padding:28px 20px;}
+.resume{width:100%;max-width:660px;background:var(--paper);color:#1a1a1a;font-family:'Inter',sans-serif;box-shadow:0 8px 40px rgba(0,0,0,.5);}
+
+/* ── CLASSIC ── */
+.tc .r-hdr{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:start;padding:32px 38px 22px;border-bottom:3px solid #1a1a2e;}
+.tc .r-photo{width:86px;height:86px;border-radius:4px;object-fit:cover;border:2px solid #1a1a2e;}
+.tc .r-name{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:#1a1a2e;line-height:1.1;}
+.tc .r-role{font-size:13px;color:#6b7280;margin-top:3px;font-weight:500;}
+.tc .r-contacts{display:flex;flex-wrap:wrap;gap:5px 16px;margin-top:9px;font-size:11px;color:#555;}
+.tc .r-body{display:grid;grid-template-columns:1fr 200px;}
+.tc .r-main{padding:22px 26px 30px 38px;border-right:1px solid var(--paper-line);}
+.tc .r-side{padding:22px 18px 30px;background:#f9fafb;}
+.tc .r-st{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#1a1a2e;border-bottom:2px solid #1a1a2e;padding-bottom:4px;margin:18px 0 9px;}
+.tc .r-st:first-child{margin-top:0;}
+.tc .r-exp{margin-bottom:13px;}
+.tc .r-exp-top{display:flex;justify-content:space-between;align-items:baseline;}
+.tc .r-exp-role{font-size:12.5px;font-weight:700;color:#1a1a2e;}
+.tc .r-exp-period{font-size:10px;color:#9ca3af;flex-shrink:0;margin-left:6px;}
+.tc .r-exp-co{font-size:11px;color:#6b7280;margin:2px 0 4px;}
+.tc .r-exp-desc{font-size:11.5px;line-height:1.55;color:#374151;}
+.tc .r-chip{display:inline-block;font-size:10px;padding:2px 7px;border:1px solid #e5e7eb;border-radius:4px;margin:2px 2px 2px 0;color:#374151;}
+.tc .r-tag{font-size:11px;color:#374151;padding:3px 0;border-bottom:1px solid #f3f4f6;display:block;}
+.tc .r-cond{font-size:11px;color:#374151;margin-bottom:3px;}
+.tc .r-extra{font-size:11px;line-height:1.6;color:#374151;}
+.tc .r-port{margin-bottom:9px;}
+.tc .r-port-t{font-size:11.5px;color:#1a1a2e;font-weight:700;}
+.tc .r-port-d{font-size:10.5px;color:#6b7280;margin-top:1px;}
+
+/* ── MODERN ── */
+.tm .r-hdr{background:#1a1a2e;padding:32px 38px;display:flex;gap:18px;align-items:center;}
+.tm .r-photo{width:82px;height:82px;border-radius:50%;object-fit:cover;border:3px solid var(--gold);}
+.tm .r-name{font-family:'Playfair Display',serif;font-size:24px;color:#fff;font-weight:700;}
+.tm .r-role{font-size:12.5px;color:var(--gold);margin-top:3px;font-weight:600;}
+.tm .r-contacts{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:9px;font-size:10.5px;color:#9ca3af;}
+.tm .r-body{display:grid;grid-template-columns:1fr 200px;}
+.tm .r-main{padding:22px 26px 30px 38px;}
+.tm .r-side{padding:22px 18px;background:#f8f7f4;}
+.tm .r-st{font-size:8.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:#1a1a2e;display:inline-block;padding:2px 7px;border-radius:3px;margin:18px 0 9px;}
+.tm .r-st:first-child{margin-top:0;}
+.tm .r-exp{margin-bottom:13px;}
+.tm .r-exp-top{display:flex;justify-content:space-between;}
+.tm .r-exp-role{font-size:12.5px;font-weight:700;color:#1a1a2e;}
+.tm .r-exp-period{font-size:10px;color:#9ca3af;}
+.tm .r-exp-co{font-size:11px;color:var(--gold);margin:2px 0 4px;font-weight:600;}
+.tm .r-exp-desc{font-size:11.5px;line-height:1.55;color:#374151;}
+.tm .r-chip{display:inline-block;font-size:10px;padding:2px 7px;background:#f3f4f6;border-radius:999px;margin:2px 2px 2px 0;}
+.tm .r-tag{font-size:11px;color:#374151;padding:3px 0;}
+.tm .r-cond{font-size:11px;color:#374151;margin-bottom:3px;}
+.tm .r-extra{font-size:11px;line-height:1.6;color:#374151;}
+.tm .r-port{margin-bottom:9px;}
+.tm .r-port-t{font-size:11.5px;color:#1a1a2e;font-weight:700;}
+.tm .r-port-d{font-size:10.5px;color:#6b7280;margin-top:1px;}
+
+/* ── MINIMAL ── */
+.tmin .r-hdr{padding:40px 48px 24px;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between;align-items:start;}
+.tmin .r-photo{width:72px;height:72px;border-radius:50%;object-fit:cover;flex-shrink:0;margin-left:16px;}
+.tmin .r-name{font-family:'Playfair Display',serif;font-size:28px;color:#111;font-weight:600;}
+.tmin .r-role{font-size:12.5px;color:#6b7280;margin-top:3px;}
+.tmin .r-contacts{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:7px;font-size:10.5px;color:#9ca3af;}
+.tmin .r-body{display:grid;grid-template-columns:1fr 190px;}
+.tmin .r-main{padding:26px 30px 38px 48px;}
+.tmin .r-side{padding:26px 22px 38px 14px;border-left:1px solid #e5e7eb;}
+.tmin .r-st{font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:#9ca3af;margin:18px 0 10px;}
+.tmin .r-st:first-child{margin-top:0;}
+.tmin .r-exp{margin-bottom:14px;}
+.tmin .r-exp-top{display:flex;justify-content:space-between;}
+.tmin .r-exp-role{font-size:12.5px;font-weight:600;color:#111;}
+.tmin .r-exp-period{font-size:10px;color:#9ca3af;}
+.tmin .r-exp-co{font-size:11px;color:#6b7280;margin:2px 0 4px;}
+.tmin .r-exp-desc{font-size:11.5px;line-height:1.6;color:#4b5563;}
+.tmin .r-chip{display:inline-block;font-size:10px;padding:2px 7px;border:1px solid #e5e7eb;border-radius:3px;margin:2px 2px 2px 0;color:#4b5563;}
+.tmin .r-tag{font-size:11px;color:#4b5563;padding:3px 0;}
+.tmin .r-cond{font-size:11px;color:#4b5563;margin-bottom:3px;}
+.tmin .r-extra{font-size:11px;line-height:1.6;color:#4b5563;}
+.tmin .r-port{margin-bottom:9px;}
+.tmin .r-port-t{font-size:11.5px;color:#111;font-weight:600;}
+.tmin .r-port-d{font-size:10.5px;color:#6b7280;margin-top:1px;}
+
+/* ════════════════════════════════════════
+   PAYWALL
+════════════════════════════════════════ */
+.pw-overlay{display:none;position:fixed;inset:0;z-index:999;background:rgba(28,25,23,.7);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:16px;}
+.pw-overlay.open{display:flex;}
+.pw-modal{background:#fff;border:1px solid var(--border);border-radius:20px;width:100%;max-width:490px;box-shadow:0 30px 80px rgba(0,0,0,.2);overflow:hidden;animation:su .25s ease;}
+@keyframes su{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
+.pw-hdr{padding:22px 26px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:start;}
+.pw-title{font-family:'Playfair Display',serif;font-size:20px;color:var(--text);}
+.pw-sub{font-size:12px;color:var(--muted);margin-top:3px;}
+.pw-close{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:19px;padding:2px;line-height:1;}
+.pw-close:hover{color:var(--text);}
+.pw-tabs{display:grid;grid-template-columns:1fr 1fr;padding:16px 26px 0;}
+.pw-tab{padding:13px 10px;text-align:center;cursor:pointer;border:1px solid var(--border);background:#F7F5F2;transition:.15s;position:relative;}
+.pw-tab:first-child{border-radius:10px 0 0 0;border-right:none;}
+.pw-tab:last-child{border-radius:0 10px 0 0;}
+.pw-tab.on{background:#fff;border-color:var(--gold);border-bottom-color:#fff;z-index:1;}
+.pw-badge{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--gold);color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:999px;}
+.pw-price{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold);font-weight:700;line-height:1;}
+.pw-period{font-size:10.5px;color:var(--muted);margin-top:2px;}
+.pw-tab.on .pw-period{color:var(--text);}
+.pw-body{padding:16px 26px 22px;}
+.pw-feats{list-style:none;margin-bottom:16px;border-top:1px solid var(--border);}
+.pw-feats li{font-size:12.5px;color:var(--text2);padding:6px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:9px;}
+.pw-check{color:var(--green);}
+.iframe-wrap{background:#F7F5F2;border:1px solid var(--border);border-radius:9px;overflow:hidden;min-height:52px;margin-bottom:12px;position:relative;}
+.iframe-loader{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;color:var(--muted);font-size:12.5px;}
+.spinner{width:22px;height:22px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+#robo-frame{width:100%;border:none;display:none;}
+.pw-pay-btn{width:100%;padding:13px;border-radius:8px;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;background:var(--gold);color:#fff;transition:.2s;box-shadow:0 4px 12px rgba(184,136,42,.3);}
+.pw-pay-btn:hover{background:var(--gold2);}
+.pw-pay-btn:disabled{opacity:.5;cursor:not-allowed;}
+.pw-note{font-size:10.5px;color:var(--muted);text-align:center;margin-top:9px;}
+.pw-sec{display:flex;justify-content:center;gap:12px;margin-top:7px;flex-wrap:wrap;}
+.pw-sec span{font-size:10px;color:var(--muted);}
+.pw-status{display:none;padding:36px 26px;text-align:center;}
+.pw-status.show{display:block;}
+.pw-status-icon{font-size:50px;margin-bottom:12px;}
+.pw-status-title{font-family:'Playfair Display',serif;font-size:20px;color:var(--text);margin-bottom:7px;}
+.pw-status-desc{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:22px;}
+.sbtn{display:inline-block;padding:11px 22px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;border:none;margin:3px;}
+.sg{background:var(--gold);color:#fff;}
+.sgh{background:transparent;border:1px solid var(--border);color:var(--text2);}
+
+@media print{
+  nav,.builder-bar,.editor,.pw-overlay{display:none!important;}
+  .preview-pane{background:white;padding:0;}
+  .resume{box-shadow:none;max-width:none;}
+  .page{display:block!important;}
+  .builder-body{overflow:visible;}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════ NAV ════════ -->
+<nav>
+  <div class="nav-brand" onclick="showPage('landing')">Резюме.Про</div>
+  <div class="nav-links">
+    <a href="#how" onclick="showPage('landing')">Как работает</a>
+    <a href="#features" onclick="showPage('landing')">Возможности</a>
+    <a href="#pricing" onclick="showPage('landing')">Цены</a>
+  </div>
+  <button class="nav-cta" onclick="showPage('builder')">Создать резюме →</button>
+</nav>
+
+<!-- ════════════════════════════════════════
+     LANDING PAGE
+════════════════════════════════════════ -->
+<div class="page active" id="page-landing">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-badge"><span class="badge-dot"></span>Резюме, которое работает</div>
+      <h1>Создайте резюме,<br/>которое <em>заметят</em></h1>
+      <p class="hero-sub">Профессиональный конструктор с готовыми шаблонами, двуязычным форматом и ATS-совместимостью. Заполняйте бесплатно — скачивайте когда готово.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('builder')">Создать резюме — бесплатно</button>
+        <a class="btn-ghost" href="#how">Как это работает</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="stat-num">3</div><div class="stat-lbl">шаблона</div></div>
+        <div><div class="stat-num">RU/EN</div><div class="stat-lbl">два языка</div></div>
+        <div><div class="stat-num">ATS</div><div class="stat-lbl">совместимо</div></div>
+        <div><div class="stat-num">300 ₽</div><div class="stat-lbl">за скачивание</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOCKUP -->
+  <div class="mockup-section reveal">
+    <div class="mockup-frame">
+      <div class="mockup-bar">
+        <div class="dot" style="background:#ff5f57"></div>
+        <div class="dot" style="background:#ffbd2e"></div>
+        <div class="dot" style="background:#28c840"></div>
+        <span style="margin-left:10px;font-size:10.5px;color:#A8A29E">резюме.про / конструктор</span>
+      </div>
+      <div class="mock-body">
+        <div class="mock-ed">
+          <div class="ms"><div class="ms-t">Личные данные</div><div class="mf on">Анна Соколова</div><div class="mf on">Финансовый директор</div><div class="mf on">+7 900 123-45-67</div></div>
+          <div class="ms"><div class="ms-t">Условия работы</div><div class="mf on">350 000 ₽</div><div class="mchips"><span class="mc">Гибрид</span><span class="mc">Полный день</span></div></div>
+          <div class="ms" style="margin-top:10px"><div class="ms-t">Навыки</div><div class="mchips"><span class="mc">МСФО</span><span class="mc">Excel</span><span class="mc">1С</span></div></div>
+        </div>
+        <div class="mock-prev">
+          <div class="mp-name">Анна Соколова</div>
+          <div class="mp-role">Финансовый директор</div>
+          <div class="mp-contacts"><span>+7 900 123-45-67</span><span>anna@example.com</span><span>Москва</span></div>
+          <div class="mp-div"></div>
+          <div class="mp-st">О себе</div>
+          <div class="mp-txt">Финансовый директор с опытом управления компаниями с оборотом от 1 до 60 млрд ₽. МСФО (ДипИФР), бюджетирование, финансовое моделирование.</div>
+          <div class="mp-div"></div>
+          <div class="mp-st">Опыт работы</div>
+          <div class="mp-txt"><strong style="font-size:9.5px;color:#1a1a2e;">Финансовый директор</strong> · ООО «Ресурс Групп» · 2019–2025<br/>Управляла финансовой функцией (оборот 12 млрд ₽). Снизила cash gap на 18%.</div>
+          <div class="mp-skills"><span class="mp-skill">МСФО</span><span class="mp-skill">Бюджетирование</span><span class="mp-skill">Excel</span><span class="mp-skill">Power BI</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section class="ls" id="how">
+    <div class="ls-inner reveal">
+      <div class="ls-lbl">Как это работает</div>
+      <h2 class="ls-title">Четыре шага до готового резюме</h2>
+      <p class="ls-sub">Никакого Word, никаких потерявшихся файлов. Всё в браузере, превью в реальном времени.</p>
+      <div class="steps">
+        <div class="step"><div class="step-n">1</div><div class="step-t">Заполните данные</div><div class="step-d">Вводите информацию — резюме обновляется справа мгновенно. Бесплатно и без регистрации.</div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-t">Выберите шаблон</div><div class="step-d">Классика, Модерн или Минимализм. Переключайте и смотрите вживую до скачивания.</div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-t">RU или EN версия</div><div class="step-d">Один клик — и интерфейс и содержимое переключаются на другой язык.</div></div>
+        <div class="step"><div class="step-n">4</div><div class="step-t">Скачайте PDF</div><div class="step-d">300 ₽ разово или 950 ₽/мес безлимит — и PDF у вас через несколько секунд.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="feats" id="features">
+    <div class="feats-inner">
+      <div class="ls-lbl reveal">Возможности</div>
+      <h2 class="ls-title reveal">Всё для сильного резюме</h2>
+      <div class="feat-grid">
+        <div class="feat-card reveal"><div class="feat-icon">🌐</div><div class="feat-t">RU и EN версии</div><div class="feat-d">Раздельные поля — не перевод, а полноценный текст. Два профессиональных резюме из одного.</div></div>
+        <div class="feat-card reveal"><div class="feat-icon">🤖</div><div class="feat-t">ATS-совместимость</div><div class="feat-d">Шаблоны разработаны под требования автоматических систем отбора. Резюме попадёт к рекрутеру.</div></div>
+        <div class="feat-card reveal"><div class="feat-icon">📊</div><div class="feat-t">Индикатор заполненности</div><div class="feat-d">Видите в реальном времени, насколько полное резюме. 80%+ получают вдвое больше откликов.</div></div>
+        <div class="feat-card reveal"><div class="feat-icon">📸</div><div class="feat-t">Фото и портфолио</div><div class="feat-d">Загрузите фото и добавьте ссылки на проекты прямо в резюме.</div></div>
+        <div class="feat-card reveal"><div class="feat-icon">🎨</div><div class="feat-t">Три шаблона</div><div class="feat-d">Классика, Модерн, Минимализм. Для любой отрасли и стиля.</div></div>
+        <div class="feat-card reveal"><div class="feat-icon">✈️</div><div class="feat-t">Условия работы</div><div class="feat-d">Зарплата, график, командировки, переезд — всё как на hh.ru, но с красивым дизайном.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <div class="pricing-inner">
+      <div class="ls-lbl reveal" style="text-align:center">Цены</div>
+      <h2 class="ls-title reveal" style="text-align:center">Прозрачно и честно</h2>
+      <p class="ls-sub reveal" style="text-align:center;margin-left:auto;margin-right:auto">Создавайте бесплатно. Платите только когда хотите скачать.</p>
+      <div class="plans reveal">
+        <div class="plan">
+          <div class="plan-name">Разовое скачивание</div>
+          <div class="plan-price">300 <span>₽</span></div>
+          <div class="plan-desc">Одна загрузка PDF</div>
+          <ul class="plan-feats">
+            <li><span class="pcheck">✓</span>Скачивание PDF</li>
+            <li><span class="pcheck">✓</span>Все 3 шаблона</li>
+            <li><span class="pcheck">✓</span>RU и EN версии</li>
+            <li><span class="pcheck">✓</span>Без подписки</li>
+          </ul>
+          <button class="plan-btn pbtn-g" onclick="showPage('builder')">Попробовать бесплатно</button>
+        </div>
+        <div class="plan feat">
+          <div class="plan-badge">Выгоднее</div>
+          <div class="plan-name">Подписка</div>
+          <div class="plan-price">950 <span>₽/мес</span></div>
+          <div class="plan-desc">Безлимитные скачивания</div>
+          <ul class="plan-feats">
+            <li><span class="pcheck">✓</span>Безлимитные скачивания</li>
+            <li><span class="pcheck">✓</span>Все 3 шаблона</li>
+            <li><span class="pcheck">✓</span>RU и EN версии</li>
+            <li><span class="pcheck">✓</span>Несколько резюме</li>
+            <li><span class="pcheck">✓</span>Приоритетная поддержка</li>
+          </ul>
+          <button class="plan-btn pbtn-s" onclick="showPage('builder')">Начать →</button>
+        </div>
+      </div>
+      <p style="text-align:center;font-size:11.5px;color:var(--muted);margin-top:16px">Оплата через Robokassa — карты МИР/Visa/MC, СБП, электронные кошельки</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="faq-inner">
+      <div class="ls-lbl reveal" style="text-align:center">FAQ</div>
+      <h2 class="ls-title reveal" style="text-align:center">Частые вопросы</h2>
+      <div class="faq-item reveal"><div class="faq-q">Нужна ли регистрация? <span class="faq-arrow">▾</span></div><div class="faq-a">Нет. Создавайте и редактируйте без регистрации. Аккаунт нужен только для подписки.</div></div>
+      <div class="faq-item reveal"><div class="faq-q">Как выглядит PDF? <span class="faq-arrow">▾</span></div><div class="faq-a">Ровно так, как в превью — пиксель в пиксель. Формат A4, готов к отправке.</div></div>
+      <div class="faq-item reveal"><div class="faq-q">Какие способы оплаты? <span class="faq-arrow">▾</span></div><div class="faq-a">Карты МИР, Visa, Mastercard, СБП, ЮMoney, QIWI — через Robokassa.</div></div>
+      <div class="faq-item reveal"><div class="faq-q">Можно отменить подписку? <span class="faq-arrow">▾</span></div><div class="faq-a">Да, в любой момент в личном кабинете. Подписка действует до конца периода.</div></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-sec">
+    <div class="cta-glow"></div>
+    <div class="cta-inner reveal">
+      <h2 class="cta-title">Начните прямо сейчас — бесплатно</h2>
+      <p class="cta-sub">Заполните, выберите шаблон, переключите язык. Платите только когда скачиваете.</p>
+      <button class="btn-primary" onclick="showPage('builder')" style="font-size:15px;padding:15px 38px">Создать резюме →</button>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">Резюме.Про</div>
+      <div class="footer-links">
+        <a href="#pricing">Цены</a>
+        <a href="#">Политика конфиденциальности</a>
+        <a href="#">Оферта</a>
+        <a href="#">Поддержка</a>
+      </div>
+    </div>
+    <div class="footer-copy">© 2025 Резюме.Про. Все права защищены.</div>
+  </footer>
+
+</div><!-- /page-landing -->
+
+<!-- ════════════════════════════════════════
+     BUILDER PAGE
+════════════════════════════════════════ -->
+<div class="page" id="page-builder">
+<div class="builder-wrap">
+
+  <!-- BUILDER BAR -->
+  <div class="builder-bar">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <button class="back-btn" onclick="showPage('landing')">← На главную</button>
+      <span style="font-family:'Playfair Display',serif;font-size:16px;color:var(--gold)">Резюме.Про</span>
+    </div>
+    <div class="builder-bar-right">
+      <div class="score-ring">
+        <svg viewBox="0 0 36 36" width="36" height="36">
+          <circle cx="18" cy="18" r="14" fill="none" stroke="#1e2d45" stroke-width="3"/>
+          <circle id="score-arc" cx="18" cy="18" r="14" fill="none" stroke="#c9a84c" stroke-width="3" stroke-dasharray="0 87.96" stroke-linecap="round"/>
+        </svg>
+        <div class="score-num" id="score-num">0%</div>
+      </div>
+      <div class="lang-sw">
+        <button class="lang-btn on" id="lb-ru" onclick="setLang('ru')">RU</button>
+        <button class="lang-btn" id="lb-en" onclick="setLang('en')">EN</button>
+      </div>
+      <div class="tmpl-sw">
+        <button class="tmpl-btn on" id="tb-classic" onclick="setTmpl('classic')">Классика</button>
+        <button class="tmpl-btn" id="tb-modern" onclick="setTmpl('modern')">Модерн</button>
+        <button class="tmpl-btn" id="tb-minimal" onclick="setTmpl('minimal')">Минимал</button>
+      </div>
+      <button class="dl-btn" onclick="openPaywall()">⬇ Скачать PDF</button>
+    </div>
+  </div>
+
+  <div class="builder-body">
+
+    <!-- EDITOR -->
+    <div class="editor" id="editor">
+
+      <!-- Личные данные -->
+      <div class="ed-sec">
+        <button class="ed-hd" onclick="toggleSec(this)">Личные данные <span>▾</span></button>
+        <div class="ed-body">
+          <div class="photo-row">
+            <div id="photo-el" class="photo-e" onclick="document.getElementById('photo-inp').click()">📷</div>
+            <div class="photo-acts">
+              <input type="file" id="photo-inp" accept="image/*" style="display:none" onchange="onPhoto(event)"/>
+              <button onclick="document.getElementById('photo-inp').click()">📷 Загрузить фото</button>
+              <button id="photo-rm" style="display:none" onclick="removePhoto()">✕ Удалить</button>
+            </div>
+          </div>
+          <div class="f"><label>Имя и фамилия</label><input id="f-name" oninput="render()"/></div>
+          <div class="g2">
+            <div class="f"><label>Должность RU</label><input id="f-role-ru" oninput="render()"/></div>
+            <div class="f"><label>Должность EN</label><input id="f-role-en" oninput="render()"/></div>
+          </div>
+          <div class="g2">
+            <div class="f"><label>Телефон</label><input id="f-phone" oninput="render()"/></div>
+            <div class="f"><label>Email</label><input id="f-email" oninput="render()"/></div>
+          </div>
+          <div class="g2">
+            <div class="f"><label>Город</label><input id="f-city" oninput="render()"/></div>
+            <div class="f"><label>LinkedIn / сайт</label><input id="f-link" oninput="render()"/></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Условия -->
+      <div class="ed-sec">
+        <button class="ed-hd" onclick="toggleSec(this)">Условия работы <span>▾</span></button>
+        <div class="ed-body">
+          <div class="f"><label>Желаемая зарплата (₽)</label><input id="f-salary" oninput="render()"/></div>
+          <div class="f"><label>Занятость</label>
+            <div class="chips" id="chips-emp">
+              <button class="chip on" data-val="full" onclick="toggleChip('emp',this)">Полная</button>
+              <button class="chip" data-val="part" onclick="toggleChip('emp',this)">Частичная</button>
+              <button class="chip" data-val="project" onclick="toggleChip('emp',this)">Проектная</button>
+              <button class="chip" data-val="intern" onclick="toggleChip('emp',this)">Стажировка</button>
+            </div>
+          </div>
+          <div class="f"><label>График</label>
+            <div class="chips" id="chips-sch">
+              <button class="chip on" data-val="office" onclick="toggleChip('sch',this)">Офис</button>
+              <button class="chip" data-val="remote" onclick="toggleChip('sch',this)">Удалённо</button>
+              <button class="chip on" data-val="hybrid" onclick="toggleChip('sch',this)">Гибрид</button>
+              <button class="chip" data-val="shift" onclick="toggleChip('sch',this)">Сменный</button>
+            </div>
+          </div>
+          <div class="tog-row">
+            <label class="tog-lbl" onclick="toggleTog('relocation')">
+              <div class="tog-track" id="tog-relocation"><div class="tog-knob"></div></div>
+              Готов(а) к переезду
+            </label>
+            <label class="tog-lbl" onclick="toggleTog('travel')">
+              <div class="tog-track on" id="tog-travel"><div class="tog-knob"></div></div>
+              К командировкам
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- О себе -->
+      <div class="ed-sec">
+        <button class="ed-hd" onclick="toggleSec(this)">О себе <span>▾</span></button>
+        <div class="ed-body">
+          <div class="f"><label id="summary-lbl">Summary (RU)</label><textarea id="f-summary-ru" rows="3" oninput="render()"></textarea></div>
+          <div class="f"><label>Summary (EN)</label><textarea id="f-summary-en" rows="3" oninput="render()" style="display:none"></textarea></div>
+        </div>
+      </div>
+
+      <!-- Опыт -->
+      <div class="ed-sec">
+        <button class="ed-hd" onclick="toggleSec(this)">Опыт работы <span>▾</span></button>
+        <div class="ed-body" id="exp-container"></div>
+        <div style="padding:0 16px 14px"><button class="add-btn" onclick="addExp()">+ Добавить место работы</button></div>
+      </div>
+
+      <!-- Образование -->
+      <div class="ed-sec">
+        <button class="ed-hd" onclick="toggleSec(this)">Образование <span>▾</span></button>
+        <div class="ed-body" id="edu-container"></div>
+        <div style="padding:0 16px 14px"><button class="add-btn" onclick="addEdu()">+ Добавить образование</button></div>
+      </div>
+
+      <!-- Курсы -->
+      <div class="ed-sec">
+        <button class="ed-hd" onclick="toggleSec(this)">Повышение квалификации <span>▾</span></button>
+        <div class="ed-body" id="course-container"></div>
+        <div style="padding:0 16px 14px"><button class="add-btn" onclick="addCourse()">+ Добавить курс / сертификат</button></div>
+      </div>
+
+      <!-- Портфолио -->
+      <div class="ed-sec">
+        <button class="ed-hd" onclick="toggleSec(this)">Портфолио <span>▾</span></button>
+        <div class="ed-body" id="port-container"></div>
+        <div style="padding:0 16px 14px"><button class="add-btn" onclick="addPort()">+ Добавить проект</button></div>
+      </div>
+
+      <!-- Навыки -->
+      <div class="ed-sec">
+        <button class="ed-hd" onclick="toggleSec(this)">Навыки <span>▾</span></button>
+        <div class="ed-body">
+          <div class="f"><label id="skills-lbl">Навыки RU (через запятую)</label><textarea id="f-skills-ru" rows="2" oninput="render()"></textarea></div>
+          <div class="f"><label>Навыки EN</label><textarea id="f-skills-en" rows="2" oninput="render()" style="display:none"></textarea></div>
+        </div>
+      </div>
+
+      <!-- Языки -->
+      <div class="ed-sec">
+        <button class="ed-hd" onclick="toggleSec(this)">Языки <span>▾</span></button>
+        <div class="ed-body">
+          <div class="f"><label>Через запятую</label><input id="f-langs" oninput="render()"/></div>
+        </div>
+      </div>
+
+      <!-- Хобби -->
+      <div class="ed-sec">
+        <button class="ed-hd" onclick="toggleSec(this)">Хобби и увлечения <span>▾</span></button>
+        <div class="ed-body">
+          <div class="f"><textarea id="f-hobbies-ru" rows="2" placeholder="RU" oninput="render()"></textarea></div>
+          <div class="f"><textarea id="f-hobbies-en" rows="2" placeholder="EN" oninput="render()"></textarea></div>
+        </div>
+      </div>
+
+      <!-- Допинфо -->
+      <div class="ed-sec">
+        <button class="ed-hd" onclick="toggleSec(this)">Доп. информация <span>▾</span></button>
+        <div class="ed-body">
+          <div class="f"><textarea id="f-extra-ru" rows="2" placeholder="RU: права, награды..." oninput="render()"></textarea></div>
+          <div class="f"><textarea id="f-extra-en" rows="2" placeholder="EN" oninput="render()"></textarea></div>
+        </div>
+      </div>
+
+    </div><!-- /editor -->
+
+    <!-- PREVIEW -->
+    <div class="preview-pane">
+      <div class="resume tc" id="resume-preview"></div>
+    </div>
+
+  </div>
+</div>
+</div><!-- /page-builder -->
+
+<!-- ════════ PAYWALL ════════ -->
+<div class="pw-overlay" id="pw-overlay">
+  <div class="pw-modal">
+    <div id="pw-screen-pay">
+      <div class="pw-hdr">
+        <div><div class="pw-title">Скачать резюме</div><div class="pw-sub">Выберите тариф</div></div>
+        <button class="pw-close" onclick="closePaywall()">✕</button>
+      </div>
+      <div class="pw-tabs">
+        <div class="pw-tab on" id="pw-tab-once" onclick="selectPlan('once')"><div class="pw-price">300 ₽</div><div class="pw-period">разовое скачивание</div></div>
+        <div class="pw-tab" id="pw-tab-sub" onclick="selectPlan('sub')"><div class="pw-badge">Выгоднее</div><div class="pw-price">950 ₽</div><div class="pw-period">подписка на месяц</div></div>
+      </div>
+      <div class="pw-body">
+        <ul class="pw-feats" id="pw-feats">
+          <li><span class="pw-check">✓</span>PDF прямо сейчас</li>
+          <li><span class="pw-check">✓</span>Все 3 шаблона</li>
+          <li><span class="pw-check">✓</span>RU и EN версии</li>
+          <li><span class="pw-check">✓</span>Без подписки</li>
+        </ul>
+        <div class="iframe-wrap" id="robo-wrap">
+          <div class="iframe-loader" id="robo-loader"><div class="spinner"></div><span>Загрузка формы оплаты…</span></div>
+          <iframe id="robo-frame" scrolling="no" onload="onFrameLoad()"></iframe>
+        </div>
+        <button class="pw-pay-btn" id="pw-pay-btn" onclick="initPayment()">Перейти к оплате 300 ₽</button>
+        <div class="pw-note">🔒 Безопасная оплата через Robokassa</div>
+        <div class="pw-sec"><span>💳 МИР / Visa / MC</span><span>⚡ СБП</span><span>🛡 SSL</span><span>📋 54-ФЗ</span></div>
+      </div>
+    </div>
+    <div class="pw-status" id="pw-screen-ok">
+      <div class="pw-status-icon">✅</div>
+      <div class="pw-status-title">Оплата прошла!</div>
+      <div class="pw-status-desc">Ваш PDF готов. Скачивание начнётся автоматически.</div>
+      <button class="sbtn sg" onclick="downloadPDF()">⬇ Скачать PDF</button>
+      <button class="sbtn sgh" onclick="closePaywall()">Закрыть</button>
+    </div>
+    <div class="pw-status" id="pw-screen-err">
+      <div class="pw-status-icon">❌</div>
+      <div class="pw-status-title">Оплата не прошла</div>
+      <div class="pw-status-desc">Попробуйте ещё раз. Деньги не списаны.</div>
+      <button class="sbtn sg" onclick="showPwScreen('pay')">Попробовать снова</button>
+      <button class="sbtn sgh" onclick="closePaywall()">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════
+const API = 'https://api.resumepro.ru'; // ← замените на ваш URL
+let lang = 'ru', tmpl = 'classic';
+let photo = null;
+let expItems = [], eduItems = [], courseItems = [], portItems = [];
+let pwPlan = 'once', pwInvId = null, pwPollTimer = null;
+
+const empLabels = {full:'Полная',part:'Частичная',project:'Проектная',intern:'Стажировка',
+                   'full-en':'Full-time','part-en':'Part-time','project-en':'Project','intern-en':'Internship'};
+const schLabels = {office:'Офис',remote:'Удалённо',hybrid:'Гибрид',shift:'Сменный',
+                   'office-en':'On-site','remote-en':'Remote','hybrid-en':'Hybrid','shift-en':'Shift'};
+
+// ════════════════════════════════════════
+// PAGES
+// ════════════════════════════════════════
+function showPage(p) {
+  document.getElementById('page-landing').classList.toggle('active', p==='landing');
+  document.getElementById('page-builder').classList.toggle('active', p==='builder');
+  window.scrollTo(0,0);
+  if(p==='builder') render();
+}
+
+// ════════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════════
+const uid = ()=>Math.random().toString(36).slice(2,8);
+const v = id => (document.getElementById(id)||{}).value || '';
+const t = (ru,en)=> lang==='ru'?ru:en;
+
+function toggleSec(btn){
+  const body = btn.nextElementSibling;
+  body.style.display = body.style.display==='none'?'':'none';
+}
+
+// ════════════════════════════════════════
+// LANG / TMPL
+// ════════════════════════════════════════
+function setLang(l){
+  lang=l;
+  document.getElementById('lb-ru').classList.toggle('on',l==='ru');
+  document.getElementById('lb-en').classList.toggle('on',l==='en');
+  render();
+}
+function setTmpl(t2){
+  tmpl=t2;
+  ['classic','modern','minimal'].forEach(k=>document.getElementById('tb-'+k).classList.toggle('on',k===t2));
+  render();
+}
+
+// ════════════════════════════════════════
+// CHIPS & TOGGLES
+// ════════════════════════════════════════
+function toggleChip(group, btn){btn.classList.toggle('on');render();}
+function getChips(id){return [...document.querySelectorAll('#chips-'+id+' .chip.on')].map(b=>b.dataset.val);}
+
+const togs={relocation:false,travel:true};
+function toggleTog(k){
+  togs[k]=!togs[k];
+  const tr=document.getElementById('tog-'+k);
+  tr.classList.toggle('on',togs[k]);
+  render();
+}
+
+// ════════════════════════════════════════
+// PHOTO
+// ════════════════════════════════════════
+function onPhoto(e){
+  const f=e.target.files?.[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{photo=r.result;document.getElementById('photo-el').innerHTML=`<img class="photo-c" src="${photo}" alt="">`;document.getElementById('photo-rm').style.display='';render();};
+  r.readAsDataURL(f);
+}
+function removePhoto(){photo=null;document.getElementById('photo-el').innerHTML='📷';document.getElementById('photo-rm').style.display='none';render();}
+
+// ════════════════════════════════════════
+// DYNAMIC ITEMS
+// ════════════════════════════════════════
+function addExp(){
+  const id=uid();
+  expItems.push({id,company:'',period:'',role_ru:'',role_en:'',desc_ru:'',desc_en:''});
+  renderExpEditor();render();
+}
+function renderExpEditor(){
+  document.getElementById('exp-container').innerHTML=expItems.map(e=>`
+    <div class="card">
+      <div class="card-hd"><span>Место работы</span><button class="rm" onclick="removeExp('${e.id}')">✕</button></div>
+      <div class="f"><input placeholder="Компания" value="${e.company}" oninput="expItems.find(x=>x.id=='${e.id}').company=this.value;render()"/></div>
+      <div class="g2">
+        <div class="f"><label>Должность</label><input value="${lang==='ru'?e.role_ru:e.role_en}" oninput="expItems.find(x=>x.id=='${e.id}').${lang==='ru'?'role_ru':'role_en'}=this.value;render()"/></div>
+        <div class="f"><label>Период</label><input value="${e.period}" placeholder="2020–2025" oninput="expItems.find(x=>x.id=='${e.id}').period=this.value;render()"/></div>
+      </div>
+      <div class="f"><label>Обязанности</label><textarea rows="3" oninput="expItems.find(x=>x.id=='${e.id}').${lang==='ru'?'desc_ru':'desc_en'}=this.value;render()">${lang==='ru'?e.desc_ru:e.desc_en}</textarea></div>
+    </div>`).join('');
+}
+function removeExp(id){expItems=expItems.filter(e=>e.id!==id);renderExpEditor();render();}
+
+function addEdu(){
+  const id=uid();
+  eduItems.push({id,school:'',period:'',degree_ru:'',degree_en:''});
+  renderEduEditor();render();
+}
+function renderEduEditor(){
+  document.getElementById('edu-container').innerHTML=eduItems.map(e=>`
+    <div class="card">
+      <div class="card-hd"><span>Образование</span><button class="rm" onclick="removeEdu('${e.id}')">✕</button></div>
+      <div class="f"><input placeholder="Учебное заведение" value="${e.school}" oninput="eduItems.find(x=>x.id=='${e.id}').school=this.value;render()"/></div>
+      <div class="g2">
+        <div class="f"><label>Специальность</label><input value="${lang==='ru'?e.degree_ru:e.degree_en}" oninput="eduItems.find(x=>x.id=='${e.id}').${lang==='ru'?'degree_ru':'degree_en'}=this.value;render()"/></div>
+        <div class="f"><label>Год</label><input value="${e.period}" oninput="eduItems.find(x=>x.id=='${e.id}').period=this.value;render()"/></div>
+      </div>
+    </div>`).join('');
+}
+function removeEdu(id){eduItems=eduItems.filter(e=>e.id!==id);renderEduEditor();render();}
+
+function addCourse(){
+  const id=uid();courseItems.push({id,name:'',org:'',year:''});renderCourseEditor();render();
+}
+function renderCourseEditor(){
+  document.getElementById('course-container').innerHTML=courseItems.map(c=>`
+    <div class="card">
+      <div class="card-hd"><span>Курс</span><button class="rm" onclick="removeCourse('${c.id}')">✕</button></div>
+      <div class="f"><input placeholder="Название курса / сертификата" value="${c.name}" oninput="courseItems.find(x=>x.id=='${c.id}').name=this.value;render()"/></div>
+      <div class="g2">
+        <div class="f"><label>Организация</label><input value="${c.org}" oninput="courseItems.find(x=>x.id=='${c.id}').org=this.value;render()"/></div>
+        <div class="f"><label>Год</label><input value="${c.year}" oninput="courseItems.find(x=>x.id=='${c.id}').year=this.value;render()"/></div>
+      </div>
+    </div>`).join('');
+}
+function removeCourse(id){courseItems=courseItems.filter(c=>c.id!==id);renderCourseEditor();render();}
+
+function addPort(){
+  const id=uid();portItems.push({id,title:'',url:'',desc_ru:'',desc_en:''});renderPortEditor();render();
+}
+function renderPortEditor(){
+  document.getElementById('port-container').innerHTML=portItems.map(p=>`
+    <div class="card">
+      <div class="card-hd"><span>Проект</span><button class="rm" onclick="removePort('${p.id}')">✕</button></div>
+      <div class="f"><input placeholder="Название проекта" value="${p.title}" oninput="portItems.find(x=>x.id=='${p.id}').title=this.value;render()"/></div>
+      <div class="f"><label>URL</label><input value="${p.url}" placeholder="https://..." oninput="portItems.find(x=>x.id=='${p.id}').url=this.value;render()"/></div>
+      <div class="f"><label>Описание</label><textarea rows="2" oninput="portItems.find(x=>x.id=='${p.id}').${lang==='ru'?'desc_ru':'desc_en'}=this.value;render()">${lang==='ru'?p.desc_ru:p.desc_en}</textarea></div>
+    </div>`).join('');
+}
+function removePort(id){portItems=portItems.filter(p=>p.id!==id);renderPortEditor();render();}
+
+// ════════════════════════════════════════
+// SCORE
+// ════════════════════════════════════════
+function calcScore(){
+  const checks=[
+    !!v('f-name'),!!(v('f-role-ru')||v('f-role-en')),!!v('f-phone'),!!v('f-email'),
+    (v('f-summary-ru')+v('f-summary-en')).length>50,
+    expItems.length>0,v('f-skills-ru').split(',').filter(Boolean).length>=3,
+    eduItems.length>0,!!v('f-salary'),getChips('sch').length>0,courseItems.length>0,portItems.length>0
+  ];
+  return Math.round(checks.filter(Boolean).length/checks.length*100);
+}
+function updateScore(){
+  const s=calcScore();
+  const color=s>=80?'#34d399':s>=50?'#f59e0b':'#f87171';
+  document.getElementById('score-arc').setAttribute('stroke-dasharray',`${s*0.8796} 87.96`);
+  document.getElementById('score-arc').setAttribute('stroke',color);
+  document.getElementById('score-num').textContent=s+'%';
+}
+
+// ════════════════════════════════════════
+// RENDER PREVIEW
+// ════════════════════════════════════════
+function render(){
+  updateScore();
+  const name=v('f-name')||'Ваше имя';
+  const role=t(v('f-role-ru'),v('f-role-en'))||t('Ваша должность','Your role');
+  const summary=t(v('f-summary-ru'),v('f-summary-en'));
+  const skills=t(v('f-skills-ru'),v('f-skills-en')).split(',').map(s=>s.trim()).filter(Boolean);
+  const langs=v('f-langs').split(',').map(s=>s.trim()).filter(Boolean);
+  const hobbies=t(v('f-hobbies-ru'),v('f-hobbies-en'));
+  const extra=t(v('f-extra-ru'),v('f-extra-en'));
+  const salary=v('f-salary');
+  const empChips=getChips('emp');
+  const schChips=getChips('sch');
+
+  // Подписи для чипов
+  const empLabel = lang==='ru'
+    ? empChips.map(k=>({full:'Полная',part:'Частичная',project:'Проектная',intern:'Стажировка'}[k]||k)).join(', ')
+    : empChips.map(k=>({'full':'Full-time',part:'Part-time',project:'Project',intern:'Internship'}[k]||k)).join(', ');
+  const schLabel = lang==='ru'
+    ? schChips.map(k=>({office:'Офис',remote:'Удалённо',hybrid:'Гибрид',shift:'Сменный'}[k]||k)).join(', ')
+    : schChips.map(k=>({office:'On-site',remote:'Remote',hybrid:'Hybrid',shift:'Shift'}[k]||k)).join(', ');
+
+  const photoHtml = photo ? `<img class="r-photo" src="${photo}" alt="">` : '';
+  const contactsHtml = [v('f-phone'),v('f-email'),v('f-city'),v('f-link')].filter(Boolean).map(c=>`<span>${c}</span>`).join('');
+
+  const condHtml = (salary||empChips.length||schChips.length||togs.relocation||togs.travel) ? `
+    <div class="r-st">${t('Условия работы','Work conditions')}</div>
+    <div>
+      ${salary?`<div class="r-cond"><b>${t('Зарплата','Salary')}:</b> ${salary} ₽</div>`:''}
+      ${empLabel?`<div class="r-cond">${empLabel}</div>`:''}
+      ${schLabel?`<div class="r-cond">${schLabel}</div>`:''}
+      ${togs.relocation?`<div class="r-cond">✓ ${t('Готов(а) к переезду','Open to relocation')}</div>`:''}
+      ${togs.travel?`<div class="r-cond">✓ ${t('Командировки','Business trips')}</div>`:''}
+    </div>` : '';
+
+  const expHtml = expItems.length ? `
+    <div class="r-st">${t('Опыт работы','Experience')}</div>
+    ${expItems.map(e=>`
+      <div class="r-exp">
+        <div class="r-exp-top"><span class="r-exp-role">${t(e.role_ru,e.role_en)}</span><span class="r-exp-period">${e.period}</span></div>
+        <div class="r-exp-co">${e.company}</div>
+        <div class="r-exp-desc">${t(e.desc_ru,e.desc_en)}</div>
+      </div>`).join('')}` : '';
+
+  const eduHtml = eduItems.length ? `
+    <div class="r-st">${t('Образование','Education')}</div>
+    ${eduItems.map(e=>`
+      <div class="r-exp">
+        <div class="r-exp-top"><span class="r-exp-role">${t(e.degree_ru,e.degree_en)}</span><span class="r-exp-period">${e.period}</span></div>
+        <div class="r-exp-co">${e.school}</div>
+      </div>`).join('')}` : '';
+
+  const courseHtml = courseItems.length ? `
+    <div class="r-st">${t('Повышение квалификации','Professional development')}</div>
+    ${courseItems.map(c=>`
+      <div class="r-exp">
+        <div class="r-exp-top"><span class="r-exp-role">${c.name}</span><span class="r-exp-period">${c.year}</span></div>
+        ${c.org?`<div class="r-exp-co">${c.org}</div>`:''}
+      </div>`).join('')}` : '';
+
+  const portHtml = portItems.length ? `
+    <div class="r-st">${t('Портфолио','Portfolio')}</div>
+    ${portItems.map(p=>`
+      <div class="r-port">
+        <div class="r-port-t">${p.title}${p.url?` <span style="font-size:9px;color:var(--gold)">↗</span>`:''}</div>
+        ${t(p.desc_ru,p.desc_en)?`<div class="r-port-d">${t(p.desc_ru,p.desc_en)}</div>`:''}
+      </div>`).join('')}` : '';
+
+  const skillsHtml = skills.length ? `
+    <div class="r-st">${t('Навыки','Skills')}</div>
+    <div>${skills.map(s=>`<span class="r-chip">${s}</span>`).join('')}</div>` : '';
+
+  const langsHtml = langs.length ? `
+    <div class="r-st">${t('Языки','Languages')}</div>
+    ${langs.map(l=>`<span class="r-tag">${l}</span>`).join('')}` : '';
+
+  const hobbiesHtml = hobbies ? `
+    <div class="r-st">${t('Хобби','Hobbies')}</div>
+    <div class="r-extra">${hobbies}</div>` : '';
+
+  const extraHtml = extra ? `
+    <div class="r-st">${t('Доп. информация','Additional info')}</div>
+    <div class="r-extra">${extra}</div>` : '';
+
+  let html = '';
+  if(tmpl==='classic'){
+    html=`
+      <div class="r-hdr">
+        <div>
+          <div class="r-name">${name}</div>
+          <div class="r-role">${role}</div>
+          <div class="r-contacts">${contactsHtml}</div>
+        </div>
+        ${photoHtml}
+      </div>
+      <div class="r-body">
+        <div class="r-main">
+          ${summary?`<div class="r-st">${t('О себе','Summary')}</div><div class="r-exp-desc" style="font-size:12px;line-height:1.6">${summary}</div>`:''}
+          ${expHtml}${eduHtml}${courseHtml}${portHtml}
+        </div>
+        <div class="r-side">
+          ${condHtml}${skillsHtml}${langsHtml}${hobbiesHtml}${extraHtml}
+        </div>
+      </div>`;
+  } else if(tmpl==='modern'){
+    html=`
+      <div class="r-hdr">
+        ${photoHtml}
+        <div>
+          <div class="r-name">${name}</div>
+          <div class="r-role">${role}</div>
+          <div class="r-contacts">${contactsHtml}</div>
+        </div>
+      </div>
+      <div class="r-body">
+        <div class="r-main">
+          ${summary?`<div class="r-st">${t('О себе','Summary')}</div><div class="r-exp-desc" style="font-size:12px;line-height:1.6">${summary}</div>`:''}
+          ${expHtml}${eduHtml}${courseHtml}${portHtml}
+        </div>
+        <div class="r-side">
+          ${condHtml}${skillsHtml}${langsHtml}${hobbiesHtml}${extraHtml}
+        </div>
+      </div>`;
+  } else {
+    html=`
+      <div class="r-hdr">
+        <div>
+          <div class="r-name">${name}</div>
+          <div class="r-role">${role}</div>
+          <div class="r-contacts">${contactsHtml}</div>
+        </div>
+        ${photoHtml}
+      </div>
+      <div class="r-body">
+        <div class="r-main">
+          ${summary?`<div class="r-st">${t('О себе','Summary')}</div><div class="r-exp-desc" style="font-size:12px;line-height:1.6">${summary}</div>`:''}
+          ${expHtml}${eduHtml}${courseHtml}${portHtml}
+        </div>
+        <div class="r-side">
+          ${condHtml}${skillsHtml}${langsHtml}${hobbiesHtml}${extraHtml}
+        </div>
+      </div>`;
+  }
+
+  const prev = document.getElementById('resume-preview');
+  prev.className = `resume t${tmpl==='classic'?'c':tmpl==='modern'?'m':'min'}`;
+  prev.innerHTML = html;
+}
+
+// ════════════════════════════════════════
+// PAYWALL
+// ════════════════════════════════════════
+function openPaywall(){
+  document.getElementById('pw-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closePaywall(){
+  document.getElementById('pw-overlay').classList.remove('open');
+  document.body.style.overflow='';
+  if(pwPollTimer)clearInterval(pwPollTimer);
+  document.getElementById('robo-frame').src='';
+  document.getElementById('robo-frame').style.display='none';
+  document.getElementById('robo-loader').style.display='flex';
+  document.getElementById('pw-pay-btn').style.display='block';
+  document.getElementById('pw-pay-btn').disabled=false;
+  showPwScreen('pay');
+}
+
+const pwFeatsMap={
+  once:['PDF прямо сейчас','Все 3 шаблона','RU и EN версии','Без подписки'],
+  sub:['Безлимитные скачивания месяц','Все 3 шаблона','RU и EN версии','Несколько резюме','Отмена в любой момент']
+};
+function selectPlan(p){
+  pwPlan=p;
+  document.getElementById('pw-tab-once').classList.toggle('on',p==='once');
+  document.getElementById('pw-tab-sub').classList.toggle('on',p==='sub');
+  document.getElementById('pw-pay-btn').textContent=p==='once'?'Перейти к оплате 300 ₽':'Перейти к оплате 950 ₽';
+  document.getElementById('pw-feats').innerHTML=pwFeatsMap[p].map(f=>`<li><span class="pw-check">✓</span>${f}</li>`).join('');
+  document.getElementById('robo-frame').style.display='none';
+  document.getElementById('robo-loader').style.display='flex';
+  document.getElementById('pw-pay-btn').style.display='block';
+}
+
+async function initPayment(){
+  const btn=document.getElementById('pw-pay-btn');
+  btn.disabled=true;btn.textContent='Подготовка…';
+  try{
+    const res=await fetch(`${API}/create-payment`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({plan:pwPlan})
+    });
+    const data=await res.json();
+    if(!data.iframeUrl)throw new Error('no url');
+    pwInvId=data.invId;
+    btn.style.display='none';
+    const frame=document.getElementById('robo-frame');
+    frame.style.display='block';frame.style.height='420px';frame.src=data.iframeUrl;
+    startPwPoll();
+  }catch(e){
+    console.error(e);btn.disabled=false;
+    btn.textContent=pwPlan==='once'?'Перейти к оплате 300 ₽':'Перейти к оплате 950 ₽';
+    alert('Ошибка соединения. Убедитесь, что бэкенд запущен.');
+  }
+}
+function onFrameLoad(){document.getElementById('robo-loader').style.display='none';}
+function startPwPoll(){
+  if(pwPollTimer)clearInterval(pwPollTimer);
+  pwPollTimer=setInterval(async()=>{
+    if(!pwInvId)return;
+    try{const r=await fetch(`${API}/payment-status/${pwInvId}`);const d=await r.json();
+      if(d.status==='succeeded'){clearInterval(pwPollTimer);showPwScreen('ok');downloadPDF();}
+    }catch{}
+  },3000);
+}
+function showPwScreen(name){
+  document.getElementById('pw-screen-pay').style.display=name==='pay'?'block':'none';
+  document.getElementById('pw-screen-ok').classList.toggle('show',name==='ok');
+  document.getElementById('pw-screen-err').classList.toggle('show',name==='err');
+}
+function downloadPDF(){
+  // В продакшене — запрос к серверу, временная ссылка на PDF
+  window.print();
+}
+
+document.getElementById('pw-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('pw-overlay'))closePaywall();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closePaywall();});
+
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
+(function init(){
+  // Заполняем demo-данными
+  document.getElementById('f-name').value='Анна Соколова';
+  document.getElementById('f-role-ru').value='Финансовый директор';
+  document.getElementById('f-role-en').value='Chief Financial Officer';
+  document.getElementById('f-phone').value='+7 900 123-45-67';
+  document.getElementById('f-email').value='anna@example.com';
+  document.getElementById('f-city').value='Москва';
+  document.getElementById('f-link').value='linkedin.com/in/asokolova';
+  document.getElementById('f-salary').value='350 000';
+  document.getElementById('f-summary-ru').value='Финансовый директор с опытом управления компаниями с оборотом от 1 до 60 млрд ₽. Бюджетирование, МСФО (ДипИФР), финансовое моделирование. Опыт вывода бизнеса на новые рынки.';
+  document.getElementById('f-summary-en').value='CFO with a track record in companies with 1–60 bn RUB revenue. Budgeting, IFRS (DipIFR), financial modelling. Experience scaling businesses into new markets.';
+  document.getElementById('f-skills-ru').value='МСФО, Бюджетирование, Финансовое моделирование, Excel, 1С, Power BI, Управление командой';
+  document.getElementById('f-skills-en').value='IFRS, Budgeting, Financial modelling, Excel, 1C, Power BI, Team management';
+  document.getElementById('f-langs').value='Русский — родной, Английский — B2';
+  document.getElementById('f-hobbies-ru').value='Горные лыжи, деловая литература, путешествия';
+  document.getElementById('f-hobbies-en').value='Skiing, business literature, travel';
+  document.getElementById('f-extra-ru').value='Водительское удостоверение кат. B. Участник конференций CFO Russia.';
+  document.getElementById('f-extra-en').value="Driver's licence cat. B. Speaker at CFO Russia conferences.";
+
+  expItems=[{id:uid(),company:'ООО «Ресурс Групп»',period:'2019 — 2025',role_ru:'Финансовый директор',role_en:'CFO',desc_ru:'Управляла финансовой функцией (оборот 12 млрд ₽). Внедрила МСФО-отчётность, снизила cash gap на 18%, построила FP&A-модель с нуля.',desc_en:'Led finance for 12 bn RUB revenue company. Implemented IFRS reporting, reduced cash gap 18%, built FP&A model from scratch.'}];
+  eduItems=[{id:uid(),school:'Финансовый университет при Правительстве РФ',period:'2003',degree_ru:'Финансы и кредит, специалист',degree_en:'Finance & Credit, Specialist'}];
+  courseItems=[{id:uid(),name:'ДипИФР (DipIFR)',org:'ACCA',year:'2022'}];
+  portItems=[{id:uid(),title:'Финансовая модель M&A',url:'',desc_ru:'DCF-модель для оценки поглощения — экономия 120 млн ₽.',desc_en:'DCF model for acquisition assessment — saved 120 mn RUB.'}];
+
+  renderExpEditor();renderEduEditor();renderCourseEditor();renderPortEditor();
+  render();
+
+  // Scroll reveal для лендинга
+  const obs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+  // FAQ
+  document.querySelectorAll('.faq-item').forEach(item=>{
+    item.querySelector('.faq-q').addEventListener('click',()=>{
+      document.querySelectorAll('.faq-item').forEach(i=>{if(i!==item)i.classList.remove('open');});
+      item.classList.toggle('open');
+    });
+  });
+})();
+</script>
+</body>
+</html>
