@@ -26,6 +26,7 @@
   --green:#16A34A;
   --red:#DC2626;
   --radius:12px;
+  --paper-line:#E7E5E4;
   /* редактор остаётся тёмным */
   --ed-bg:#18181B;
   --ed-panel:#1F1F23;
@@ -210,15 +211,17 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
 .score-ring{position:relative;width:36px;height:36px;flex-shrink:0;}
 .score-ring svg{transform:rotate(-90deg);}
 .score-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--gold);}
-.lang-sw{display:flex;background:#0d1117;border:1px solid var(--border);border-radius:999px;padding:2px;gap:2px;}
-.lang-btn{border:none;background:transparent;color:var(--muted);padding:4px 11px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;transition:.15s;}
-.lang-btn.on{background:var(--gold);color:#0d0a00;}
-.tmpl-sw{display:flex;gap:4px;}
-.tmpl-btn{border:1px solid var(--border);background:transparent;color:var(--muted);padding:5px 10px;border-radius:6px;font-size:11px;cursor:pointer;transition:.15s;}
-.tmpl-btn.on{border-color:var(--gold);color:var(--gold);}
-.dl-btn{display:flex;align-items:center;gap:6px;background:var(--gold);color:#0d0a00;border:none;padding:8px 14px;border-radius:7px;font-weight:700;font-size:12.5px;cursor:pointer;}
+.lang-sw{display:flex;background:#111113;border:1px solid #2E2E35;border-radius:999px;padding:2px;gap:2px;}
+.lang-btn{border:none;background:transparent;color:#71717A;padding:5px 13px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;transition:.15s;letter-spacing:.04em;}
+.lang-btn.on{background:var(--gold);color:#fff;}
+.lang-btn:hover:not(.on){color:#E4E4E7;}
+.tmpl-sw{display:flex;gap:5px;}
+.tmpl-btn{border:1px solid #2E2E35;background:#111113;color:#71717A;padding:6px 12px;border-radius:7px;font-size:11.5px;font-weight:500;cursor:pointer;transition:.15s;}
+.tmpl-btn.on{border-color:var(--gold);color:var(--gold);background:rgba(184,136,42,.1);}
+.tmpl-btn:hover:not(.on){border-color:#3E3E45;color:#A1A1AA;}
+.dl-btn{display:flex;align-items:center;gap:6px;background:var(--gold);color:#fff;border:none;padding:9px 16px;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;box-shadow:0 2px 8px rgba(184,136,42,.35);}
 .dl-btn:hover{background:var(--gold2);}
-.back-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:7px 12px;border-radius:7px;font-size:12px;cursor:pointer;}
+.back-btn{background:transparent;border:1px solid #2E2E35;color:#71717A;padding:7px 12px;border-radius:7px;font-size:12px;cursor:pointer;}
 .back-btn:hover{border-color:var(--gold);color:var(--gold);}
 
 .builder-body{display:flex;flex:1;overflow:hidden;}
@@ -381,6 +384,146 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
 .sbtn{display:inline-block;padding:11px 22px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;border:none;margin:3px;}
 .sg{background:var(--gold);color:#fff;}
 .sgh{background:transparent;border:1px solid var(--border);color:var(--text2);}
+
+/* ── COVER LETTER BUTTON ── */
+.cover-btn{display:flex;align-items:center;gap:6px;background:transparent;color:var(--gold);border:1.5px solid var(--gold);padding:8px 14px;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;transition:.2s;white-space:nowrap;}
+.cover-btn:hover{background:rgba(184,136,42,.1);}
+
+/* ── COVER LETTER MODAL ── */
+.cl-overlay{display:none;position:fixed;inset:0;z-index:998;background:rgba(28,25,23,.75);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:16px;}
+.cl-overlay.open{display:flex;}
+.cl-modal{background:#fff;border-radius:20px;width:100%;max-width:720px;max-height:90vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.2);animation:su .25s ease;}
+.cl-hdr{padding:24px 28px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;z-index:1;}
+.cl-title{font-family:'Playfair Display',serif;font-size:20px;color:var(--text);}
+.cl-close{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:20px;}
+.cl-body{padding:20px 28px 28px;}
+.cl-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+.cl-field{display:flex;flex-direction:column;gap:4px;}
+.cl-field label{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.04em;}
+.cl-field input,.cl-field textarea{border:1px solid var(--border);border-radius:7px;padding:8px 10px;font-family:'Inter',sans-serif;font-size:13px;color:var(--text);outline:none;resize:vertical;}
+.cl-field input:focus,.cl-field textarea:focus{border-color:var(--gold);}
+.cl-field.full{grid-column:1/-1;}
+.cl-gen-btn{width:100%;padding:13px;border-radius:9px;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;background:var(--gold);color:#fff;transition:.2s;box-shadow:0 4px 12px rgba(184,136,42,.3);margin-bottom:16px;}
+.cl-gen-btn:hover{background:var(--gold2);}
+.cl-gen-btn:disabled{opacity:.6;cursor:not-allowed;}
+.cl-result{display:none;}
+.cl-result.show{display:block;}
+.cl-result-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.cl-result-title{font-size:13px;font-weight:700;color:var(--text);}
+.cl-result-actions{display:flex;gap:8px;}
+.cl-action-btn{padding:6px 12px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text2);transition:.15s;}
+.cl-action-btn:hover{border-color:var(--gold);color:var(--gold);}
+.cl-action-btn.primary{background:var(--gold);color:#fff;border-color:var(--gold);}
+.cl-textarea{width:100%;min-height:320px;border:1px solid var(--border);border-radius:10px;padding:16px;font-family:'Inter',sans-serif;font-size:13.5px;line-height:1.7;color:var(--text);resize:vertical;outline:none;}
+.cl-textarea:focus{border-color:var(--gold);}
+.cl-tone{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.cl-tone-lbl{font-size:11px;color:var(--muted);font-weight:600;margin-bottom:6px;display:block;}
+.tone-chip{border:1px solid var(--border);background:transparent;color:var(--text2);padding:5px 12px;border-radius:999px;font-size:12px;cursor:pointer;transition:.15s;}
+.tone-chip.on{border-color:var(--gold);color:var(--gold);background:rgba(184,136,42,.08);}
+
+/* ── EXECUTIVE TEMPLATE ── */
+.texec .r-hdr{padding:40px 44px 28px;background:linear-gradient(135deg,#1C1917 0%,#292524 100%);}
+.texec .r-photo{width:88px;height:88px;border-radius:4px;object-fit:cover;border:3px solid var(--gold);float:right;margin-left:20px;}
+.texec .r-name{font-family:'Playfair Display',serif;font-size:28px;color:#fff;font-weight:700;line-height:1.1;}
+.texec .r-role{font-size:13px;color:var(--gold);margin-top:4px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;}
+.texec .r-contacts{display:flex;flex-wrap:wrap;gap:5px 18px;margin-top:10px;font-size:11px;color:#A8A29E;}
+.texec .r-body{display:grid;grid-template-columns:1fr 210px;}
+.texec .r-main{padding:24px 28px 32px 44px;}
+.texec .r-side{padding:24px 20px 32px;background:#FAFAF9;border-left:3px solid var(--gold);}
+.texec .r-st{font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin:20px 0 10px;}
+.texec .r-st:first-child{margin-top:0;}
+.texec .r-exp{margin-bottom:16px;}
+.texec .r-exp-top{display:flex;justify-content:space-between;align-items:baseline;}
+.texec .r-exp-role{font-size:13px;font-weight:800;color:#1C1917;}
+.texec .r-exp-period{font-size:10px;color:#9ca3af;white-space:nowrap;margin-left:8px;}
+.texec .r-exp-co{font-size:11.5px;color:var(--gold);margin:2px 0 5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;}
+.texec .r-exp-desc{font-size:12px;line-height:1.6;color:#44403C;}
+.texec .r-chip{display:inline-block;font-size:10.5px;padding:3px 9px;background:#1C1917;color:#fff;border-radius:3px;margin:2px 2px 2px 0;}
+.texec .r-tag{font-size:11.5px;color:#44403C;padding:4px 0;border-bottom:1px solid #e7e5e4;}
+.texec .r-cond{font-size:11.5px;color:#44403C;margin-bottom:3px;}
+.texec .r-port{margin-bottom:10px;}
+.texec .r-port-t{font-size:12px;color:#1C1917;font-weight:700;}
+.texec .r-port-d{font-size:11px;color:#6b7280;margin-top:2px;}
+.texec .r-extra{font-size:11.5px;line-height:1.6;color:#44403C;}
+
+/* ── CREATIVE TEMPLATE ── */
+.tcreative .r-hdr{display:grid;grid-template-columns:auto 1fr;gap:0;background:#fff;}
+.tcreative .r-hdr-accent{background:linear-gradient(180deg,#B8882A 0%,#78531A 100%);padding:32px 20px;display:flex;flex-direction:column;align-items:center;gap:12px;min-width:140px;}
+.tcreative .r-photo{width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,.4);}
+.tcreative .r-photo-placeholder{width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.6);font-size:28px;}
+.tcreative .r-side-contacts{display:flex;flex-direction:column;gap:6px;margin-top:8px;}
+.tcreative .r-side-contact{font-size:10px;color:rgba(255,255,255,.8);text-align:center;line-height:1.4;}
+.tcreative .r-hdr-main{padding:28px 32px;}
+.tcreative .r-name{font-family:'Playfair Display',serif;font-size:26px;color:#1C1917;font-weight:700;}
+.tcreative .r-role{font-size:13px;color:#B8882A;margin-top:3px;font-weight:600;}
+.tcreative .r-contacts{display:none;}
+.tcreative .r-body{display:grid;grid-template-columns:140px 1fr;}
+.tcreative .r-side{padding:16px 16px 28px;background:linear-gradient(180deg,#78531A 0%,#5C3D10 100%);}
+.tcreative .r-main{padding:20px 32px 28px;}
+.tcreative .r-st{font-size:9px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#fff;margin:18px 0 10px;padding-bottom:5px;border-bottom:1px solid rgba(255,255,255,.2);}
+.tcreative .r-st:first-child{margin-top:0;}
+.tcreative .r-main .r-st{color:#B8882A;border-bottom:2px solid #B8882A;}
+.tcreative .r-exp{margin-bottom:14px;}
+.tcreative .r-exp-top{display:flex;justify-content:space-between;}
+.tcreative .r-exp-role{font-size:13px;font-weight:700;color:#1C1917;}
+.tcreative .r-exp-period{font-size:10px;color:#9ca3af;}
+.tcreative .r-exp-co{font-size:11.5px;color:#B8882A;margin:2px 0 5px;font-weight:600;}
+.tcreative .r-exp-desc{font-size:12px;line-height:1.55;color:#44403C;}
+.tcreative .r-chip{display:block;font-size:10.5px;padding:4px 0;color:rgba(255,255,255,.85);border-bottom:1px solid rgba(255,255,255,.1);}
+.tcreative .r-tag{font-size:10.5px;color:rgba(255,255,255,.8);padding:3px 0;display:block;}
+.tcreative .r-cond{font-size:10.5px;color:rgba(255,255,255,.8);margin-bottom:3px;}
+.tcreative .r-port{margin-bottom:9px;}
+.tcreative .r-port-t{font-size:12px;color:#1C1917;font-weight:600;}
+.tcreative .r-port-d{font-size:11px;color:#6b7280;margin-top:2px;}
+.tcreative .r-extra{font-size:10.5px;line-height:1.6;color:rgba(255,255,255,.8);}
+
+/* ── COMPACT TEMPLATE ── */
+.tcompact .r-hdr{padding:24px 36px 18px;border-bottom:2px solid var(--text);display:flex;justify-content:space-between;align-items:end;}
+.tcompact .r-photo{width:64px;height:64px;border-radius:50%;object-fit:cover;flex-shrink:0;}
+.tcompact .r-name{font-family:'Playfair Display',serif;font-size:24px;color:#111;font-weight:700;}
+.tcompact .r-role{font-size:12px;color:var(--gold);margin-top:2px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;}
+.tcompact .r-contacts{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:10.5px;color:#6b7280;}
+.tcompact .r-body{display:grid;grid-template-columns:1fr 180px;}
+.tcompact .r-main{padding:16px 24px 28px 36px;}
+.tcompact .r-side{padding:16px 16px 28px 12px;border-left:1px solid #e5e7eb;}
+.tcompact .r-st{font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:#111;font-weight:800;margin:14px 0 8px;border-bottom:1px solid #e5e7eb;padding-bottom:4px;}
+.tcompact .r-st:first-child{margin-top:0;}
+.tcompact .r-exp{margin-bottom:11px;}
+.tcompact .r-exp-top{display:flex;justify-content:space-between;align-items:baseline;}
+.tcompact .r-exp-role{font-size:12px;font-weight:700;color:#111;}
+.tcompact .r-exp-period{font-size:9.5px;color:#9ca3af;white-space:nowrap;}
+.tcompact .r-exp-co{font-size:10.5px;color:#6b7280;margin:1px 0 3px;}
+.tcompact .r-exp-desc{font-size:11px;line-height:1.5;color:#374151;}
+.tcompact .r-chip{display:inline-block;font-size:10px;padding:2px 6px;border:1px solid #e5e7eb;border-radius:3px;margin:2px 2px 2px 0;color:#374151;}
+.tcompact .r-tag{font-size:10.5px;color:#374151;padding:2px 0;}
+.tcompact .r-cond{font-size:10.5px;color:#374151;margin-bottom:2px;}
+.tcompact .r-port{margin-bottom:8px;}
+.tcompact .r-port-t{font-size:11px;color:#111;font-weight:600;}
+.tcompact .r-port-d{font-size:10px;color:#6b7280;margin-top:1px;}
+.tcompact .r-extra{font-size:10.5px;line-height:1.6;color:#374151;}
+
+/* ── AI SKILLS ── */
+.ai-btn{
+  width:100%;padding:9px 12px;border-radius:8px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,#B8882A,#D4A843);
+  color:#fff;font-family:'Inter',sans-serif;font-size:12.5px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  margin-bottom:10px;transition:.2s;box-shadow:0 2px 8px rgba(184,136,42,.3);
+}
+.ai-btn:hover{opacity:.9;transform:translateY(-1px);}
+.ai-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+.ai-loader{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;}
+.ai-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.ai-chip{
+  background:rgba(184,136,42,.12);border:1px solid rgba(184,136,42,.35);
+  color:#B8882A;padding:4px 10px;border-radius:999px;font-size:11.5px;
+  cursor:pointer;transition:.15s;display:flex;align-items:center;gap:5px;
+}
+.ai-chip:hover{background:rgba(184,136,42,.22);}
+.ai-chip.added{background:rgba(184,136,42,.25);border-color:#B8882A;font-weight:600;}
+.ai-chip::before{content:'+';}
+.ai-chip.added::before{content:'✓';}
+.ai-hint{font-size:10.5px;color:var(--ed-muted);margin-bottom:8px;line-height:1.5;}
 
 @media print{
   nav,.builder-bar,.editor,.pw-overlay{display:none!important;}
@@ -595,7 +738,11 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
         <button class="tmpl-btn on" id="tb-classic" onclick="setTmpl('classic')">Классика</button>
         <button class="tmpl-btn" id="tb-modern" onclick="setTmpl('modern')">Модерн</button>
         <button class="tmpl-btn" id="tb-minimal" onclick="setTmpl('minimal')">Минимал</button>
+        <button class="tmpl-btn" id="tb-executive" onclick="setTmpl('executive')">Executive</button>
+        <button class="tmpl-btn" id="tb-creative" onclick="setTmpl('creative')">Креатив</button>
+        <button class="tmpl-btn" id="tb-compact" onclick="setTmpl('compact')">Компакт</button>
       </div>
+      <button class="cover-btn" onclick="openCoverLetter()">✉ Сопр. письмо</button>
       <button class="dl-btn" onclick="openPaywall()">⬇ Скачать PDF</button>
     </div>
   </div>
@@ -644,14 +791,16 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
               <button class="chip" data-val="part" onclick="toggleChip('emp',this)">Частичная</button>
               <button class="chip" data-val="project" onclick="toggleChip('emp',this)">Проектная</button>
               <button class="chip" data-val="intern" onclick="toggleChip('emp',this)">Стажировка</button>
+              <button class="chip" data-val="volunteer" onclick="toggleChip('emp',this)">Волонтёрство</button>
             </div>
           </div>
           <div class="f"><label>График</label>
             <div class="chips" id="chips-sch">
-              <button class="chip on" data-val="office" onclick="toggleChip('sch',this)">Офис</button>
+              <button class="chip on" data-val="fullday" onclick="toggleChip('sch',this)">Полный день</button>
               <button class="chip" data-val="remote" onclick="toggleChip('sch',this)">Удалённо</button>
               <button class="chip on" data-val="hybrid" onclick="toggleChip('sch',this)">Гибрид</button>
               <button class="chip" data-val="shift" onclick="toggleChip('sch',this)">Сменный</button>
+              <button class="chip" data-val="rotation" onclick="toggleChip('sch',this)">Вахтовый</button>
             </div>
           </div>
           <div class="tog-row">
@@ -661,7 +810,7 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
             </label>
             <label class="tog-lbl" onclick="toggleTog('travel')">
               <div class="tog-track on" id="tog-travel"><div class="tog-knob"></div></div>
-              К командировкам
+              Готов(а) к командировкам
             </label>
           </div>
         </div>
@@ -706,10 +855,17 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
 
       <!-- Навыки -->
       <div class="ed-sec">
-        <button class="ed-hd" onclick="toggleSec(this)">Навыки <span>▾</span></button>
+        <button class="ed-hd" onclick="toggleSec(this)">Профессиональные навыки <span>▾</span></button>
         <div class="ed-body">
-          <div class="f"><label id="skills-lbl">Навыки RU (через запятую)</label><textarea id="f-skills-ru" rows="2" oninput="render()"></textarea></div>
-          <div class="f"><label>Навыки EN</label><textarea id="f-skills-en" rows="2" oninput="render()" style="display:none"></textarea></div>
+          <button class="ai-btn" onclick="suggestSkills()" id="ai-skills-btn">
+            ✨ Подобрать навыки с помощью ИИ
+          </button>
+          <div id="ai-skills-result" style="display:none">
+            <div class="ai-chips" id="ai-chips-ru"></div>
+            <div class="ai-chips" id="ai-chips-en" style="display:none"></div>
+          </div>
+          <div class="f" style="margin-top:8px"><label id="skills-lbl">Навыки RU (через запятую)</label><textarea id="f-skills-ru" rows="2" oninput="render()"></textarea></div>
+          <div class="f"><label>Навыки EN</label><textarea id="f-skills-en" rows="2" oninput="render()"></textarea></div>
         </div>
       </div>
 
@@ -749,6 +905,71 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
   </div>
 </div>
 </div><!-- /page-builder -->
+
+<!-- ════════ COVER LETTER MODAL ════════ -->
+<div class="cl-overlay" id="cl-overlay">
+  <div class="cl-modal">
+    <div class="cl-hdr">
+      <div class="cl-title">✉ Сопроводительное письмо</div>
+      <button class="cl-close" onclick="closeCoverLetter()">✕</button>
+    </div>
+    <div class="cl-body">
+      <div class="cl-form">
+        <div class="cl-field">
+          <label>Должность, на которую претендуете</label>
+          <input id="cl-target-role" placeholder="Финансовый директор"/>
+        </div>
+        <div class="cl-field">
+          <label>Название компании</label>
+          <input id="cl-company" placeholder="ООО «Название»"/>
+        </div>
+        <div class="cl-field">
+          <label>Имя HR / менеджера (если известно)</label>
+          <input id="cl-hr-name" placeholder="Мария Иванова"/>
+        </div>
+        <div class="cl-field">
+          <label>Источник вакансии</label>
+          <input id="cl-source" placeholder="hh.ru, LinkedIn, сайт компании…"/>
+        </div>
+        <div class="cl-field full">
+          <label>Описание вакансии (вставьте текст — ИИ подберёт ключевые слова)</label>
+          <textarea id="cl-job-desc" rows="3" placeholder="Вставьте текст вакансии для максимальной персонализации…"></textarea>
+        </div>
+        <div class="cl-field full">
+          <label>Ваше главное достижение для этой роли</label>
+          <input id="cl-achievement" placeholder="Снизила cash gap на 18%, построила FP&A-модель с нуля…"/>
+        </div>
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <span class="cl-tone-lbl">Тон письма:</span>
+        <div class="cl-tone">
+          <button class="tone-chip on" data-tone="professional" onclick="selectTone(this)">Профессиональный</button>
+          <button class="tone-chip" data-tone="confident" onclick="selectTone(this)">Уверенный</button>
+          <button class="tone-chip" data-tone="friendly" onclick="selectTone(this)">Дружелюбный</button>
+          <button class="tone-chip" data-tone="concise" onclick="selectTone(this)">Лаконичный</button>
+        </div>
+      </div>
+
+      <button class="cl-gen-btn" id="cl-gen-btn" onclick="generateCoverLetter()">
+        ✨ Сгенерировать письмо с ИИ
+      </button>
+
+      <div class="cl-result" id="cl-result">
+        <div class="cl-result-hdr">
+          <span class="cl-result-title">Готовое письмо — отредактируйте под себя:</span>
+          <div class="cl-result-actions">
+            <button class="cl-action-btn" onclick="regenerateCoverLetter()">↻ Перегенерировать</button>
+            <button class="cl-action-btn" onclick="copyCoverLetter()">📋 Копировать</button>
+            <button class="cl-action-btn primary" onclick="window.print()">⬇ PDF</button>
+          </div>
+        </div>
+        <textarea class="cl-textarea" id="cl-text"></textarea>
+        <div style="font-size:11px;color:var(--muted);margin-top:8px;">💡 Письмо сгенерировано ИИ — проверьте и добавьте личные детали перед отправкой.</div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ════════ PAYWALL ════════ -->
 <div class="pw-overlay" id="pw-overlay">
@@ -843,7 +1064,10 @@ function setLang(l){
 }
 function setTmpl(t2){
   tmpl=t2;
-  ['classic','modern','minimal'].forEach(k=>document.getElementById('tb-'+k).classList.toggle('on',k===t2));
+  ['classic','modern','minimal','executive','creative','compact'].forEach(k=>{
+    const el=document.getElementById('tb-'+k);
+    if(el) el.classList.toggle('on',k===t2);
+  });
   render();
 }
 
@@ -980,11 +1204,11 @@ function render(){
 
   // Подписи для чипов
   const empLabel = lang==='ru'
-    ? empChips.map(k=>({full:'Полная',part:'Частичная',project:'Проектная',intern:'Стажировка'}[k]||k)).join(', ')
-    : empChips.map(k=>({'full':'Full-time',part:'Part-time',project:'Project',intern:'Internship'}[k]||k)).join(', ');
+    ? empChips.map(k=>({full:'Полная занятость',part:'Частичная занятость',project:'Проектная работа',intern:'Стажировка',volunteer:'Волонтёрство'}[k]||k)).join(', ')
+    : empChips.map(k=>({full:'Full-time',part:'Part-time',project:'Project-based',intern:'Internship',volunteer:'Volunteering'}[k]||k)).join(', ');
   const schLabel = lang==='ru'
-    ? schChips.map(k=>({office:'Офис',remote:'Удалённо',hybrid:'Гибрид',shift:'Сменный'}[k]||k)).join(', ')
-    : schChips.map(k=>({office:'On-site',remote:'Remote',hybrid:'Hybrid',shift:'Shift'}[k]||k)).join(', ');
+    ? schChips.map(k=>({fullday:'Полный день',remote:'Удалённая работа',hybrid:'Гибридный график',shift:'Сменный график',rotation:'Вахтовый метод'}[k]||k)).join(', ')
+    : schChips.map(k=>({fullday:'Full day',remote:'Remote',hybrid:'Hybrid',shift:'Shift work',rotation:'Rotational'}[k]||k)).join(', ');
 
   const photoHtml = photo ? `<img class="r-photo" src="${photo}" alt="">` : '';
   const contactsHtml = [v('f-phone'),v('f-email'),v('f-city'),v('f-link')].filter(Boolean).map(c=>`<span>${c}</span>`).join('');
@@ -996,7 +1220,7 @@ function render(){
       ${empLabel?`<div class="r-cond">${empLabel}</div>`:''}
       ${schLabel?`<div class="r-cond">${schLabel}</div>`:''}
       ${togs.relocation?`<div class="r-cond">✓ ${t('Готов(а) к переезду','Open to relocation')}</div>`:''}
-      ${togs.travel?`<div class="r-cond">✓ ${t('Командировки','Business trips')}</div>`:''}
+      ${togs.travel?`<div class="r-cond">✓ ${t('Готов(а) к командировкам','Open to business trips')}</div>`:''}
     </div>` : '';
 
   const expHtml = expItems.length ? `
@@ -1108,10 +1332,314 @@ function render(){
       </div>`;
   }
 
+  // Executive
+  if(tmpl==='executive'){
+    html=`
+      <div class="r-hdr">
+        ${photo?`<img class="r-photo" src="${photo}" alt="">`:''}
+        <div>
+          <div class="r-name">${name}</div>
+          <div class="r-role">${role}</div>
+          <div class="r-contacts">${contactsHtml}</div>
+        </div>
+      </div>
+      <div class="r-body">
+        <div class="r-main">
+          ${summary?`<div class="r-st">${t('О себе','Summary')}</div><div class="r-exp-desc" style="font-size:12.5px;line-height:1.65">${summary}</div>`:''}
+          ${expHtml}${eduHtml}${courseHtml}${portHtml}
+        </div>
+        <div class="r-side">
+          ${condHtml}${skillsHtml}${langsHtml}${hobbiesHtml}${extraHtml}
+        </div>
+      </div>`;
+  }
+  // Creative
+  if(tmpl==='creative'){
+    const sideContacts=[v('f-phone'),v('f-email'),v('f-city'),v('f-link')].filter(Boolean)
+      .map(c=>`<div class="r-side-contact">${c}</div>`).join('');
+    html=`
+      <div class="r-hdr">
+        <div class="r-hdr-accent">
+          ${photo?`<img class="r-photo" src="${photo}" alt="">`:'<div class="r-photo-placeholder">👤</div>'}
+          <div class="r-side-contacts">${sideContacts}</div>
+        </div>
+        <div class="r-hdr-main">
+          <div class="r-name">${name}</div>
+          <div class="r-role">${role}</div>
+          ${summary?`<div style="font-size:12px;line-height:1.6;color:#44403C;margin-top:10px">${summary}</div>`:''}
+        </div>
+      </div>
+      <div class="r-body">
+        <div class="r-side">
+          ${condHtml}${skillsHtml}${langsHtml}${hobbiesHtml}${extraHtml}
+        </div>
+        <div class="r-main">
+          ${expHtml}${eduHtml}${courseHtml}${portHtml}
+        </div>
+      </div>`;
+  }
+  // Compact
+  if(tmpl==='compact'){
+    html=`
+      <div class="r-hdr">
+        <div>
+          <div class="r-name">${name}</div>
+          <div class="r-role">${role}</div>
+          <div class="r-contacts">${contactsHtml}</div>
+        </div>
+        ${photo?`<img class="r-photo" src="${photo}" alt="">`:''}
+      </div>
+      <div class="r-body">
+        <div class="r-main">
+          ${summary?`<div class="r-st">${t('О себе','Summary')}</div><div class="r-exp-desc" style="font-size:11.5px;line-height:1.6">${summary}</div>`:''}
+          ${expHtml}${eduHtml}${courseHtml}${portHtml}
+        </div>
+        <div class="r-side">
+          ${condHtml}${skillsHtml}${langsHtml}${hobbiesHtml}${extraHtml}
+        </div>
+      </div>`;
+  }
+
+  const clsMap={classic:'tc',modern:'tm',minimal:'tmin',executive:'texec',creative:'tcreative',compact:'tcompact'};
   const prev = document.getElementById('resume-preview');
-  prev.className = `resume t${tmpl==='classic'?'c':tmpl==='modern'?'m':'min'}`;
+  prev.className = `resume ${clsMap[tmpl]||'tc'}`;
   prev.innerHTML = html;
 }
+
+// ════════════════════════════════════════
+// AI SKILLS
+// ════════════════════════════════════════
+async function suggestSkills() {
+  const btn = document.getElementById('ai-skills-btn');
+  const resultBox = document.getElementById('ai-skills-result');
+
+  // Собираем контекст из заполненных полей
+  const role_ru = v('f-role-ru');
+  const role_en = v('f-role-en');
+  const summary_ru = v('f-summary-ru');
+  const exp_text = expItems.map(e => `${e.role_ru||e.role_en} в ${e.company}: ${e.desc_ru||e.desc_en}`).join('. ');
+
+  if (!role_ru && !role_en && !summary_ru && !exp_text) {
+    alert('Заполните хотя бы должность или описание опыта — ИИ подберёт навыки точнее.');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="ai-loader"></span> ИИ анализирует ваш профиль…';
+
+  try {
+    const prompt = `Ты помощник по составлению резюме. На основе профиля кандидата предложи 12–15 профессиональных навыков — кратко, через запятую, без пояснений.
+
+Профиль:
+- Должность: ${role_ru || role_en}
+- О себе: ${summary_ru}
+- Опыт: ${exp_text}
+
+Ответь СТРОГО в формате JSON:
+{
+  "ru": ["навык1", "навык2", ...],
+  "en": ["skill1", "skill2", ...]
+}
+Только JSON, без лишнего текста.`;
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    const data = await response.json();
+    let text = data.content?.map(c => c.text || '').join('') || '';
+
+    // Чистим от markdown-обёртки если есть
+    text = text.replace(/```json|```/g, '').trim();
+    const parsed = JSON.parse(text);
+
+    const skillsRu = parsed.ru || [];
+    const skillsEn = parsed.en || [];
+
+    // Рендерим чипы RU
+    document.getElementById('ai-chips-ru').innerHTML =
+      `<div class="ai-hint">Нажмите на навык чтобы добавить в резюме:</div>` +
+      skillsRu.map(s => `<button class="ai-chip" onclick="addSkillChip(this,'ru','${s.replace(/'/g,"\\'")}','${(skillsEn[skillsRu.indexOf(s)]||s).replace(/'/g,"\\'")}')">
+        ${s}
+      </button>`).join('');
+
+    // Рендерим чипы EN
+    document.getElementById('ai-chips-en').innerHTML =
+      `<div class="ai-hint">Click to add skill:</div>` +
+      skillsEn.map((s,i) => `<button class="ai-chip" onclick="addSkillChip(this,'en','${(skillsRu[i]||s).replace(/'/g,"\\'")}','${s.replace(/'/g,"\\'")}')">
+        ${s}
+      </button>`).join('');
+
+    resultBox.style.display = 'block';
+    updateAiChipsLang();
+
+    btn.innerHTML = '✨ Обновить предложения ИИ';
+    btn.disabled = false;
+
+  } catch (err) {
+    console.error(err);
+    btn.innerHTML = '✨ Подобрать навыки с помощью ИИ';
+    btn.disabled = false;
+    alert('Ошибка при обращении к ИИ. Попробуйте ещё раз.');
+  }
+}
+
+function addSkillChip(btn, activeLang, skillRu, skillEn) {
+  // Добавляем в оба поля
+  const fieldRu = document.getElementById('f-skills-ru');
+  const fieldEn = document.getElementById('f-skills-en');
+
+  const addToField = (field, skill) => {
+    const cur = field.value.trim();
+    const existing = cur.split(',').map(s=>s.trim()).filter(Boolean);
+    if (!existing.includes(skill)) {
+      field.value = cur ? cur + ', ' + skill : skill;
+    }
+  };
+
+  addToField(fieldRu, skillRu);
+  addToField(fieldEn, skillEn);
+
+  btn.classList.add('added');
+  btn.disabled = true;
+  render();
+}
+
+function updateAiChipsLang() {
+  const ruBox = document.getElementById('ai-chips-ru');
+  const enBox = document.getElementById('ai-chips-en');
+  if (ruBox) ruBox.style.display = lang === 'ru' ? 'flex' : 'none';
+  if (enBox) enBox.style.display = lang === 'en' ? 'flex' : 'none';
+  if (ruBox) ruBox.style.flexWrap = 'wrap';
+  if (enBox) enBox.style.flexWrap = 'wrap';
+}
+
+// ════════════════════════════════════════
+// COVER LETTER
+// ════════════════════════════════════════
+let clTone = 'professional';
+
+function openCoverLetter() {
+  // Предзаполняем из резюме
+  if(!document.getElementById('cl-target-role').value)
+    document.getElementById('cl-target-role').value = v('f-role-ru') || v('f-role-en');
+  document.getElementById('cl-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCoverLetter() {
+  document.getElementById('cl-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function selectTone(btn) {
+  document.querySelectorAll('.tone-chip').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  clTone = btn.dataset.tone;
+}
+
+async function generateCoverLetter() {
+  const btn = document.getElementById('cl-gen-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="ai-loader"></span> ИИ пишет письмо…';
+
+  const targetRole = document.getElementById('cl-target-role').value;
+  const company = document.getElementById('cl-company').value;
+  const hrName = document.getElementById('cl-hr-name').value;
+  const source = document.getElementById('cl-source').value;
+  const jobDesc = document.getElementById('cl-job-desc').value;
+  const achievement = document.getElementById('cl-achievement').value;
+
+  const toneMap = {
+    professional:'профессиональный и деловой',
+    confident:'уверенный и убедительный',
+    friendly:'дружелюбный и открытый',
+    concise:'лаконичный и ёмкий'
+  };
+
+  const resumeData = {
+    name: v('f-name'),
+    role: v('f-role-ru') || v('f-role-en'),
+    summary: v('f-summary-ru'),
+    skills: v('f-skills-ru'),
+    exp: expItems.map(e=>`${e.role_ru} в ${e.company} (${e.period}): ${e.desc_ru}`).join('\n'),
+    edu: eduItems.map(e=>`${e.degree_ru}, ${e.school}, ${e.period}`).join('; '),
+    courses: courseItems.map(c=>`${c.name}, ${c.org}, ${c.year}`).join('; '),
+  };
+
+  const prompt = `Ты профессиональный карьерный консультант. Напиши сопроводительное письмо на русском языке.
+
+Данные кандидата:
+- Имя: ${resumeData.name}
+- Текущая/желаемая роль: ${resumeData.role}
+- О себе: ${resumeData.summary}
+- Навыки: ${resumeData.skills}
+- Опыт работы: ${resumeData.exp}
+- Образование: ${resumeData.edu}
+- Сертификаты: ${resumeData.courses}
+${achievement ? `- Ключевое достижение: ${achievement}` : ''}
+
+Параметры письма:
+- Вакансия: ${targetRole || resumeData.role}
+- Компания: ${company || 'компания'}
+${hrName ? `- Обращение к: ${hrName}` : ''}
+${source ? `- Источник вакансии: ${source}` : ''}
+${jobDesc ? `- Описание вакансии: ${jobDesc.slice(0,800)}` : ''}
+- Тон: ${toneMap[clTone]}
+
+Требования к письму:
+1. Структура: приветствие → почему эта компания → что предлагаю → ключевые достижения с цифрами → призыв к действию → подпись
+2. Длина: 3–4 абзаца, не более 350 слов
+3. Конкретные цифры и достижения из опыта
+4. Без клише типа "я являюсь идеальным кандидатом"
+5. Профессиональное деловое письмо
+
+Напиши только текст письма, без заголовков и пояснений.`;
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await response.json();
+    const text = data.content?.map(c=>c.text||'').join('') || '';
+
+    document.getElementById('cl-text').value = text;
+    document.getElementById('cl-result').classList.add('show');
+    btn.innerHTML = '✨ Сгенерировать письмо с ИИ';
+    btn.disabled = false;
+  } catch(err) {
+    console.error(err);
+    btn.innerHTML = '✨ Сгенерировать письмо с ИИ';
+    btn.disabled = false;
+    alert('Ошибка ИИ. Попробуйте ещё раз.');
+  }
+}
+
+function regenerateCoverLetter() { generateCoverLetter(); }
+
+function copyCoverLetter() {
+  const text = document.getElementById('cl-text').value;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn = event.target;
+    btn.textContent = '✓ Скопировано!';
+    setTimeout(()=>btn.textContent='📋 Копировать', 2000);
+  });
+}
+
+document.getElementById('cl-overlay').addEventListener('click', e=>{
+  if(e.target===document.getElementById('cl-overlay')) closeCoverLetter();
+});
 
 // ════════════════════════════════════════
 // PAYWALL
