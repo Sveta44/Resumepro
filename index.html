@@ -385,6 +385,13 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
 .sg{background:var(--gold);color:#fff;}
 .sgh{background:transparent;border:1px solid var(--border);color:var(--text2);}
 
+/* ── MESSENGERS ── */
+.messenger-row{display:flex;flex-direction:column;gap:5px;}
+.msg-field{display:flex;align-items:center;gap:7px;background:var(--ed-input);border:1px solid var(--ed-border);border-radius:6px;padding:5px 9px;}
+.msg-field:focus-within{border-color:var(--gold);}
+.msg-icon{font-size:14px;flex-shrink:0;}
+.msg-field input{background:transparent;border:none;outline:none;color:var(--ed-text);font-family:'Inter',sans-serif;font-size:12.5px;width:100%;}
+
 /* ── COVER LETTER BUTTON ── */
 .cover-btn{display:flex;align-items:center;gap:6px;background:transparent;color:var(--gold);border:1.5px solid var(--gold);padding:8px 14px;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;transition:.2s;white-space:nowrap;}
 .cover-btn:hover{background:rgba(184,136,42,.1);}
@@ -777,6 +784,13 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
             <div class="f"><label>Город</label><input id="f-city" oninput="render()"/></div>
             <div class="f"><label>LinkedIn / сайт</label><input id="f-link" oninput="render()"/></div>
           </div>
+          <div class="f"><label>Мессенджеры</label>
+            <div class="messenger-row">
+              <div class="msg-field"><span class="msg-icon">✈️</span><input id="f-telegram" placeholder="@username" oninput="render()"/></div>
+              <div class="msg-field"><span class="msg-icon">💬</span><input id="f-whatsapp" placeholder="WhatsApp" oninput="render()"/></div>
+              <div class="msg-field"><span class="msg-icon">📱</span><input id="f-viber" placeholder="Viber" oninput="render()"/></div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -877,21 +891,15 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
         </div>
       </div>
 
-      <!-- Хобби -->
+      <!-- Доп. информация (хобби + дополнительно) -->
       <div class="ed-sec">
-        <button class="ed-hd" onclick="toggleSec(this)">Хобби и увлечения <span>▾</span></button>
+        <button class="ed-hd" onclick="toggleSec(this)">Дополнительная информация <span>▾</span></button>
         <div class="ed-body">
-          <div class="f"><textarea id="f-hobbies-ru" rows="2" placeholder="RU" oninput="render()"></textarea></div>
-          <div class="f"><textarea id="f-hobbies-en" rows="2" placeholder="EN" oninput="render()"></textarea></div>
-        </div>
-      </div>
-
-      <!-- Допинфо -->
-      <div class="ed-sec">
-        <button class="ed-hd" onclick="toggleSec(this)">Доп. информация <span>▾</span></button>
-        <div class="ed-body">
-          <div class="f"><textarea id="f-extra-ru" rows="2" placeholder="RU: права, награды..." oninput="render()"></textarea></div>
-          <div class="f"><textarea id="f-extra-en" rows="2" placeholder="EN" oninput="render()"></textarea></div>
+          <div class="f"><label>🎯 Хобби и увлечения (RU)</label><textarea id="f-hobbies-ru" rows="2" placeholder="Горные лыжи, чтение, путешествия..." oninput="render()"></textarea></div>
+          <div class="f"><label>🎯 Hobbies & interests (EN)</label><textarea id="f-hobbies-en" rows="2" placeholder="Skiing, reading, travel..." oninput="render()"></textarea></div>
+          <div style="height:1px;background:var(--ed-border);margin:8px 0;"></div>
+          <div class="f"><label>📋 Прочее (RU): права, публикации, награды</label><textarea id="f-extra-ru" rows="2" placeholder="Водительское удостоверение кат. B..." oninput="render()"></textarea></div>
+          <div class="f"><label>📋 Additional info (EN)</label><textarea id="f-extra-en" rows="2" placeholder="Driver's licence cat. B..." oninput="render()"></textarea></div>
         </div>
       </div>
 
@@ -1199,6 +1207,14 @@ function render(){
   const hobbies=t(v('f-hobbies-ru'),v('f-hobbies-en'));
   const extra=t(v('f-extra-ru'),v('f-extra-en'));
   const salary=v('f-salary');
+  const telegram=v('f-telegram');
+  const whatsapp=v('f-whatsapp');
+  const viber=v('f-viber');
+  const messengers=[
+    telegram?`✈️ ${telegram}`:'',
+    whatsapp?`💬 ${whatsapp}`:'',
+    viber?`📱 ${viber}`:'',
+  ].filter(Boolean).join('  ');
   const empChips=getChips('emp');
   const schChips=getChips('sch');
 
@@ -1211,7 +1227,8 @@ function render(){
     : schChips.map(k=>({fullday:'Full day',remote:'Remote',hybrid:'Hybrid',shift:'Shift work',rotation:'Rotational'}[k]||k)).join(', ');
 
   const photoHtml = photo ? `<img class="r-photo" src="${photo}" alt="">` : '';
-  const contactsHtml = [v('f-phone'),v('f-email'),v('f-city'),v('f-link')].filter(Boolean).map(c=>`<span>${c}</span>`).join('');
+  const contactsHtml = [v('f-phone'),v('f-email'),v('f-city'),v('f-link')].filter(Boolean).map(c=>`<span>${c}</span>`).join('') +
+    (messengers ? `<span style="letter-spacing:.02em">${messengers}</span>` : '');
 
   const condHtml = (salary||empChips.length||schChips.length||togs.relocation||togs.travel) ? `
     <div class="r-st">${t('Условия работы','Work conditions')}</div>
@@ -1264,13 +1281,11 @@ function render(){
     <div class="r-st">${t('Языки','Languages')}</div>
     ${langs.map(l=>`<span class="r-tag">${l}</span>`).join('')}` : '';
 
-  const hobbiesHtml = hobbies ? `
-    <div class="r-st">${t('Хобби','Hobbies')}</div>
-    <div class="r-extra">${hobbies}</div>` : '';
-
-  const extraHtml = extra ? `
-    <div class="r-st">${t('Доп. информация','Additional info')}</div>
-    <div class="r-extra">${extra}</div>` : '';
+  const hasExtra = hobbies || extra;
+  const extraHtml = hasExtra ? `
+    <div class="r-st">${t('Дополнительная информация','Additional Information')}</div>
+    ${hobbies ? `<div style="margin-bottom:5px"><b style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;opacity:.6">${t('Хобби и увлечения','Hobbies')}</b><div class="r-extra" style="margin-top:3px">${hobbies}</div></div>` : ''}
+    ${extra ? `<div><b style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;opacity:.6">${t('Прочее','Other')}</b><div class="r-extra" style="margin-top:3px">${extra}</div></div>` : ''}` : '';
 
   let html = '';
   if(tmpl==='classic'){
@@ -1289,7 +1304,7 @@ function render(){
           ${expHtml}${eduHtml}${courseHtml}${portHtml}
         </div>
         <div class="r-side">
-          ${condHtml}${skillsHtml}${langsHtml}${hobbiesHtml}${extraHtml}
+          ${condHtml}${skillsHtml}${langsHtml}${extraHtml}
         </div>
       </div>`;
   } else if(tmpl==='modern'){
@@ -1308,7 +1323,7 @@ function render(){
           ${expHtml}${eduHtml}${courseHtml}${portHtml}
         </div>
         <div class="r-side">
-          ${condHtml}${skillsHtml}${langsHtml}${hobbiesHtml}${extraHtml}
+          ${condHtml}${skillsHtml}${langsHtml}${extraHtml}
         </div>
       </div>`;
   } else {
@@ -1327,7 +1342,7 @@ function render(){
           ${expHtml}${eduHtml}${courseHtml}${portHtml}
         </div>
         <div class="r-side">
-          ${condHtml}${skillsHtml}${langsHtml}${hobbiesHtml}${extraHtml}
+          ${condHtml}${skillsHtml}${langsHtml}${extraHtml}
         </div>
       </div>`;
   }
@@ -1349,7 +1364,7 @@ function render(){
           ${expHtml}${eduHtml}${courseHtml}${portHtml}
         </div>
         <div class="r-side">
-          ${condHtml}${skillsHtml}${langsHtml}${hobbiesHtml}${extraHtml}
+          ${condHtml}${skillsHtml}${langsHtml}${extraHtml}
         </div>
       </div>`;
   }
@@ -1371,7 +1386,7 @@ function render(){
       </div>
       <div class="r-body">
         <div class="r-side">
-          ${condHtml}${skillsHtml}${langsHtml}${hobbiesHtml}${extraHtml}
+          ${condHtml}${skillsHtml}${langsHtml}${extraHtml}
         </div>
         <div class="r-main">
           ${expHtml}${eduHtml}${courseHtml}${portHtml}
@@ -1395,7 +1410,7 @@ function render(){
           ${expHtml}${eduHtml}${courseHtml}${portHtml}
         </div>
         <div class="r-side">
-          ${condHtml}${skillsHtml}${langsHtml}${hobbiesHtml}${extraHtml}
+          ${condHtml}${skillsHtml}${langsHtml}${extraHtml}
         </div>
       </div>`;
   }
@@ -1404,6 +1419,28 @@ function render(){
   const prev = document.getElementById('resume-preview');
   prev.className = `resume ${clsMap[tmpl]||'tc'}`;
   prev.innerHTML = html;
+}
+
+
+// ════════════════════════════════════════
+// AI API — встроенный прокси (без CORS)
+// ════════════════════════════════════════
+async function callAI(prompt) {
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 1000,
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+  if (!response.ok) {
+    const err = await response.text();
+    throw new Error('API error: ' + err);
+  }
+  const data = await response.json();
+  return data.content?.map(c => c.text || '').join('') || '';
 }
 
 // ════════════════════════════════════════
@@ -1442,18 +1479,7 @@ async function suggestSkills() {
 }
 Только JSON, без лишнего текста.`;
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-
-    const data = await response.json();
-    let text = data.content?.map(c => c.text || '').join('') || '';
+    let text = await callAI(prompt);
 
     // Чистим от markdown-обёртки если есть
     text = text.replace(/```json|```/g, '').trim();
@@ -1602,17 +1628,7 @@ ${jobDesc ? `- Описание вакансии: ${jobDesc.slice(0,800)}` : ''}
 Напиши только текст письма, без заголовков и пояснений.`;
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-    const data = await response.json();
-    const text = data.content?.map(c=>c.text||'').join('') || '';
+    const text = await callAI(prompt);
 
     document.getElementById('cl-text').value = text;
     document.getElementById('cl-result').classList.add('show');
@@ -1731,6 +1747,8 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closePaywall();});
   document.getElementById('f-email').value='anna@example.com';
   document.getElementById('f-city').value='Москва';
   document.getElementById('f-link').value='linkedin.com/in/asokolova';
+  document.getElementById('f-telegram').value='@asokolova_fin';
+  document.getElementById('f-whatsapp').value='+7 900 123-45-67';
   document.getElementById('f-salary').value='350 000';
   document.getElementById('f-summary-ru').value='Финансовый директор с опытом управления компаниями с оборотом от 1 до 60 млрд ₽. Бюджетирование, МСФО (ДипИФР), финансовое моделирование. Опыт вывода бизнеса на новые рынки.';
   document.getElementById('f-summary-en').value='CFO with a track record in companies with 1–60 bn RUB revenue. Budgeting, IFRS (DipIFR), financial modelling. Experience scaling businesses into new markets.';
