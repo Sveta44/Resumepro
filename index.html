@@ -691,6 +691,7 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
         <button class="lang-btn on" id="lb-ru" onclick="setLang('ru')">RU</button>
         <button class="lang-btn" id="lb-en" onclick="setLang('en')">EN</button>
       </div>
+      <button id="retranslate-btn" onclick="refreshTranslation()" title="Перевести заново с ИИ (перезапишет правки английской версии)" style="display:none;background:transparent;border:1px solid #2E2E35;color:#71717A;padding:6px 9px;border-radius:7px;font-size:12px;cursor:pointer;">🔄</button>
       <div class="tmpl-sw">
         <button class="tmpl-btn on" id="tb-classic" onclick="setTmpl('classic')">Классика</button>
         <button class="tmpl-btn" id="tb-modern" onclick="setTmpl('modern')">Модерн</button>
@@ -710,6 +711,10 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
   <div class="builder-body">
     <div class="editor" id="editor">
 
+      <div id="en-mode-banner" style="display:none;margin:10px 15px 0;padding:8px 11px;background:rgba(184,136,42,.1);border:1px solid rgba(184,136,42,.3);border-radius:7px;font-size:11px;line-height:1.5;color:#D4A843;">
+        🇬🇧 Вы редактируете <b>английскую версию</b>. Поля с текстом (должность, о себе, опыт и т.д.) можно править прямо здесь — правки не затронут русскую версию.
+      </div>
+
       <!-- Личные данные -->
       <div class="ed-sec">
         <button class="ed-hd" onclick="toggleSec(this)">Личные данные <span>▾</span></button>
@@ -723,7 +728,7 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
             </div>
           </div>
           <div class="f"><label>Имя и фамилия</label><input id="f-name" oninput="render()"/></div>
-          <div class="f"><label>Желаемая должность</label><input id="f-role" oninput="render()"/></div>
+          <div class="f"><label>Желаемая должность</label><input id="f-role" oninput="onSimpleInput('role')"/></div>
           <div class="g2">
             <div class="f"><label>Телефон</label><input id="f-phone" oninput="render()"/></div>
             <div class="f"><label>Email</label><input id="f-email" oninput="render()"/></div>
@@ -776,7 +781,7 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
       <div class="ed-sec">
         <button class="ed-hd" onclick="toggleSec(this)">О себе <span>▾</span></button>
         <div class="ed-body">
-          <div class="f"><textarea id="f-summary" rows="4" placeholder="Краткое описание опыта и целей..." oninput="render()"></textarea></div>
+          <div class="f"><textarea id="f-summary" rows="4" placeholder="Краткое описание опыта и целей..." oninput="onSimpleInput('summary')"></textarea></div>
         </div>
       </div>
 
@@ -814,7 +819,7 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
         <div class="ed-body">
           <button class="ai-btn" id="ai-skills-btn" onclick="suggestSkills()">✨ Подобрать навыки с ИИ</button>
           <div id="ai-chips-wrap" class="ai-chips-wrap" style="display:none"></div>
-          <div class="f"><label>Навыки (через запятую)</label><textarea id="f-skills" rows="2" oninput="render()"></textarea></div>
+          <div class="f"><label>Навыки (через запятую)</label><textarea id="f-skills" rows="2" oninput="onSimpleInput('skills')"></textarea></div>
         </div>
       </div>
 
@@ -822,7 +827,7 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
       <div class="ed-sec">
         <button class="ed-hd" onclick="toggleSec(this)">Языки <span>▾</span></button>
         <div class="ed-body">
-          <div class="f"><input id="f-langs" placeholder="Русский — родной, English — B2" oninput="render()"/></div>
+          <div class="f"><input id="f-langs" placeholder="Русский — родной, English — B2" oninput="onSimpleInput('langs')"/></div>
         </div>
       </div>
 
@@ -830,9 +835,9 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
       <div class="ed-sec">
         <button class="ed-hd" onclick="toggleSec(this)">Дополнительная информация <span>▾</span></button>
         <div class="ed-body">
-          <div class="f"><label>🎯 Хобби и увлечения</label><textarea id="f-hobbies" rows="2" placeholder="Горные лыжи, чтение, путешествия..." oninput="render()"></textarea></div>
+          <div class="f"><label>🎯 Хобби и увлечения</label><textarea id="f-hobbies" rows="2" placeholder="Горные лыжи, чтение, путешествия..." oninput="onSimpleInput('hobbies')"></textarea></div>
           <div style="height:1px;background:var(--ed-border);margin:4px 0 10px;"></div>
-          <div class="f"><label>📋 Прочее: права, публикации, награды</label><textarea id="f-extra" rows="2" placeholder="Водительское удостоверение кат. B..." oninput="render()"></textarea></div>
+          <div class="f"><label>📋 Прочее: права, публикации, награды</label><textarea id="f-extra" rows="2" placeholder="Водительское удостоверение кат. B..." oninput="onSimpleInput('extra')"></textarea></div>
         </div>
       </div>
 
@@ -955,7 +960,65 @@ let expItems=[], eduItems=[], courseItems=[], portItems=[];
 let togs={relocation:false,travel:true};
 let pwPlan='once', pwInvId=null, pwTimer=null;
 let clTone='professional';
-let translatedData={}; // кэш переводов
+// translatedData: {role,summary,skills,langs,hobbies,extra, exp:{[id]:{role,desc}}, edu:{[id]:{degree}}, courses:{[id]:{name}}, ports:{[id]:{title,desc}}}
+let translatedData={};
+let ruCache={}; // хранит русский текст простых полей, пока активна EN-версия
+const SIMPLE_FIELDS=['role','summary','skills','langs','hobbies','extra'];
+
+// ════ ЭКРАНИРОВАНИЕ (важно для текста, сгенерированного ИИ) ════
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function escAttr(s){ return esc(s).replace(/"/g,'&quot;'); }
+
+// ════ БИЛИНГВ: чтение/запись простых полей ════
+function onSimpleInput(key){
+  if(lang==='en') translatedData[key]=v('f-'+key);
+  render();
+}
+// Значение под-поля переводимого элемента списка (опыт/образование/курсы/портфолио) для показа в редакторе
+function trVal(listKey,id,key,ruVal){
+  if(lang==='ru') return ruVal;
+  return (translatedData[listKey] && translatedData[listKey][id] && translatedData[listKey][id][key]) || ruVal;
+}
+function updExp(id,key,val){
+  if(lang==='en' && (key==='role'||key==='desc')){
+    translatedData.exp=translatedData.exp||{};
+    translatedData.exp[id]=translatedData.exp[id]||{};
+    translatedData.exp[id][key]=val;
+  } else {
+    const e=expItems.find(x=>x.id===id); if(e) e[key]=val;
+  }
+  render();
+}
+function updEdu(id,key,val){
+  if(lang==='en' && key==='degree'){
+    translatedData.edu=translatedData.edu||{};
+    translatedData.edu[id]=translatedData.edu[id]||{};
+    translatedData.edu[id].degree=val;
+  } else {
+    const e=eduItems.find(x=>x.id===id); if(e) e[key]=val;
+  }
+  render();
+}
+function updCourse(id,key,val){
+  if(lang==='en' && key==='name'){
+    translatedData.courses=translatedData.courses||{};
+    translatedData.courses[id]=translatedData.courses[id]||{};
+    translatedData.courses[id].name=val;
+  } else {
+    const c=courseItems.find(x=>x.id===id); if(c) c[key]=val;
+  }
+  render();
+}
+function updPort(id,key,val){
+  if(lang==='en' && (key==='title'||key==='desc')){
+    translatedData.ports=translatedData.ports||{};
+    translatedData.ports[id]=translatedData.ports[id]||{};
+    translatedData.ports[id][key]=val;
+  } else {
+    const p=portItems.find(x=>x.id===id); if(p) p[key]=val;
+  }
+  render();
+}
 
 // ════ PAGES ════
 function showPage(p){
@@ -968,58 +1031,82 @@ function showPage(p){
 // ════ LANG ════
 async function setLang(l){
   if(l===lang){return;}
+  if(l==='ru'){
+    // Уходим из EN — сохраняем возможные правки английской версии, возвращаем RU-текст в поля
+    SIMPLE_FIELDS.forEach(k=>{
+      translatedData[k]=v('f-'+k);
+      document.getElementById('f-'+k).value=ruCache[k]||'';
+    });
+  }
   lang=l;
   document.getElementById('lb-ru').classList.toggle('on',l==='ru');
   document.getElementById('lb-en').classList.toggle('on',l==='en');
+  document.getElementById('en-mode-banner').style.display=l==='en'?'block':'none';
+  document.getElementById('retranslate-btn').style.display=l==='en'?'inline-block':'none';
   if(l==='en'){
-    await translateAll();
+    SIMPLE_FIELDS.forEach(k=> ruCache[k]=v('f-'+k));
+    if(!translatedData.role){ await translateAll(); }
+    SIMPLE_FIELDS.forEach(k=>{
+      document.getElementById('f-'+k).value = translatedData[k]!==undefined ? translatedData[k] : (ruCache[k]||'');
+    });
   }
+  renderExpEd();renderEduEd();renderCourseEd();renderPortEd();
+  render();
+}
+
+// Перевести заново с ИИ (перезаписывает переведённую версию, RU-источник не трогает)
+async function refreshTranslation(){
+  if(lang!=='en')return;
+  if(!confirm('Английская версия будет переведена заново с помощью ИИ. Внесённые вручную правки английской версии будут перезаписаны. Продолжить?'))return;
+  await translateAll();
+  SIMPLE_FIELDS.forEach(k=>{ document.getElementById('f-'+k).value=translatedData[k]||''; });
+  renderExpEd();renderEduEd();renderCourseEd();renderPortEd();
   render();
 }
 
 async function translateAll(){
   const btn=document.getElementById('lb-en');
+  const prevBtnText=btn.textContent;
   btn.textContent='...';
   btn.disabled=true;
   try{
-    // Переводим по частям чтобы не перегружать контекст
+    // Источник для перевода — всегда русский текст, даже если сейчас открыта EN-версия
+    const src=(k)=> lang==='en' ? (ruCache[k]||'') : (v('f-'+k)||'');
     const fields={
-      role:v('f-role')||'',
-      summary:v('f-summary')||'',
-      skills:v('f-skills')||'',
-      langs:v('f-langs')||'',
-      hobbies:v('f-hobbies')||'',
-      extra:v('f-extra')||''
+      role:src('role'), summary:src('summary'), skills:src('skills'),
+      langs:src('langs'), hobbies:src('hobbies'), extra:src('extra')
     };
-    const expData=expItems.map(e=>({role:e.role||'',desc:e.desc||''}));
-    const eduData=eduItems.map(e=>({degree:e.degree||''}));
-    const courseData=courseItems.map(c=>({name:c.name||''}));
-    const portData=portItems.map(p=>({title:p.title||'',desc:p.desc||''}));
+    // Передаём id, чтобы перевод не "съезжал" при добавлении/удалении/перестановке карточек
+    const expData=expItems.map(e=>({id:e.id,role:e.role||'',desc:e.desc||''}));
+    const eduData=eduItems.map(e=>({id:e.id,degree:e.degree||''}));
+    const courseData=courseItems.map(c=>({id:c.id,name:c.name||''}));
+    const portData=portItems.map(p=>({id:p.id,title:p.title||'',desc:p.desc||''}));
 
-    const prompt=`You are a professional resume translator. Translate the following resume data from Russian to English. Return ONLY valid JSON, no explanations, no markdown.
+    const prompt=`You are a professional resume translator. Translate the following resume data from Russian to English. Keep every "id" value EXACTLY unchanged — only translate the text fields. Return ONLY valid JSON, no explanations, no markdown.
 
 Input JSON:
 ${JSON.stringify({fields,exp:expData,edu:eduData,courses:courseData,ports:portData})}
 
 Return exactly this structure:
-{"fields":{"role":"...","summary":"...","skills":"...","langs":"...","hobbies":"...","extra":"..."},"exp":[{"role":"...","desc":"..."}],"edu":[{"degree":"..."}],"courses":[{"name":"..."}],"ports":[{"title":"...","desc":"..."}]}`;
+{"fields":{"role":"...","summary":"...","skills":"...","langs":"...","hobbies":"...","extra":"..."},"exp":[{"id":"...","role":"...","desc":"..."}],"edu":[{"id":"...","degree":"..."}],"courses":[{"id":"...","name":"..."}],"ports":[{"id":"...","title":"...","desc":"..."}]}`;
 
     const text=await callAI(prompt);
     const parsed=safeParseJSON(text);
-    // Разворачиваем структуру
+    const expMap={},eduMap={},courseMap={},portMap={};
+    (parsed.exp||[]).forEach(x=>{ if(x.id) expMap[x.id]={role:x.role||'',desc:x.desc||''}; });
+    (parsed.edu||[]).forEach(x=>{ if(x.id) eduMap[x.id]={degree:x.degree||''}; });
+    (parsed.courses||[]).forEach(x=>{ if(x.id) courseMap[x.id]={name:x.name||''}; });
+    (parsed.ports||[]).forEach(x=>{ if(x.id) portMap[x.id]={title:x.title||'',desc:x.desc||''}; });
     translatedData={
       ...(parsed.fields||{}),
-      exp:parsed.exp||[],
-      edu:parsed.edu||[],
-      courses:parsed.courses||[],
-      ports:parsed.ports||[]
+      exp:expMap, edu:eduMap, courses:courseMap, ports:portMap
     };
   }catch(e){
     console.error('Ошибка перевода',e);
-    translatedData={};
-    // Не показываем алерт — просто оставляем русский текст
+    alert('Не удалось выполнить перевод. Попробуйте ещё раз.');
+    // Оставляем то, что было в translatedData (не затираем предыдущий успешный перевод)
   }
-  btn.textContent='EN';
+  btn.textContent=prevBtnText==='...'?'EN':prevBtnText;
   btn.disabled=false;
 }
 
@@ -1052,71 +1139,87 @@ function removePhoto(){photo=null;document.getElementById('photo-el').innerHTML=
 function addExp(){expItems.push({id:uid(),company:'',period:'',role:'',desc:''});renderExpEd();}
 function renderExpEd(){
   const c=document.getElementById('exp-container');
+  const tag=lang==='en'?' (EN)':'';
   c.innerHTML=(expItems.length>1?'<div class="sort-hint">⠿ Перетащите карточку чтобы изменить порядок</div>':'')+
-  expItems.map(e=>`
+  expItems.map(e=>{
+    const roleVal=trVal('exp',e.id,'role',e.role), descVal=trVal('exp',e.id,'desc',e.desc);
+    return `
     <div class="card" draggable="true" data-id="${e.id}" data-list="exp"
       ondragstart="onDragStart(event)" ondragover="onDragOver(event)" ondrop="onDrop(event,'exp')" ondragend="onDragEnd(event)">
       <div class="card-hd">
         <button class="drag-handle" title="Перетащить">⠿</button>
-        <span>Место работы</span>
+        <span>Место работы${tag}</span>
         <button class="rm" onclick="expItems=expItems.filter(x=>x.id!='${e.id}');renderExpEd();render()">✕</button>
       </div>
-      <div class="f"><input placeholder="Компания" value="${e.company}" oninput="expItems.find(x=>x.id=='${e.id}').company=this.value;render()"/></div>
-      <div class="g2"><div class="f"><label>Должность</label><input value="${e.role}" oninput="expItems.find(x=>x.id=='${e.id}').role=this.value;render()"/></div>
-      <div class="f"><label>Период</label><input value="${e.period}" placeholder="2020–2025" oninput="expItems.find(x=>x.id=='${e.id}').period=this.value;render()"/></div></div>
-      <div class="f"><label>Обязанности и достижения</label><textarea rows="3" oninput="expItems.find(x=>x.id=='${e.id}').desc=this.value;render()">${e.desc}</textarea></div>
-    </div>`).join('');
+      <div class="f"><input placeholder="Компания" value="${escAttr(e.company)}" oninput="updExp('${e.id}','company',this.value)"/></div>
+      <div class="g2"><div class="f"><label>Должность</label><input value="${escAttr(roleVal)}" oninput="updExp('${e.id}','role',this.value)"/></div>
+      <div class="f"><label>Период</label><input value="${escAttr(e.period)}" placeholder="2020–2025" oninput="updExp('${e.id}','period',this.value)"/></div></div>
+      <div class="f"><label>Обязанности и достижения</label><textarea rows="3" oninput="updExp('${e.id}','desc',this.value)">${esc(descVal)}</textarea></div>
+    </div>`;
+  }).join('');
 }
 function addEdu(){eduItems.push({id:uid(),school:'',period:'',degree:''});renderEduEd();}
 function renderEduEd(){
   const c=document.getElementById('edu-container');
+  const tag=lang==='en'?' (EN)':'';
   c.innerHTML=(eduItems.length>1?'<div class="sort-hint">⠿ Перетащите карточку чтобы изменить порядок</div>':'')+
-  eduItems.map(e=>`
+  eduItems.map(e=>{
+    const degVal=trVal('edu',e.id,'degree',e.degree);
+    return `
     <div class="card" draggable="true" data-id="${e.id}" data-list="edu"
       ondragstart="onDragStart(event)" ondragover="onDragOver(event)" ondrop="onDrop(event,'edu')" ondragend="onDragEnd(event)">
       <div class="card-hd">
         <button class="drag-handle" title="Перетащить">⠿</button>
-        <span>Образование</span>
+        <span>Образование${tag}</span>
         <button class="rm" onclick="eduItems=eduItems.filter(x=>x.id!='${e.id}');renderEduEd();render()">✕</button>
       </div>
-      <div class="f"><input placeholder="Учебное заведение" value="${e.school}" oninput="eduItems.find(x=>x.id=='${e.id}').school=this.value;render()"/></div>
-      <div class="g2"><div class="f"><label>Специальность</label><input value="${e.degree}" oninput="eduItems.find(x=>x.id=='${e.id}').degree=this.value;render()"/></div>
-      <div class="f"><label>Год</label><input value="${e.period}" oninput="eduItems.find(x=>x.id=='${e.id}').period=this.value;render()"/></div></div>
-    </div>`).join('');
+      <div class="f"><input placeholder="Учебное заведение" value="${escAttr(e.school)}" oninput="updEdu('${e.id}','school',this.value)"/></div>
+      <div class="g2"><div class="f"><label>Специальность</label><input value="${escAttr(degVal)}" oninput="updEdu('${e.id}','degree',this.value)"/></div>
+      <div class="f"><label>Год</label><input value="${escAttr(e.period)}" oninput="updEdu('${e.id}','period',this.value)"/></div></div>
+    </div>`;
+  }).join('');
 }
 function addCourse(){courseItems.push({id:uid(),name:'',org:'',year:''});renderCourseEd();}
 function renderCourseEd(){
   const cont=document.getElementById('course-container');
+  const tag=lang==='en'?' (EN)':'';
   cont.innerHTML=(courseItems.length>1?'<div class="sort-hint">⠿ Перетащите карточку чтобы изменить порядок</div>':'')+
-  courseItems.map(c=>`
+  courseItems.map(c=>{
+    const nameVal=trVal('courses',c.id,'name',c.name);
+    return `
     <div class="card" draggable="true" data-id="${c.id}" data-list="course"
       ondragstart="onDragStart(event)" ondragover="onDragOver(event)" ondrop="onDrop(event,'course')" ondragend="onDragEnd(event)">
       <div class="card-hd">
         <button class="drag-handle" title="Перетащить">⠿</button>
-        <span>Курс</span>
+        <span>Курс${tag}</span>
         <button class="rm" onclick="courseItems=courseItems.filter(x=>x.id!='${c.id}');renderCourseEd();render()">✕</button>
       </div>
-      <div class="f"><input placeholder="Название / сертификат" value="${c.name}" oninput="courseItems.find(x=>x.id=='${c.id}').name=this.value;render()"/></div>
-      <div class="g2"><div class="f"><label>Организация</label><input value="${c.org}" oninput="courseItems.find(x=>x.id=='${c.id}').org=this.value;render()"/></div>
-      <div class="f"><label>Год</label><input value="${c.year}" oninput="courseItems.find(x=>x.id=='${c.id}').year=this.value;render()"/></div></div>
-    </div>`).join('');
+      <div class="f"><input placeholder="Название / сертификат" value="${escAttr(nameVal)}" oninput="updCourse('${c.id}','name',this.value)"/></div>
+      <div class="g2"><div class="f"><label>Организация</label><input value="${escAttr(c.org)}" oninput="updCourse('${c.id}','org',this.value)"/></div>
+      <div class="f"><label>Год</label><input value="${escAttr(c.year)}" oninput="updCourse('${c.id}','year',this.value)"/></div></div>
+    </div>`;
+  }).join('');
 }
 function addPort(){portItems.push({id:uid(),title:'',url:'',desc:''});renderPortEd();}
 function renderPortEd(){
   const cont=document.getElementById('port-container');
+  const tag=lang==='en'?' (EN)':'';
   cont.innerHTML=(portItems.length>1?'<div class="sort-hint">⠿ Перетащите карточку чтобы изменить порядок</div>':'')+
-  portItems.map(p=>`
+  portItems.map(p=>{
+    const titleVal=trVal('ports',p.id,'title',p.title), descVal=trVal('ports',p.id,'desc',p.desc);
+    return `
     <div class="card" draggable="true" data-id="${p.id}" data-list="port"
       ondragstart="onDragStart(event)" ondragover="onDragOver(event)" ondrop="onDrop(event,'port')" ondragend="onDragEnd(event)">
       <div class="card-hd">
         <button class="drag-handle" title="Перетащить">⠿</button>
-        <span>Проект</span>
+        <span>Проект${tag}</span>
         <button class="rm" onclick="portItems=portItems.filter(x=>x.id!='${p.id}');renderPortEd();render()">✕</button>
       </div>
-      <div class="f"><input placeholder="Название проекта" value="${p.title}" oninput="portItems.find(x=>x.id=='${p.id}').title=this.value;render()"/></div>
-      <div class="f"><label>URL</label><input value="${p.url}" placeholder="https://..." oninput="portItems.find(x=>x.id=='${p.id}').url=this.value;render()"/></div>
-      <div class="f"><label>Описание</label><textarea rows="2" oninput="portItems.find(x=>x.id=='${p.id}').desc=this.value;render()">${p.desc}</textarea></div>
-    </div>`).join('');
+      <div class="f"><input placeholder="Название проекта" value="${escAttr(titleVal)}" oninput="updPort('${p.id}','title',this.value)"/></div>
+      <div class="f"><label>URL</label><input value="${escAttr(p.url)}" placeholder="https://..." oninput="updPort('${p.id}','url',this.value)"/></div>
+      <div class="f"><label>Описание</label><textarea rows="2" oninput="updPort('${p.id}','desc',this.value)">${esc(descVal)}</textarea></div>
+    </div>`;
+  }).join('');
 }
 
 // ════ SCORE ════
@@ -1135,30 +1238,19 @@ function updateScore(){
 }
 
 // ════ RENDER ════
-function t(ru){
-  if(lang==='ru') return ru||'';
-  // Ищем перевод в кэше
-  return translatedData[ru]||ru||'';
-}
-function getVal(field){
-  const ru=v(field);
-  if(lang==='ru') return ru;
-  const key=field.replace('f-','');
-  return translatedData[key]||ru;
-}
-
 function render(){
   updateScore();
-  const name=v('f-name')||'Ваше имя';
-  const role=(lang==='ru'?v('f-role'):(translatedData.role||v('f-role')))||'Желаемая должность';
-  const summary=lang==='ru'?v('f-summary'):(translatedData.summary||v('f-summary'));
-  const skillsRaw=lang==='ru'?v('f-skills'):(translatedData.skills||v('f-skills'));
+  const name=esc(v('f-name'))||'Ваше имя';
+  // Простые поля уже хранят текст нужного языка прямо в DOM (setLang подставляет EN при переключении)
+  const role=esc(v('f-role'))||(lang==='ru'?'Желаемая должность':'Desired position');
+  const summary=esc(v('f-summary'));
+  const skillsRaw=v('f-skills');
   const skills=skillsRaw.split(',').map(s=>s.trim()).filter(Boolean);
-  const langsStr=lang==='ru'?v('f-langs'):(translatedData.langs||v('f-langs'));
-  const hobbies=lang==='ru'?v('f-hobbies'):(translatedData.hobbies||v('f-hobbies'));
-  const extra=lang==='ru'?v('f-extra'):(translatedData.extra||v('f-extra'));
-  const salary=v('f-salary');
-  const telegram=v('f-telegram'),whatsapp=v('f-whatsapp'),max=v('f-max');
+  const langsStr=v('f-langs');
+  const hobbies=esc(v('f-hobbies'));
+  const extra=esc(v('f-extra'));
+  const salary=esc(v('f-salary'));
+  const telegram=esc(v('f-telegram')),whatsapp=esc(v('f-whatsapp')),max=esc(v('f-max'));
   const messengers=[telegram?`✈️${telegram}`:'',whatsapp?`💬${whatsapp}`:'',max?`💙MAX:${max}`:''].filter(Boolean).join('  ');
 
   const empMap={full:lang==='ru'?'Полная занятость':'Full-time',part:lang==='ru'?'Частичная':'Part-time',project:lang==='ru'?'Проектная':'Project',intern:lang==='ru'?'Стажировка':'Internship',volunteer:lang==='ru'?'Волонтёрство':'Volunteering'};
@@ -1169,7 +1261,7 @@ function render(){
   const empLabel=empChips.map(k=>empMap[k]||k).join(', ');
   const schLabel=schChips.map(k=>schMap[k]||k).join(', ');
 
-  const contactsHtml=[v('f-phone'),v('f-email'),v('f-city'),v('f-link')].filter(Boolean).map(c=>`<span>${c}</span>`).join('')+(messengers?`<span>${messengers}</span>`:'');
+  const contactsHtml=[v('f-phone'),v('f-email'),v('f-city'),v('f-link')].filter(Boolean).map(c=>`<span>${esc(c)}</span>`).join('')+(messengers?`<span>${messengers}</span>`:'');
   const photoHtml=photo?`<img class="r-photo" src="${photo}" alt="">`:'' ;
 
   const condHtml=(salary||empLabel||schLabel||togs.relocation||togs.travel)?`
@@ -1180,18 +1272,20 @@ function render(){
     ${togs.relocation?`<div class="r-cond">✓ ${lang==='ru'?'Готов(а) к переезду':'Open to relocation'}</div>`:''}
     ${togs.travel?`<div class="r-cond">✓ ${lang==='ru'?'Готов(а) к командировкам':'Open to business trips'}</div>`:''}`:'' ;
 
-  const getExpRole=(e,i)=>lang==='ru'?e.role:((translatedData.exp&&translatedData.exp[i]?.role)||e.role);
-  const getExpDesc=(e,i)=>lang==='ru'?e.desc:((translatedData.exp&&translatedData.exp[i]?.desc)||e.desc);
-  const getEduDeg=(e,i)=>lang==='ru'?e.degree:((translatedData.edu&&translatedData.edu[i]?.degree)||e.degree);
-  const getPortT=(p,i)=>lang==='ru'?p.title:((translatedData.ports&&translatedData.ports[i]?.title)||p.title);
-  const getPortD=(p,i)=>lang==='ru'?p.desc:((translatedData.ports&&translatedData.ports[i]?.desc)||p.desc);
+  // Перевод хранится по id элемента — так он не "съезжает" при перестановке/добавлении/удалении карточек
+  const getExpRole=(e)=>esc(trVal('exp',e.id,'role',e.role));
+  const getExpDesc=(e)=>esc(trVal('exp',e.id,'desc',e.desc));
+  const getEduDeg=(e)=>esc(trVal('edu',e.id,'degree',e.degree));
+  const getCourseName=(c)=>esc(trVal('courses',c.id,'name',c.name));
+  const getPortT=(p)=>esc(trVal('ports',p.id,'title',p.title));
+  const getPortD=(p)=>esc(trVal('ports',p.id,'desc',p.desc));
 
-  const expHtml=expItems.length?`<div class="r-st">${lang==='ru'?'Опыт работы':'Experience'}</div>${expItems.map((e,i)=>`<div class="r-exp"><div class="r-exp-top"><span class="r-exp-role">${getExpRole(e,i)}</span><span class="r-exp-period">${e.period}</span></div><div class="r-exp-co">${e.company}</div><div class="r-exp-desc">${getExpDesc(e,i)}</div></div>`).join('')}`:'';
-  const eduHtml=eduItems.length?`<div class="r-st">${lang==='ru'?'Образование':'Education'}</div>${eduItems.map((e,i)=>`<div class="r-exp"><div class="r-exp-top"><span class="r-exp-role">${getEduDeg(e,i)}</span><span class="r-exp-period">${e.period}</span></div><div class="r-exp-co">${e.school}</div></div>`).join('')}`:'';
-  const courseHtml=courseItems.length?`<div class="r-st">${lang==='ru'?'Повышение квалификации':'Professional development'}</div>${courseItems.map(c=>`<div class="r-exp"><div class="r-exp-top"><span class="r-exp-role">${c.name}</span><span class="r-exp-period">${c.year}</span></div>${c.org?`<div class="r-exp-co">${c.org}</div>`:''}</div>`).join('')}`:'';
-  const portHtml=portItems.length?`<div class="r-st">${lang==='ru'?'Портфолио':'Portfolio'}</div>${portItems.map((p,i)=>`<div class="r-port"><div class="r-port-t">${getPortT(p,i)}</div>${getPortD(p,i)?`<div class="r-port-d">${getPortD(p,i)}</div>`:''}</div>`).join('')}`:'';
-  const skillsHtml=skills.length?`<div class="r-st">${lang==='ru'?'Навыки':'Skills'}</div><div>${skills.map(s=>`<span class="r-chip">${s}</span>`).join('')}</div>`:'';
-  const langsHtml=langsStr?`<div class="r-st">${lang==='ru'?'Языки':'Languages'}</div>${langsStr.split(',').map(l=>`<span class="r-tag">${l.trim()}</span>`).join('')}`:'';
+  const expHtml=expItems.length?`<div class="r-st">${lang==='ru'?'Опыт работы':'Experience'}</div>${expItems.map(e=>`<div class="r-exp"><div class="r-exp-top"><span class="r-exp-role">${getExpRole(e)}</span><span class="r-exp-period">${esc(e.period)}</span></div><div class="r-exp-co">${esc(e.company)}</div><div class="r-exp-desc">${getExpDesc(e)}</div></div>`).join('')}`:'';
+  const eduHtml=eduItems.length?`<div class="r-st">${lang==='ru'?'Образование':'Education'}</div>${eduItems.map(e=>`<div class="r-exp"><div class="r-exp-top"><span class="r-exp-role">${getEduDeg(e)}</span><span class="r-exp-period">${esc(e.period)}</span></div><div class="r-exp-co">${esc(e.school)}</div></div>`).join('')}`:'';
+  const courseHtml=courseItems.length?`<div class="r-st">${lang==='ru'?'Повышение квалификации':'Professional development'}</div>${courseItems.map(c=>`<div class="r-exp"><div class="r-exp-top"><span class="r-exp-role">${getCourseName(c)}</span><span class="r-exp-period">${esc(c.year)}</span></div>${c.org?`<div class="r-exp-co">${esc(c.org)}</div>`:''}</div>`).join('')}`:'';
+  const portHtml=portItems.length?`<div class="r-st">${lang==='ru'?'Портфолио':'Portfolio'}</div>${portItems.map(p=>`<div class="r-port"><div class="r-port-t">${getPortT(p)}</div>${getPortD(p)?`<div class="r-port-d">${getPortD(p)}</div>`:''}</div>`).join('')}`:'';
+  const skillsHtml=skills.length?`<div class="r-st">${lang==='ru'?'Навыки':'Skills'}</div><div>${skills.map(s=>`<span class="r-chip">${esc(s)}</span>`).join('')}</div>`:'';
+  const langsHtml=langsStr?`<div class="r-st">${lang==='ru'?'Языки':'Languages'}</div>${langsStr.split(',').map(l=>`<span class="r-tag">${esc(l.trim())}</span>`).join('')}`:'';
   const addInfoHtml=(hobbies||extra)?`
     <div class="r-st">${lang==='ru'?'Дополнительная информация':'Additional information'}</div>
     ${hobbies?`<div style="margin-bottom:4px"><b style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;opacity:.55">${lang==='ru'?'Хобби и увлечения':'Hobbies'}</b><div class="r-extra" style="margin-top:2px">${hobbies}</div></div>`:''}
@@ -1205,7 +1299,7 @@ function render(){
   prev.className='resume '+clsMap[tmpl];
 
   if(tmpl==='creative'){
-    const sideContacts=[v('f-phone'),v('f-email'),v('f-city'),v('f-link')].filter(Boolean).map(c=>`<div class="r-side-contact">${c}</div>`).join('');
+    const sideContacts=[v('f-phone'),v('f-email'),v('f-city'),v('f-link')].filter(Boolean).map(c=>`<div class="r-side-contact">${esc(c)}</div>`).join('');
     prev.innerHTML=`
       <div class="r-hdr">
         <div class="r-hdr-accent">
@@ -1234,65 +1328,6 @@ function render(){
       <div class="r-hdr"><div><div class="r-name">${name}</div><div class="r-role">${role}</div><div class="r-contacts">${contactsHtml}</div></div>${photoHtml}</div>
       <div class="r-body"><div class="r-main">${mainHtml}</div><div class="r-side">${sideHtml}</div></div>`;
   }
-}
-
-// ════ DRAG & DROP ════
-let dragSrcId = null;
-
-function getList(name){
-  return {exp:expItems,edu:eduItems,course:courseItems,port:portItems}[name];
-}
-function reRender(name){
-  ({exp:renderExpEd,edu:renderEduEd,course:renderCourseEd,port:renderPortEd}[name])();
-  render();
-}
-
-function onDragStart(e){
-  dragSrcId = e.currentTarget.dataset.id;
-  e.currentTarget.classList.add('dragging');
-  e.dataTransfer.effectAllowed='move';
-  e.dataTransfer.setData('text/plain', dragSrcId);
-}
-
-function onDragOver(e){
-  e.preventDefault();
-  e.dataTransfer.dropEffect='move';
-  const card = e.currentTarget;
-  if(card.dataset.id !== dragSrcId){
-    card.classList.add('drag-over');
-  }
-  return false;
-}
-
-function onDragLeave(e){
-  e.currentTarget.classList.remove('drag-over');
-}
-
-function onDrop(e, listName){
-  e.preventDefault();
-  e.stopPropagation();
-  const targetId = e.currentTarget.dataset.id;
-  e.currentTarget.classList.remove('drag-over');
-  if(!dragSrcId || dragSrcId === targetId) return;
-
-  const list = getList(listName);
-  const srcIdx = list.findIndex(x=>x.id===dragSrcId);
-  const tgtIdx = list.findIndex(x=>x.id===targetId);
-  if(srcIdx<0||tgtIdx<0) return;
-
-  // Переставляем элементы
-  const [moved] = list.splice(srcIdx,1);
-  list.splice(tgtIdx,0,moved);
-
-  reRender(listName);
-  return false;
-}
-
-function onDragEnd(e){
-  e.currentTarget.classList.remove('dragging');
-  // Снимаем drag-over со всех карточек
-  document.querySelectorAll('.card').forEach(c=>c.classList.remove('drag-over'));
-  dragSrcId = null;
 }
 
 // ════ AI API ════
