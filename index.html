@@ -693,18 +693,18 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
       </div>
       <button id="retranslate-btn" onclick="refreshTranslation()" title="Перевести заново с ИИ (перезапишет правки английской версии)" style="display:none;background:transparent;border:1px solid #2E2E35;color:#71717A;padding:6px 9px;border-radius:7px;font-size:12px;cursor:pointer;">🔄</button>
       <div class="tmpl-sw">
-        <button class="tmpl-btn on" id="tb-classic" onclick="setTmpl('classic')">Классика</button>
-        <button class="tmpl-btn" id="tb-modern" onclick="setTmpl('modern')">Модерн</button>
-        <button class="tmpl-btn" id="tb-minimal" onclick="setTmpl('minimal')">Минимал</button>
-        <button class="tmpl-btn" id="tb-executive" onclick="setTmpl('executive')">Executive</button>
-        <button class="tmpl-btn" id="tb-creative" onclick="setTmpl('creative')">Креатив</button>
-        <button class="tmpl-btn" id="tb-compact" onclick="setTmpl('compact')">Компакт</button>
+        <button class="tmpl-btn on" id="tb-classic" data-i18n="tmpl_classic" onclick="setTmpl('classic')">Классика</button>
+        <button class="tmpl-btn" id="tb-modern" data-i18n="tmpl_modern" onclick="setTmpl('modern')">Модерн</button>
+        <button class="tmpl-btn" id="tb-minimal" data-i18n="tmpl_minimal" onclick="setTmpl('minimal')">Минимал</button>
+        <button class="tmpl-btn" id="tb-executive" data-i18n="tmpl_executive" onclick="setTmpl('executive')">Executive</button>
+        <button class="tmpl-btn" id="tb-creative" data-i18n="tmpl_creative" onclick="setTmpl('creative')">Креатив</button>
+        <button class="tmpl-btn" id="tb-compact" data-i18n="tmpl_compact" onclick="setTmpl('compact')">Компакт</button>
       </div>
-      <button class="cover-btn" onclick="openCL()">✉ Письмо</button>
+      <button class="cover-btn" data-i18n="btn_cover" onclick="openCL()">✉ Письмо</button>
       <div id="free-indicator" style="display:flex;align-items:center;gap:6px;background:rgba(22,163,74,.12);border:1px solid rgba(22,163,74,.3);padding:5px 10px;border-radius:999px;font-size:11px;font-weight:700;color:#16A34A;">
   🎁 1 скачивание бесплатно
 </div>
-<button class="dl-btn" onclick="handleDownload()">⬇ Скачать PDF</button>
+<button class="dl-btn" data-i18n="btn_download" onclick="handleDownload()">⬇ Скачать PDF</button>
     </div>
   </div>
 
@@ -1020,10 +1020,69 @@ function updPort(id,key,val){
   render();
 }
 
+// ════ СЛОВАРЬ ИНТЕРФЕЙСА (статичные подписи — переключаются мгновенно, без ИИ) ════
+const UI_STRINGS={
+  sec_personal:['Личные данные','Personal details'],
+  sec_conditions:['Условия работы','Work conditions'],
+  sec_about:['О себе','Summary'],
+  sec_experience:['Опыт работы','Experience'],
+  sec_education:['Образование','Education'],
+  sec_courses:['Повышение квалификации','Professional development'],
+  sec_portfolio:['Портфолио','Portfolio'],
+  sec_skills:['Профессиональные навыки','Professional skills'],
+  sec_langs:['Языки','Languages'],
+  sec_extra:['Дополнительная информация','Additional information'],
+  lbl_name:['Имя и фамилия','Full name'],
+  lbl_role:['Желаемая должность','Desired position'],
+  lbl_phone:['Телефон','Phone'],
+  lbl_email:['Email','Email'],
+  lbl_city:['Город','City'],
+  lbl_link:['LinkedIn / сайт','LinkedIn / website'],
+  lbl_messengers:['Мессенджеры','Messengers'],
+  lbl_salary:['Желаемая зарплата (₽)','Desired salary (₽)'],
+  lbl_employment:['Занятость','Employment type'],
+  lbl_schedule:['График','Schedule'],
+  tog_relocation:['Готов(а) к переезду','Open to relocation'],
+  tog_travel:['Готов(а) к командировкам','Open to business trips'],
+  btn_add_exp:['+ Добавить место работы','+ Add work experience'],
+  btn_add_edu:['+ Добавить образование','+ Add education'],
+  btn_add_course:['+ Добавить курс / сертификат','+ Add course / certificate'],
+  btn_add_port:['+ Добавить проект','+ Add project'],
+  btn_ai_skills:['✨ Подобрать навыки с ИИ','✨ Suggest skills with AI'],
+  lbl_skills:['Навыки (через запятую)','Skills (comma-separated)'],
+  lbl_hobbies:['🎯 Хобби и увлечения','🎯 Hobbies & interests'],
+  lbl_extra:['📋 Прочее: права, публикации, награды','📋 Other: licenses, publications, awards'],
+  emp_full:['Полная','Full-time'],emp_part:['Частичная','Part-time'],emp_project:['Проектная','Project'],emp_intern:['Стажировка','Internship'],emp_volunteer:['Волонтёрство','Volunteering'],
+  sch_fullday:['Полный день','Full day'],sch_remote:['Удалённо','Remote'],sch_hybrid:['Гибрид','Hybrid'],sch_shift:['Сменный','Shift'],sch_rotation:['Вахтовый','Rotational'],
+  tmpl_classic:['Классика','Classic'],tmpl_modern:['Модерн','Modern'],tmpl_minimal:['Минимал','Minimal'],tmpl_executive:['Executive','Executive'],tmpl_creative:['Креатив','Creative'],tmpl_compact:['Компакт','Compact'],
+  btn_cover:['✉ Письмо','✉ Cover letter'],
+  btn_download:['⬇ Скачать PDF','⬇ Download PDF'],
+  free_available:['🎁 1 скачивание бесплатно','🎁 1 free download'],
+  free_used:['💳 Нужна оплата','💳 Payment required'],
+  card_exp:['Место работы','Work experience'],card_edu:['Образование','Education'],card_course:['Курс','Course'],card_port:['Проект','Project'],
+  fld_company:['Компания','Company'],fld_position:['Должность','Position'],fld_period:['Период','Period'],fld_responsibilities:['Обязанности и достижения','Responsibilities & achievements'],
+  fld_school:['Учебное заведение','Institution'],fld_degree:['Специальность','Degree / major'],fld_year:['Год','Year'],
+  fld_coursename:['Название / сертификат','Name / certificate'],fld_org:['Организация','Organization'],
+  fld_porttitle:['Название проекта','Project title'],fld_url:['URL','URL'],fld_desc:['Описание','Description'],
+  drag_hint:['⠿ Перетащите карточку чтобы изменить порядок','⠿ Drag the card to reorder'],
+  ph_summary:['Краткое описание опыта и целей...','Brief summary of your experience and goals...'],
+  ph_hobbies:['Горные лыжи, чтение, путешествия...','Skiing, reading, travel...'],
+  ph_extra:['Водительское удостоверение кат. B...','Driving licence cat. B...'],
+};
+function T(key){ const e=UI_STRINGS[key]; return e ? e[lang==='ru'?0:1] : key; }
+// Применяет словарь ко всем статичным элементам интерфейса мгновенно, без обращения к ИИ
+function applyUILang(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent=T(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.placeholder=T(el.dataset.i18nPh); });
+  updateFreeIndicator();
+}
+
 // ════ PAGES ════
 function showPage(p){
   document.getElementById('page-landing').classList.toggle('active',p==='landing');
   document.getElementById('page-builder').classList.toggle('active',p==='builder');
+  const navEl=document.querySelector('nav');
+  if(navEl) navEl.style.display = p==='builder' ? 'none' : 'flex';
   window.scrollTo(0,0);
   if(p==='builder') render();
 }
@@ -1045,13 +1104,20 @@ async function setLang(l){
   document.getElementById('retranslate-btn').style.display=l==='en'?'inline-block':'none';
   if(l==='en'){
     SIMPLE_FIELDS.forEach(k=> ruCache[k]=v('f-'+k));
-    if(!translatedData.role){ await translateAll(); }
+  }
+  // 1) Мгновенно: весь статичный интерфейс + структура превью (заголовки секций и т.п.) — без ожидания ИИ
+  applyUILang();
+  renderExpEd();renderEduEd();renderCourseEd();renderPortEd();
+  render();
+  // 2) Асинхронно: сам текст (описания, о себе и т.д.) переводится ИИ и подставляется, как только готов
+  if(l==='en' && !translatedData.role){
+    await translateAll();
     SIMPLE_FIELDS.forEach(k=>{
       document.getElementById('f-'+k).value = translatedData[k]!==undefined ? translatedData[k] : (ruCache[k]||'');
     });
+    renderExpEd();renderEduEd();renderCourseEd();renderPortEd();
+    render();
   }
-  renderExpEd();renderEduEd();renderCourseEd();renderPortEd();
-  render();
 }
 
 // Перевести заново с ИИ (перезаписывает переведённую версию, RU-источник не трогает)
@@ -1568,12 +1634,12 @@ function updateFreeIndicator(){
     el.style.background='rgba(184,136,42,.12)';
     el.style.borderColor='rgba(184,136,42,.3)';
     el.style.color='#B8882A';
-    el.innerHTML='💳 Нужна оплата';
+    el.innerHTML=T('free_used');
   } else {
     el.style.background='rgba(22,163,74,.12)';
     el.style.borderColor='rgba(22,163,74,.3)';
     el.style.color='#16A34A';
-    el.innerHTML='🎁 1 скачивание бесплатно';
+    el.innerHTML=T('free_available');
   }
 }
 
