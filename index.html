@@ -191,8 +191,8 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
 .tog-knob{position:absolute;top:2.5px;left:2.5px;width:12px;height:12px;border-radius:50%;background:#fff;transition:.2s;}
 .tog-track.on .tog-knob{left:15.5px;}
 .card{border:1px solid var(--ed-border);border-radius:8px;padding:11px;margin-bottom:8px;background:rgba(255,255,255,.02);}
-.card-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
-.card-hd span{font-size:10px;color:var(--ed-muted);text-transform:uppercase;letter-spacing:.07em;}
+.card-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:6px;}
+.card-hd span{font-size:10px;color:var(--ed-muted);text-transform:uppercase;letter-spacing:.07em;flex:1;}
 .rm{background:transparent;border:none;color:var(--ed-muted);cursor:pointer;font-size:15px;}
 .rm:hover{color:#f87171;}
 .add-btn{width:100%;border:1px dashed var(--ed-border);background:transparent;color:var(--ed-muted);padding:7px;border-radius:7px;font-size:12px;cursor:pointer;margin-top:4px;}
@@ -442,6 +442,29 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
 .sg{background:var(--gold);color:#fff;}
 .sgh{background:transparent;border:1px solid var(--border);color:var(--text2);}
 
+/* ── ATS-ЧЕК-ЛИСТ ── */
+.ats-item{padding:10px 0;border-bottom:1px solid var(--ed-border);}
+.ats-item:last-child{border-bottom:none;}
+.ats-item-hd{display:flex;align-items:center;gap:8px;}
+.ats-icon{width:18px;height:18px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
+.ats-item.ok .ats-icon{background:rgba(22,163,74,.15);color:#16A34A;}
+.ats-item.bad .ats-icon{background:rgba(248,113,113,.15);color:#f87171;}
+.ats-label{font-size:12.5px;color:var(--ed-text);}
+.ats-item.ok .ats-label{color:var(--ed-muted);}
+.ats-tip{font-size:11.5px;color:var(--ed-muted);margin:5px 0 0 26px;line-height:1.5;}
+
+/* ── ПРЕДПРОСМОТР С ВОДЯНЫМ ЗНАКОМ ── */
+.preview-overlay{display:none;position:fixed;inset:0;z-index:1001;background:#141210;flex-direction:column;}
+.preview-overlay.open{display:flex;}
+.preview-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 18px;background:#1C1917;color:#F5E4B8;font-size:13px;flex-shrink:0;border-bottom:1px solid #2E2E35;}
+.preview-bar button{background:transparent;border:1px solid #2E2E35;color:#F5E4B8;padding:7px 13px;border-radius:7px;font-size:12.5px;cursor:pointer;}
+.preview-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;justify-content:center;padding:22px 14px 40px;}
+.preview-wm-wrap{position:relative;width:100%;max-width:680px;height:max-content;}
+.preview-wm-wrap .resume{width:100%;box-shadow:0 8px 40px rgba(0,0,0,.35);}
+.wm-band{position:absolute;left:50%;right:auto;pointer-events:none;transform:translate(-50%,-50%) rotate(-28deg);font-family:'Inter',sans-serif;font-weight:800;font-size:22px;letter-spacing:.03em;color:rgba(184,136,42,.35);white-space:nowrap;z-index:5;text-align:center;}
+.preview-cta{flex-shrink:0;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:14px 16px;background:#1C1917;border-top:1px solid #2E2E35;}
+.preview-cta .sgh{border-color:#2E2E35;color:#E4E4E7;}
+
 /* ── DRAG & DROP ── */
 .card{position:relative;transition:opacity .2s,transform .2s;}
 .card.dragging{opacity:.4;transform:scale(.98);}
@@ -472,6 +495,10 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
 .drag-dot{width:3px;height:3px;border-radius:50%;background:var(--ed-muted);}
 .drag-dot-row{display:flex;gap:3px;}
 .card .card-hd{padding-left:20px;}
+.move-btns{display:flex;gap:2px;}
+.move-btn{background:transparent;border:1px solid #2E2E35;color:var(--ed-muted);cursor:pointer;font-size:11px;width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;}
+.move-btn:hover:not(:disabled){color:var(--gold);border-color:var(--gold);}
+.move-btn:disabled{opacity:.25;cursor:default;}
 
 /* ── SORT LABEL ── */
 .sort-label{
@@ -481,14 +508,6 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
 }
 .sort-label::before{content:'↕';font-size:12px;color:var(--gold);}
 
-/* ── FREE BADGE ── */
-.free-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(22,163,74,.12);border:1px solid rgba(22,163,74,.3);color:#16A34A;padding:5px 11px;border-radius:999px;font-size:11.5px;font-weight:700;}
-.free-banner{background:linear-gradient(135deg,#1C1917,#292524);border:1px solid #B8882A;border-radius:10px;padding:14px 16px;margin-bottom:12px;display:flex;align-items:center;gap:12px;}
-.free-banner-icon{font-size:22px;flex-shrink:0;}
-.free-banner-text{font-size:12px;color:#E4E4E7;line-height:1.5;}
-.free-banner-text b{color:#B8882A;}
-.free-banner-btn{margin-left:auto;flex-shrink:0;background:var(--gold);color:#fff;border:none;padding:8px 14px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;}
-.free-banner-btn:hover{background:var(--gold2);}
 @media print{nav,.builder-bar,.editor,.pw-overlay,.cl-overlay{display:none!important;}.preview-pane{background:white;padding:0;}.resume{box-shadow:none;max-width:none;}.page{display:block!important;}.builder-body{overflow:visible;}}
 </style>
 </head>
@@ -525,7 +544,7 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
     <div class="hero-content">
       <div class="hero-badge"><span class="badge-dot"></span>Резюме, которое работает</div>
       <h1>Создайте резюме,<br/>которое <em>заметят</em></h1>
-      <p class="hero-sub">Профессиональный конструктор с 6 шаблонами, ИИ-помощью, двуязычным форматом и сопроводительным письмом. Заполняйте бесплатно — скачивайте когда готово.</p>
+      <p class="hero-sub">Профессиональный конструктор с 6 шаблонами, ИИ-помощью, двуязычным форматом и сопроводительным письмом. Заполняйте бесплатно — PDF доступен от 300 ₽.</p>
       <div class="hero-btns">
         <button class="btn-primary" onclick="showPage('builder')">Создать резюме — бесплатно</button>
         <a class="btn-ghost" href="#how">Как это работает</a>
@@ -587,8 +606,10 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
         <div class="feat-card reveal"><div class="feat-icon">🌐</div><div class="feat-t">RU и EN с переводом</div><div class="feat-d">Одно поле — ИИ профессионально переводит всё резюме на английский язык одним кликом.</div></div>
         <div class="feat-card reveal"><div class="feat-icon">🎨</div><div class="feat-t">6 шаблонов</div><div class="feat-d">Классика, Модерн, Минимал, Executive, Креатив, Компакт. Для любой отрасли и стиля.</div></div>
         <div class="feat-card reveal"><div class="feat-icon">🤖</div><div class="feat-t">ATS-совместимость</div><div class="feat-d">Шаблоны разработаны под требования автоматических систем отбора резюме.</div></div>
-        <div class="feat-card reveal"><div class="feat-icon">📊</div><div class="feat-t">Индикатор заполненности</div><div class="feat-d">Видите в реальном времени насколько полное резюме. 80%+ получают вдвое больше откликов.</div></div>
+        <div class="feat-card reveal"><div class="feat-icon">📊</div><div class="feat-t">ATS-чек-лист</div><div class="feat-d">11 реальных критериев совместимости с системами отбора резюме — с конкретными рекомендациями, что исправить.</div></div>
         <div class="feat-card reveal"><div class="feat-icon">✉️</div><div class="feat-t">Сопроводительное письмо</div><div class="feat-d">ИИ пишет персонализированное письмо с вашими достижениями и цифрами под конкретную вакансию.</div></div>
+        <div class="feat-card reveal"><div class="feat-icon">👁</div><div class="feat-t">Предпросмотр перед оплатой</div><div class="feat-d">Смотрите итоговый PDF с водяным знаком бесплатно — оплачивайте, только когда результат устроит.</div></div>
+        <div class="feat-card reveal"><div class="feat-icon">💾</div><div class="feat-t">Автосохранение черновика</div><div class="feat-d">Все данные сохраняются в браузере автоматически. Закрыли вкладку — ничего не потеряется.</div></div>
       </div>
     </div>
   </section>
@@ -609,7 +630,7 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
             <li><span class="pcheck">✓</span>RU и EN</li>
             <li><span class="pcheck">✓</span>Без подписки</li>
           </ul>
-          <button class="plan-btn pbtn-g" onclick="showPage('builder')">Попробовать бесплатно</button>
+          <button class="plan-btn pbtn-g" onclick="showPage('builder')">Заполнить резюме</button>
         </div>
         <div class="plan feat">
           <div class="plan-badge">Выгоднее</div>
@@ -626,7 +647,7 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
           <button class="plan-btn pbtn-s" onclick="showPage('builder')">Начать →</button>
         </div>
       </div>
-      <p style="text-align:center;font-size:11.5px;color:var(--muted);margin-top:16px">Оплата через Robokassa — карты МИР/Visa/MC, СБП</p>
+      <p style="text-align:center;font-size:11.5px;color:var(--muted);margin-top:16px">Оплата через Robokassa — карты МИР/Visa/MC, СБП · 🛡 Гарантия возврата в течение 24 часов</p>
     </div>
   </section>
 
@@ -638,6 +659,8 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
       <div class="faq-item reveal"><div class="faq-q">Как работает перевод на английский? <span class="faq-arrow">▾</span></div><div class="faq-a">ИИ профессионально переводит всё резюме — должность, опыт, навыки, описания — одним кликом при переключении языка.</div></div>
       <div class="faq-item reveal"><div class="faq-q">Как выглядит PDF? <span class="faq-arrow">▾</span></div><div class="faq-a">Ровно так, как в превью — пиксель в пиксель. Формат A4, готов к отправке.</div></div>
       <div class="faq-item reveal"><div class="faq-q">Какие способы оплаты? <span class="faq-arrow">▾</span></div><div class="faq-a">Карты МИР, Visa, Mastercard, СБП через Robokassa.</div></div>
+      <div class="faq-item reveal"><div class="faq-q">Что если PDF не понравится? <span class="faq-arrow">▾</span></div><div class="faq-a">Перед оплатой можно бесплатно посмотреть полный предпросмотр с водяным знаком — вы увидите итоговый результат заранее. Если после оплаты результат всё равно не устроит — заполните <a href="javascript:void(0)" onclick="openRefund()" style="color:var(--gold);text-decoration:underline;">форму запроса возврата</a>, вернём деньги в течение 24 часов.</div></div>
+      <div class="faq-item reveal"><div class="faq-q">Не потеряются ли мои данные, если закрыть вкладку? <span class="faq-arrow">▾</span></div><div class="faq-a">Нет — черновик автоматически сохраняется в вашем браузере по мере заполнения. При следующем открытии конструктора вы продолжите с того же места.</div></div>
     </div>
   </section>
 
@@ -653,7 +676,7 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
   <footer>
     <div class="footer-inner">
       <div class="footer-brand">Резюме.Про</div>
-      <div class="footer-links"><a href="#pricing">Цены</a><a href="#">Политика конфиденциальности</a><a href="#">Оферта</a><a href="#">Поддержка</a></div>
+      <div class="footer-links"><a href="#pricing">Цены</a><a href="#">Политика конфиденциальности</a><a href="#">Оферта</a><a href="#">Поддержка</a><a href="javascript:void(0)" onclick="openRefund()">Возврат средств</a></div>
     </div>
     <div class="footer-copy">© 2025 Резюме.Про. Все права защищены.</div>
   </footer>
@@ -678,15 +701,18 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
   </svg>
   <span style="font-family:'Playfair Display',serif;font-size:15px;color:var(--gold);">Резюме.Про</span>
 </div>
+      <span id="draft-hint" style="opacity:0;transition:opacity .3s;font-size:11px;color:#71717A;white-space:nowrap;">💾 Черновик сохранён локально</span>
+      <button onclick="clearDraft()" title="Удалить черновик и начать заново" style="background:transparent;border:1px solid #2E2E35;color:#71717A;padding:4px 8px;border-radius:6px;font-size:11px;cursor:pointer;">Начать заново</button>
     </div>
     <div class="builder-bar-right">
-      <div class="score-ring">
+      <div class="score-ring" onclick="openATS()" title="ATS-совместимость резюме — нажмите для деталей" style="cursor:pointer;">
         <svg viewBox="0 0 34 34" width="34" height="34">
           <circle cx="17" cy="17" r="13" fill="none" stroke="#2E2E35" stroke-width="3"/>
           <circle id="score-arc" cx="17" cy="17" r="13" fill="none" stroke="#B8882A" stroke-width="3" stroke-dasharray="0 81.68" stroke-linecap="round"/>
         </svg>
         <div class="score-num" id="score-num">0%</div>
       </div>
+      <span style="font-size:10px;color:#71717A;cursor:pointer;" onclick="openATS()">ATS-score</span>
       <div class="lang-sw">
         <button class="lang-btn on" id="lb-ru" onclick="setLang('ru')">RU</button>
         <button class="lang-btn" id="lb-en" onclick="setLang('en')">EN</button>
@@ -701,10 +727,8 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
         <button class="tmpl-btn" id="tb-compact" data-i18n="tmpl_compact" onclick="setTmpl('compact')">Компакт</button>
       </div>
       <button class="cover-btn" data-i18n="btn_cover" onclick="openCL()">✉ Письмо</button>
-      <div id="free-indicator" style="display:flex;align-items:center;gap:6px;background:rgba(22,163,74,.12);border:1px solid rgba(22,163,74,.3);padding:5px 10px;border-radius:999px;font-size:11px;font-weight:700;color:#16A34A;">
-  🎁 1 скачивание бесплатно
-</div>
-<button class="dl-btn" data-i18n="btn_download" onclick="handleDownload()">⬇ Скачать PDF</button>
+      <button class="cover-btn" onclick="previewResume()" title="Бесплатный предпросмотр PDF с водяным знаком">👁 Предпросмотр</button>
+      <button class="dl-btn" data-i18n="btn_download" onclick="handleDownload()">⬇ Скачать PDF</button>
     </div>
   </div>
 
@@ -890,32 +914,6 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
   </div>
 </div>
 
-<!-- ════════ FREE DOWNLOAD MODAL ════════ -->
-<div id="free-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(28,25,23,.75);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:16px;">
-  <div style="background:#fff;border-radius:20px;width:100%;max-width:420px;box-shadow:0 30px 80px rgba(0,0,0,.2);overflow:hidden;animation:su .25s ease;">
-    <div style="padding:24px 26px 20px;border-bottom:1px solid var(--border);">
-      <div style="font-family:'Playfair Display',serif;font-size:20px;color:var(--text);margin-bottom:4px;">🎁 Бесплатное скачивание</div>
-      <div style="font-size:12.5px;color:var(--muted);">Первая генерация PDF — подарок от нас</div>
-    </div>
-    <div style="padding:20px 26px 24px;">
-      <div style="background:linear-gradient(135deg,#FFFBF0,#FDF3DC);border:1px solid rgba(184,136,42,.3);border-radius:10px;padding:16px;margin-bottom:18px;">
-        <div style="font-size:13px;color:var(--text);line-height:1.6;">
-          ✅ <b>Одно скачивание бесплатно</b><br/>
-          Ваш PDF будет готов через несколько секунд.<br/><br/>
-          💡 Следующие скачивания:<br/>
-          &nbsp;&nbsp;&nbsp;• Разовое — <b>300 ₽</b><br/>
-          &nbsp;&nbsp;&nbsp;• Подписка — <b>950 ₽/мес</b> (безлимит)
-        </div>
-      </div>
-      <div style="display:flex;gap:10px;">
-        <button onclick="closeFreeModal()" style="flex:1;padding:12px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:13.5px;font-weight:600;cursor:pointer;">Отмена</button>
-        <button onclick="confirmFreeDownload()" style="flex:2;padding:12px;border-radius:8px;border:none;background:var(--gold);color:#fff;font-size:13.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(184,136,42,.3);">⬇ Скачать бесплатно</button>
-      </div>
-      <div style="font-size:11px;color:var(--muted);text-align:center;margin-top:10px;">Формат A4 · Отличное качество · Готов к отправке</div>
-    </div>
-  </div>
-</div>
-
 <!-- ════════ PAYWALL ════════ -->
 <div class="pw-overlay" id="pw-overlay">
   <div class="pw-modal">
@@ -940,12 +938,81 @@ footer{background:#fff;border-top:1px solid var(--border);padding:40px 40px 28px
           <iframe id="robo-frame" scrolling="no" onload="onFrameLoad()"></iframe>
         </div>
         <button class="pw-pay-btn" id="pw-pay-btn" onclick="initPay()">Перейти к оплате 300 ₽</button>
-        <div class="pw-note">🔒 Безопасная оплата через Robokassa</div>
+        <div class="pw-note">🔒 Безопасная оплата через Robokassa · 🛡 Не понравился результат — <a href="javascript:void(0)" onclick="openRefund()" style="color:var(--gold);text-decoration:underline;">запросите возврат</a> в течение 24 часов</div>
         <div class="pw-sec"><span>💳 МИР / Visa / MC</span><span>⚡ СБП</span><span>🛡 SSL</span></div>
       </div>
     </div>
     <div class="pw-status" id="pw-screen-ok"><div class="pw-status-icon">✅</div><div class="pw-status-title">Оплата прошла!</div><div class="pw-status-desc">Ваш PDF готов.</div><button class="sbtn sg" onclick="downloadPDF()">⬇ Скачать PDF</button><button class="sbtn sgh" onclick="closePW()">Закрыть</button></div>
     <div class="pw-status" id="pw-screen-err"><div class="pw-status-icon">❌</div><div class="pw-status-title">Оплата не прошла</div><div class="pw-status-desc">Попробуйте ещё раз. Деньги не списаны.</div><button class="sbtn sg" onclick="showPWScreen('pay')">Попробовать снова</button><button class="sbtn sgh" onclick="closePW()">Закрыть</button></div>
+  </div>
+</div>
+
+<!-- ════════ ПРЕДПРОСМОТР PDF (с водяным знаком) ════════ -->
+<div class="preview-overlay" id="preview-overlay">
+  <div class="preview-bar">
+    <span>👁 Предпросмотр — так будет выглядеть ваш PDF</span>
+    <button onclick="closePreview()">✕ Закрыть</button>
+  </div>
+  <div class="preview-scroll">
+    <div class="preview-wm-wrap" id="preview-wm-wrap">
+      <div id="preview-resume-slot" class="resume"></div>
+    </div>
+  </div>
+  <div class="preview-cta">
+    <button class="sbtn sgh" onclick="closePreview()">Продолжить редактирование</button>
+    <button class="sbtn sg" onclick="previewToPay()">⬇ Оплатить и скачать без водяного знака</button>
+  </div>
+</div>
+
+<!-- ════════ ФОРМА ВОЗВРАТА СРЕДСТВ ════════ -->
+<div class="pw-overlay" id="refund-overlay">
+  <div class="pw-modal" style="max-width:420px;">
+    <div id="refund-screen-form">
+      <div class="pw-hdr">
+        <div><div class="pw-title">Запрос на возврат</div><div class="pw-sub">Рассмотрим и ответим в течение 24 часов</div></div>
+        <button class="pw-close" onclick="closeRefund()">✕</button>
+      </div>
+      <div class="pw-body">
+        <div class="f"><label>Email, на который была оплата</label><input id="rf-email" type="email" placeholder="you@example.com"/></div>
+        <div class="f"><label>Номер заказа / чека (если есть)</label><input id="rf-invoice" placeholder="Необязательно"/></div>
+        <div class="f"><label>Тариф</label>
+          <div class="chips" id="rf-plan">
+            <button type="button" class="chip on" data-val="once" onclick="selectRefundPlan(this)">Разовое скачивание — 300 ₽</button>
+            <button type="button" class="chip" data-val="sub" onclick="selectRefundPlan(this)">Подписка — 950 ₽/мес</button>
+          </div>
+        </div>
+        <div class="f"><label>Что не понравилось?</label><textarea id="rf-reason" rows="4" placeholder="Опишите, что пошло не так — это поможет нам разобраться и вернуть деньги быстрее"></textarea></div>
+        <div id="rf-error" style="display:none;color:#DC2626;font-size:12px;margin-bottom:10px;"></div>
+        <button class="pw-pay-btn" onclick="submitRefund()">Отправить запрос</button>
+        <div class="pw-note">Запрос откроется в вашей почте, адресованный в поддержку — так мы гарантированно получим все детали.</div>
+      </div>
+    </div>
+    <div class="pw-status" id="refund-screen-ok">
+      <div class="pw-status-icon">✅</div>
+      <div class="pw-status-title">Запрос отправлен</div>
+      <div class="pw-status-desc">Мы свяжемся с вами по указанному email в течение 24 часов и вернём деньги, если возврат обоснован.</div>
+      <button class="sbtn sg" onclick="closeRefund()">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ ATS-ЧЕК-ЛИСТ ════════ -->
+<div class="pw-overlay" id="ats-overlay">
+  <div class="pw-modal" style="max-width:440px;">
+    <div class="pw-hdr">
+      <div><div class="pw-title">ATS-совместимость резюме</div><div class="pw-sub">Насколько легко системе отбора распознать ваше резюме</div></div>
+      <button class="pw-close" onclick="closeATS()">✕</button>
+    </div>
+    <div class="pw-body">
+      <div style="text-align:center;padding:6px 0 16px;">
+        <div id="ats-score-big" style="font-family:'Playfair Display',serif;font-size:44px;font-weight:700;">0%</div>
+        <div id="ats-score-sub" style="font-size:12.5px;color:var(--ed-muted);"></div>
+      </div>
+      <div id="ats-list"></div>
+      <div style="margin-top:12px;padding:12px 14px;background:rgba(184,136,42,.08);border:1px solid rgba(184,136,42,.25);border-radius:8px;font-size:12px;color:var(--ed-text);line-height:1.6;">
+        💡 <b>Помимо чек-листа:</b> добавьте в текст резюме ключевые слова и формулировки из конкретной вакансии, на которую откликаетесь — многие ATS ранжируют резюме именно по совпадению терминов.
+      </div>
+    </div>
   </div>
 </div>
 
@@ -964,6 +1031,68 @@ let clTone='professional';
 let translatedData={};
 let ruCache={}; // хранит русский текст простых полей, пока активна EN-версия
 const SIMPLE_FIELDS=['role','summary','skills','langs','hobbies','extra'];
+const ALL_FIELDS=['name','role','phone','email','city','link','telegram','whatsapp','max','salary','skills','langs','hobbies','extra','summary'];
+
+// ════ АВТОСОХРАНЕНИЕ ЧЕРНОВИКА ════
+// Резюме заполняется долго — если вкладку закрыть или обновить страницу,
+// данные не должны теряться. Храним черновик локально в браузере пользователя.
+const DRAFT_KEY='resumepro_draft_v1';
+let draftTimer=null;
+function scheduleDraftSave(){
+  clearTimeout(draftTimer);
+  draftTimer=setTimeout(saveDraftNow,500);
+}
+function saveDraftNow(){
+  try{
+    const fields={};
+    ALL_FIELDS.forEach(k=>{ fields[k]=v('f-'+k); });
+    const state={
+      v:1, savedAt:Date.now(), fields, lang, tmpl, photo, togs,
+      empChips:getChips('emp'), schChips:getChips('sch'),
+      expItems, eduItems, courseItems, portItems, translatedData, ruCache
+    };
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(state));
+    showDraftSavedHint();
+  }catch(e){ /* localStorage может быть недоступен (приватный режим и т.п.) — тихо игнорируем */ }
+}
+function loadDraft(){
+  try{
+    const raw=localStorage.getItem(DRAFT_KEY);
+    return raw?JSON.parse(raw):null;
+  }catch(e){ return null; }
+}
+function clearDraft(){
+  if(!confirm('Удалить сохранённый черновик и начать заново? Данные в форме сейчас тоже будут очищены.'))return;
+  try{ localStorage.removeItem(DRAFT_KEY); }catch(e){}
+  location.reload();
+}
+let draftHintTimer=null;
+function showDraftSavedHint(){
+  const el=document.getElementById('draft-hint');
+  if(!el)return;
+  el.style.opacity='1';
+  clearTimeout(draftHintTimer);
+  draftHintTimer=setTimeout(()=>{ el.style.opacity='0'; },1600);
+}
+function applyDraft(d){
+  ALL_FIELDS.forEach(k=>{ const el=document.getElementById('f-'+k); if(el) el.value=d.fields[k]||''; });
+  lang=d.lang||'ru'; tmpl=d.tmpl||'classic'; photo=d.photo||null;
+  togs=d.togs||{relocation:false,travel:true};
+  expItems=d.expItems||[]; eduItems=d.eduItems||[]; courseItems=d.courseItems||[]; portItems=d.portItems||[];
+  translatedData=d.translatedData||{}; ruCache=d.ruCache||{};
+  document.getElementById('tog-relocation').classList.toggle('on',!!togs.relocation);
+  document.getElementById('tog-travel').classList.toggle('on',!!togs.travel);
+  document.querySelectorAll('#chips-emp .chip').forEach(b=>b.classList.toggle('on',(d.empChips||[]).includes(b.dataset.val)));
+  document.querySelectorAll('#chips-sch .chip').forEach(b=>b.classList.toggle('on',(d.schChips||[]).includes(b.dataset.val)));
+  if(photo){ document.getElementById('photo-el').innerHTML=`<img class="photo-c" src="${photo}">`; document.getElementById('photo-rm').style.display=''; }
+  ['classic','modern','minimal','executive','creative','compact'].forEach(k=>{
+    const el=document.getElementById('tb-'+k); if(el) el.classList.toggle('on',k===tmpl);
+  });
+  document.getElementById('lb-ru').classList.toggle('on',lang==='ru');
+  document.getElementById('lb-en').classList.toggle('on',lang==='en');
+  document.getElementById('en-mode-banner').style.display=lang==='en'?'block':'none';
+  document.getElementById('retranslate-btn').style.display=lang==='en'?'inline-block':'none';
+}
 
 // ════ ЭКРАНИРОВАНИЕ (важно для текста, сгенерированного ИИ) ════
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -1057,8 +1186,6 @@ const UI_STRINGS={
   tmpl_classic:['Классика','Classic'],tmpl_modern:['Модерн','Modern'],tmpl_minimal:['Минимал','Minimal'],tmpl_executive:['Executive','Executive'],tmpl_creative:['Креатив','Creative'],tmpl_compact:['Компакт','Compact'],
   btn_cover:['✉ Письмо','✉ Cover letter'],
   btn_download:['⬇ Скачать PDF','⬇ Download PDF'],
-  free_available:['🎁 1 скачивание бесплатно','🎁 1 free download'],
-  free_used:['💳 Нужна оплата','💳 Payment required'],
   card_exp:['Место работы','Work experience'],card_edu:['Образование','Education'],card_course:['Курс','Course'],card_port:['Проект','Project'],
   fld_company:['Компания','Company'],fld_position:['Должность','Position'],fld_period:['Период','Period'],fld_responsibilities:['Обязанности и достижения','Responsibilities & achievements'],
   fld_school:['Учебное заведение','Institution'],fld_degree:['Специальность','Degree / major'],fld_year:['Год','Year'],
@@ -1074,7 +1201,6 @@ function T(key){ const e=UI_STRINGS[key]; return e ? e[lang==='ru'?0:1] : key; }
 function applyUILang(){
   document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent=T(el.dataset.i18n); });
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.placeholder=T(el.dataset.i18nPh); });
-  updateFreeIndicator();
 }
 
 // ════ PAGES ════
@@ -1201,13 +1327,34 @@ function toggleTog(k){togs[k]=!togs[k];document.getElementById('tog-'+k).classLi
 function onPhoto(e){const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=()=>{photo=r.result;document.getElementById('photo-el').innerHTML=`<img class="photo-c" src="${photo}">`;document.getElementById('photo-rm').style.display='';render();};r.readAsDataURL(f);}
 function removePhoto(){photo=null;document.getElementById('photo-el').innerHTML='📷';document.getElementById('photo-rm').style.display='none';render();}
 
+// ════ ПЕРЕМЕЩЕНИЕ КАРТОЧЕК (▲▼) ════
+// Дублирует drag&drop кнопками — на мобильных браузерах нативный HTML5 drag-and-drop
+// не работает через тач, поэтому это основной способ изменить порядок на телефоне.
+function moveItem(list,id,dir){
+  const listMap={exp:expItems,edu:eduItems,course:courseItems,port:portItems};
+  const renderMap={exp:renderExpEd,edu:renderEduEd,course:renderCourseEd,port:renderPortEd};
+  const arr=listMap[list];
+  const idx=arr.findIndex(x=>x.id===id);
+  const newIdx=idx+dir;
+  if(idx===-1||newIdx<0||newIdx>=arr.length)return;
+  [arr[idx],arr[newIdx]]=[arr[newIdx],arr[idx]];
+  renderMap[list]();
+  render();
+}
+function moveBtnsHtml(list,id,idx,len){
+  return `<div class="move-btns">
+    <button class="move-btn" title="Переместить выше" ${idx===0?'disabled':''} onclick="moveItem('${list}','${id}',-1)">▲</button>
+    <button class="move-btn" title="Переместить ниже" ${idx===len-1?'disabled':''} onclick="moveItem('${list}','${id}',1)">▼</button>
+  </div>`;
+}
+
 // ════ DYNAMIC ITEMS ════
-function addExp(){expItems.push({id:uid(),company:'',period:'',role:'',desc:''});renderExpEd();}
+function addExp(){expItems.push({id:uid(),company:'',period:'',role:'',desc:''});renderExpEd();scheduleDraftSave();}
 function renderExpEd(){
   const c=document.getElementById('exp-container');
   const tag=lang==='en'?' (EN)':'';
   c.innerHTML=(expItems.length>1?'<div class="sort-hint">⠿ Перетащите карточку чтобы изменить порядок</div>':'')+
-  expItems.map(e=>{
+  expItems.map((e,idx)=>{
     const roleVal=trVal('exp',e.id,'role',e.role), descVal=trVal('exp',e.id,'desc',e.desc);
     return `
     <div class="card" draggable="true" data-id="${e.id}" data-list="exp"
@@ -1215,6 +1362,7 @@ function renderExpEd(){
       <div class="card-hd">
         <button class="drag-handle" title="Перетащить">⠿</button>
         <span>Место работы${tag}</span>
+        ${moveBtnsHtml('exp',e.id,idx,expItems.length)}
         <button class="rm" onclick="expItems=expItems.filter(x=>x.id!='${e.id}');renderExpEd();render()">✕</button>
       </div>
       <div class="f"><input placeholder="Компания" value="${escAttr(e.company)}" oninput="updExp('${e.id}','company',this.value)"/></div>
@@ -1224,12 +1372,12 @@ function renderExpEd(){
     </div>`;
   }).join('');
 }
-function addEdu(){eduItems.push({id:uid(),school:'',period:'',degree:''});renderEduEd();}
+function addEdu(){eduItems.push({id:uid(),school:'',period:'',degree:''});renderEduEd();scheduleDraftSave();}
 function renderEduEd(){
   const c=document.getElementById('edu-container');
   const tag=lang==='en'?' (EN)':'';
   c.innerHTML=(eduItems.length>1?'<div class="sort-hint">⠿ Перетащите карточку чтобы изменить порядок</div>':'')+
-  eduItems.map(e=>{
+  eduItems.map((e,idx)=>{
     const degVal=trVal('edu',e.id,'degree',e.degree);
     return `
     <div class="card" draggable="true" data-id="${e.id}" data-list="edu"
@@ -1237,6 +1385,7 @@ function renderEduEd(){
       <div class="card-hd">
         <button class="drag-handle" title="Перетащить">⠿</button>
         <span>Образование${tag}</span>
+        ${moveBtnsHtml('edu',e.id,idx,eduItems.length)}
         <button class="rm" onclick="eduItems=eduItems.filter(x=>x.id!='${e.id}');renderEduEd();render()">✕</button>
       </div>
       <div class="f"><input placeholder="Учебное заведение" value="${escAttr(e.school)}" oninput="updEdu('${e.id}','school',this.value)"/></div>
@@ -1245,12 +1394,12 @@ function renderEduEd(){
     </div>`;
   }).join('');
 }
-function addCourse(){courseItems.push({id:uid(),name:'',org:'',year:''});renderCourseEd();}
+function addCourse(){courseItems.push({id:uid(),name:'',org:'',year:''});renderCourseEd();scheduleDraftSave();}
 function renderCourseEd(){
   const cont=document.getElementById('course-container');
   const tag=lang==='en'?' (EN)':'';
   cont.innerHTML=(courseItems.length>1?'<div class="sort-hint">⠿ Перетащите карточку чтобы изменить порядок</div>':'')+
-  courseItems.map(c=>{
+  courseItems.map((c,idx)=>{
     const nameVal=trVal('courses',c.id,'name',c.name);
     return `
     <div class="card" draggable="true" data-id="${c.id}" data-list="course"
@@ -1258,6 +1407,7 @@ function renderCourseEd(){
       <div class="card-hd">
         <button class="drag-handle" title="Перетащить">⠿</button>
         <span>Курс${tag}</span>
+        ${moveBtnsHtml('course',c.id,idx,courseItems.length)}
         <button class="rm" onclick="courseItems=courseItems.filter(x=>x.id!='${c.id}');renderCourseEd();render()">✕</button>
       </div>
       <div class="f"><input placeholder="Название / сертификат" value="${escAttr(nameVal)}" oninput="updCourse('${c.id}','name',this.value)"/></div>
@@ -1266,12 +1416,12 @@ function renderCourseEd(){
     </div>`;
   }).join('');
 }
-function addPort(){portItems.push({id:uid(),title:'',url:'',desc:''});renderPortEd();}
+function addPort(){portItems.push({id:uid(),title:'',url:'',desc:''});renderPortEd();scheduleDraftSave();}
 function renderPortEd(){
   const cont=document.getElementById('port-container');
   const tag=lang==='en'?' (EN)':'';
   cont.innerHTML=(portItems.length>1?'<div class="sort-hint">⠿ Перетащите карточку чтобы изменить порядок</div>':'')+
-  portItems.map(p=>{
+  portItems.map((p,idx)=>{
     const titleVal=trVal('ports',p.id,'title',p.title), descVal=trVal('ports',p.id,'desc',p.desc);
     return `
     <div class="card" draggable="true" data-id="${p.id}" data-list="port"
@@ -1279,6 +1429,7 @@ function renderPortEd(){
       <div class="card-hd">
         <button class="drag-handle" title="Перетащить">⠿</button>
         <span>Проект${tag}</span>
+        ${moveBtnsHtml('port',p.id,idx,portItems.length)}
         <button class="rm" onclick="portItems=portItems.filter(x=>x.id!='${p.id}');renderPortEd();render()">✕</button>
       </div>
       <div class="f"><input placeholder="Название проекта" value="${escAttr(titleVal)}" oninput="updPort('${p.id}','title',this.value)"/></div>
@@ -1288,12 +1439,42 @@ function renderPortEd(){
   }).join('');
 }
 
-// ════ SCORE ════
+// ════ ATS-ЧЕК-ЛИСТ ════
+// Реальные критерии совместимости с ATS (системами отбора резюме), а не просто "заполненность поля".
+// Единый источник правды и для мини-индикатора в шапке, и для развёрнутого чек-листа.
+function buildATSChecks(){
+  const summary=v('f-summary'), skills=v('f-skills').split(',').map(s=>s.trim()).filter(Boolean);
+  const totalLen=[v('f-summary'),...expItems.map(e=>e.desc||''),...portItems.map(p=>p.desc||'')].join(' ').length;
+  const expWithDates=expItems.length>0 && expItems.every(e=>(e.period||'').trim().length>0);
+  const expWithNumbers=expItems.length>0 && expItems.some(e=>/\d/.test(e.desc||''));
+  return [
+    {label:'Телефон и email указаны',ok: !!v('f-phone') && !!v('f-email'),
+      tip:'ATS и рекрутеры в первую очередь ищут контакты — без них резюме могут отклонить автоматически.'},
+    {label:'Город указан',ok: !!v('f-city'),
+      tip:'Многие системы фильтруют кандидатов по локации — без города резюме может не попасть в выборку.'},
+    {label:'Должность (заголовок) указана',ok: v('f-role').trim().length>=4,
+      tip:'Заголовок должности — один из первых полей, по которым ATS сопоставляет резюме с вакансией.'},
+    {label:'«О себе» оптимальной длины (80–600 симв.)',ok: summary.length>=80 && summary.length<=600,
+      tip: summary.length<80 ? 'Слишком коротко — ATS и рекрутер не увидят ключевых слов и контекста. Добавьте деталей.' : 'Слишком длинно — сократите до сути, длинные блоки хуже парсятся и хуже читаются.'},
+    {label:'Указано хотя бы одно место работы',ok: expItems.length>0,
+      tip:'Резюме без опыта работы ATS может отфильтровать как неполное — добавьте хотя бы одну позицию.'},
+    {label:'У каждого места работы указаны даты',ok: expWithDates,
+      tip:'ATS строит хронологию по датам — без периода работы система может не распознать запись как опыт.'},
+    {label:'В достижениях есть цифры',ok: expWithNumbers,
+      tip:'Добавьте измеримые результаты («снизила издержки на 18%», «оборот 12 млрд ₽») — это и ATS-релевантно, и убедительнее для рекрутера.'},
+    {label:'Навыков указано 5 и более',ok: skills.length>=5,
+      tip:'ATS сопоставляет резюме с вакансией по навыкам-ключевым словам — чем их больше и точнее, тем выше совпадение.'},
+    {label:'Образование заполнено',ok: eduItems.length>0,
+      tip:'Раздел образования — стандартное поле, которое ищут почти все ATS-парсеры.'},
+    {label:'Языки указаны',ok: !!v('f-langs'),
+      tip:'Для позиций с международным взаимодействием ATS часто фильтрует именно по знанию языков.'},
+    {label:'Резюме умещается в объём ~1 страницы',ok: totalLen<=2800,
+      tip:'Слишком длинное резюме хуже парсится ATS и реже дочитывается рекрутером до конца. Сократите описания.'},
+  ];
+}
 function calcScore(){
-  const c=[!!v('f-name'),!!v('f-role'),!!v('f-phone'),!!v('f-email'),v('f-summary').length>40,
-    expItems.length>0,v('f-skills').split(',').filter(Boolean).length>=3,
-    eduItems.length>0,!!v('f-salary'),getChips('sch').length>0,courseItems.length>0];
-  return Math.round(c.filter(Boolean).length/c.length*100);
+  const c=buildATSChecks();
+  return Math.round(c.filter(x=>x.ok).length/c.length*100);
 }
 function updateScore(){
   const s=calcScore();
@@ -1301,6 +1482,31 @@ function updateScore(){
   document.getElementById('score-arc').setAttribute('stroke-dasharray',`${s*0.8168} 81.68`);
   document.getElementById('score-arc').setAttribute('stroke',col);
   document.getElementById('score-num').textContent=s+'%';
+  if(document.getElementById('ats-overlay')?.classList.contains('open')) renderATSModal();
+}
+function openATS(){
+  renderATSModal();
+  document.getElementById('ats-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeATS(){
+  document.getElementById('ats-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function renderATSModal(){
+  const checks=buildATSChecks();
+  const s=Math.round(checks.filter(x=>x.ok).length/checks.length*100);
+  const col=s>=80?'#16A34A':s>=50?'#f59e0b':'#f87171';
+  document.getElementById('ats-score-big').textContent=s+'%';
+  document.getElementById('ats-score-big').style.color=col;
+  document.getElementById('ats-score-sub').textContent =
+    s>=80 ? 'Отлично — резюме хорошо совместимо с ATS' :
+    s>=50 ? 'Неплохо, но есть что улучшить' : 'Резюме рискует быть отфильтрованным ATS — доработайте пункты ниже';
+  document.getElementById('ats-list').innerHTML = checks.map(c=>`
+    <div class="ats-item ${c.ok?'ok':'bad'}">
+      <div class="ats-item-hd"><span class="ats-icon">${c.ok?'✓':'!'}</span><span class="ats-label">${c.label}</span></div>
+      ${c.ok?'':`<div class="ats-tip">${c.tip}</div>`}
+    </div>`).join('');
 }
 
 // ════ RENDER ════
@@ -1394,6 +1600,7 @@ function render(){
       <div class="r-hdr"><div><div class="r-name">${name}</div><div class="r-role">${role}</div><div class="r-contacts">${contactsHtml}</div></div>${photoHtml}</div>
       <div class="r-body"><div class="r-main">${mainHtml}</div><div class="r-side">${sideHtml}</div></div>`;
   }
+  scheduleDraftSave();
 }
 
 // ════ AI API ════
@@ -1617,76 +1824,68 @@ function showPWScreen(n){
   document.getElementById('pw-screen-ok').classList.toggle('show',n==='ok');
   document.getElementById('pw-screen-err').classList.toggle('show',n==='err');
 }
-// ════ СКАЧИВАНИЕ + FREE LOGIC ════
-const FREE_KEY = 'resumepro_free_used';
-
-function isFreeUsed(){
-  return localStorage.getItem(FREE_KEY) === '1';
-}
-function markFreeUsed(){
-  localStorage.setItem(FREE_KEY,'1');
-  updateFreeIndicator();
-}
-function updateFreeIndicator(){
-  const el=document.getElementById('free-indicator');
-  if(!el)return;
-  if(isFreeUsed()){
-    el.style.background='rgba(184,136,42,.12)';
-    el.style.borderColor='rgba(184,136,42,.3)';
-    el.style.color='#B8882A';
-    el.innerHTML=T('free_used');
-  } else {
-    el.style.background='rgba(22,163,74,.12)';
-    el.style.borderColor='rgba(22,163,74,.3)';
-    el.style.color='#16A34A';
-    el.innerHTML=T('free_available');
-  }
-}
-
-function handleDownload(){
-  if(!isFreeUsed()){
-    // Первое скачивание — бесплатно
-    showFreeDownloadModal();
-  } else {
-    // Уже использовали — открываем paywall
-    openPW();
-  }
-}
-
-function showFreeDownloadModal(){
-  document.getElementById('free-modal').style.display='flex';
+// ════ ФОРМА ВОЗВРАТА СРЕДСТВ ════
+const SUPPORT_EMAIL='support@resumepro.ru';
+function openRefund(){
+  document.getElementById('refund-overlay').classList.add('open');
   document.body.style.overflow='hidden';
+  document.getElementById('refund-screen-form').style.display='block';
+  document.getElementById('refund-screen-ok').classList.remove('show');
+  document.getElementById('rf-error').style.display='none';
 }
-function closeFreeModal(){
-  document.getElementById('free-modal').style.display='none';
+function closeRefund(){
+  document.getElementById('refund-overlay').classList.remove('open');
   document.body.style.overflow='';
 }
-function confirmFreeDownload(){
-  markFreeUsed();
-  closeFreeModal();
-  // Небольшая задержка чтобы модал закрылся
-  setTimeout(()=>downloadPDF(), 150);
+function selectRefundPlan(btn){
+  document.querySelectorAll('#rf-plan .chip').forEach(b=>b.classList.toggle('on',b===btn));
+}
+function submitRefund(){
+  const email=v('rf-email').trim();
+  const invoice=v('rf-invoice').trim();
+  const reason=v('rf-reason').trim();
+  const plan=document.querySelector('#rf-plan .chip.on')?.dataset.val==='sub'?'Подписка — 950 ₽/мес':'Разовое скачивание — 300 ₽';
+  const errEl=document.getElementById('rf-error');
+  if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    errEl.textContent='Укажите корректный email, на который была оплата';
+    errEl.style.display='block';
+    return;
+  }
+  if(!reason){
+    errEl.textContent='Опишите, что не устроило — это ускорит рассмотрение';
+    errEl.style.display='block';
+    return;
+  }
+  errEl.style.display='none';
+  const subject=`Запрос на возврат — ${email}`;
+  const body=[
+    `Email оплаты: ${email}`,
+    invoice?`Номер заказа/чека: ${invoice}`:null,
+    `Тариф: ${plan}`,
+    `Причина: ${reason}`
+  ].filter(Boolean).join('\n');
+  const mailto=`mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href=mailto;
+  document.getElementById('refund-screen-form').style.display='none';
+  document.getElementById('refund-screen-ok').classList.add('show');
 }
 
-function downloadPDF(){
-  // Берём HTML превью резюме
-  const resumeEl = document.getElementById('resume-preview');
-  if(!resumeEl){alert('Резюме не найдено');return;}
-  const resumeHTML = resumeEl.outerHTML;
+// ════ СКАЧИВАНИЕ ════
+function handleDownload(){
+  // Скачивание всегда платное — сразу открываем paywall
+  openPW();
+}
 
-  // Собираем все стили страницы
+// Общая сборка HTML резюме + стилей страницы для отдельного окна печати (используется только для платного PDF)
+function buildResumeDoc(){
+  const resumeEl = document.getElementById('resume-preview');
+  if(!resumeEl){alert('Резюме не найдено');return null;}
+  const resumeHTML = resumeEl.outerHTML;
   const styles = Array.from(document.styleSheets).map(ss=>{
     try{return Array.from(ss.cssRules).map(r=>r.cssText).join('\n');}catch(e){return '';}
   }).join('\n');
-
   const name = document.getElementById('f-name')?.value || 'resume';
-
-  const printWin = window.open('','_blank','width=900,height=1100');
-  if(!printWin){
-    alert('Разрешите всплывающие окна в браузере и попробуйте ещё раз');
-    return;
-  }
-  printWin.document.write(`<!DOCTYPE html>
+  return `<!DOCTYPE html>
 <html><head>
 <meta charset="UTF-8"/>
 <title>Резюме — ${name}</title>
@@ -1712,12 +1911,64 @@ ${resumeHTML}
     setTimeout(function(){ window.print(); }, 800);
   };
 <\/script>
-</body></html>`);
+</body></html>`;
+}
+
+// Бесплатный предпросмотр — показывается прямо на странице (не в новом окне),
+// чтобы работать везде, включая мобильные браузеры и встроенные просмотрщики,
+// где всплывающие окна часто блокируются.
+function previewResume(){
+  const resumeEl=document.getElementById('resume-preview');
+  if(!resumeEl){alert('Резюме не найдено');return;}
+  const slot=document.getElementById('preview-resume-slot');
+  slot.className=resumeEl.className;
+  slot.innerHTML=resumeEl.innerHTML;
+  const wrap=document.getElementById('preview-wm-wrap');
+  wrap.querySelectorAll('.wm-band').forEach(b=>b.remove());
+  document.getElementById('preview-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  // Раскладываем водяной знак по всей высоте резюме в пикселях —
+  // после того как контент отрисован и высота известна (проценты от auto-высоты ненадёжны)
+  requestAnimationFrame(()=>{
+    const h=slot.scrollHeight||slot.offsetHeight||800;
+    const texts=['ПРЕДПРОСМОТР','ОПЛАТИТЕ ДЛЯ СКАЧИВАНИЯ'];
+    const step=230;
+    let i=0;
+    for(let y=90;y<h;y+=step){
+      const band=document.createElement('div');
+      band.className='wm-band';
+      band.style.top=y+'px';
+      band.textContent=texts[i%2];
+      wrap.appendChild(band);
+      i++;
+    }
+  });
+}
+function closePreview(){
+  document.getElementById('preview-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function previewToPay(){
+  closePreview();
+  openPW();
+}
+
+function downloadPDF(){
+  const doc = buildResumeDoc();
+  if(!doc)return;
+  const printWin = window.open('','_blank','width=900,height=1100');
+  if(!printWin){
+    alert('Разрешите всплывающие окна в браузере и попробуйте ещё раз');
+    return;
+  }
+  printWin.document.write(doc);
   printWin.document.close();
 }
 document.getElementById('pw-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('pw-overlay'))closePW();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closePW();closeCL();closeFreeModal();}});
-document.getElementById('free-modal').addEventListener('click',e=>{if(e.target===document.getElementById('free-modal'))closeFreeModal();});
+document.getElementById('preview-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('preview-overlay'))closePreview();});
+document.getElementById('refund-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('refund-overlay'))closeRefund();});
+document.getElementById('ats-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('ats-overlay'))closeATS();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closePW();closeCL();closePreview();closeRefund();closeATS();}});
 
 // ════ DRAG & DROP ════
 let dragId=null, dragList=null;
@@ -1768,26 +2019,31 @@ function onDragEnd(e){
 
 // ════ INIT ════
 (function(){
-  document.getElementById('f-name').value='Анна Соколова';
-  document.getElementById('f-role').value='Финансовый директор';
-  document.getElementById('f-phone').value='+7 900 123-45-67';
-  document.getElementById('f-email').value='anna@example.com';
-  document.getElementById('f-city').value='Москва';
-  document.getElementById('f-link').value='linkedin.com/in/asokolova';
-  document.getElementById('f-telegram').value='@asokolova_fin';
-  document.getElementById('f-salary').value='350 000';
-  document.getElementById('f-summary').value='Финансовый директор с опытом управления компаниями с оборотом от 1 до 60 млрд ₽. Бюджетирование, МСФО (ДипИФР), финансовое моделирование. Опыт вывода бизнеса на новые рынки.';
-  document.getElementById('f-skills').value='МСФО, Бюджетирование, Финансовое моделирование, Excel, 1С, Power BI, Управление командой';
-  document.getElementById('f-langs').value='Русский — родной, Английский — B2';
-  document.getElementById('f-hobbies').value='Горные лыжи, деловая литература, путешествия';
-  document.getElementById('f-extra').value='Водительское удостоверение кат. B. Участник конференций CFO Russia.';
-  expItems=[{id:uid(),company:'ООО «Ресурс Групп»',period:'2019–2025',role:'Финансовый директор',desc:'Управляла финансовой функцией (оборот 12 млрд ₽). Внедрила МСФО-отчётность, снизила cash gap на 18%, построила FP&A-модель с нуля.'}];
-  eduItems=[{id:uid(),school:'Финансовый университет при Правительстве РФ',period:'2003',degree:'Финансы и кредит, специалист'}];
-  courseItems=[{id:uid(),name:'ДипИФР (DipIFR)',org:'ACCA',year:'2022'}];
-  portItems=[{id:uid(),title:'Финансовая модель M&A',url:'',desc:'DCF-модель для оценки поглощения — экономия 120 млн ₽.'}];
+  const draft=loadDraft();
+  if(draft && draft.fields){
+    // Есть сохранённый черновик — восстанавливаем его вместо примера
+    applyDraft(draft);
+  } else {
+    document.getElementById('f-name').value='Анна Соколова';
+    document.getElementById('f-role').value='Финансовый директор';
+    document.getElementById('f-phone').value='+7 900 123-45-67';
+    document.getElementById('f-email').value='anna@example.com';
+    document.getElementById('f-city').value='Москва';
+    document.getElementById('f-link').value='linkedin.com/in/asokolova';
+    document.getElementById('f-telegram').value='@asokolova_fin';
+    document.getElementById('f-salary').value='350 000';
+    document.getElementById('f-summary').value='Финансовый директор с опытом управления компаниями с оборотом от 1 до 60 млрд ₽. Бюджетирование, МСФО (ДипИФР), финансовое моделирование. Опыт вывода бизнеса на новые рынки.';
+    document.getElementById('f-skills').value='МСФО, Бюджетирование, Финансовое моделирование, Excel, 1С, Power BI, Управление командой';
+    document.getElementById('f-langs').value='Русский — родной, Английский — B2';
+    document.getElementById('f-hobbies').value='Горные лыжи, деловая литература, путешествия';
+    document.getElementById('f-extra').value='Водительское удостоверение кат. B. Участник конференций CFO Russia.';
+    expItems=[{id:uid(),company:'ООО «Ресурс Групп»',period:'2019–2025',role:'Финансовый директор',desc:'Управляла финансовой функцией (оборот 12 млрд ₽). Внедрила МСФО-отчётность, снизила cash gap на 18%, построила FP&A-модель с нуля.'}];
+    eduItems=[{id:uid(),school:'Финансовый университет при Правительстве РФ',period:'2003',degree:'Финансы и кредит, специалист'}];
+    courseItems=[{id:uid(),name:'ДипИФР (DipIFR)',org:'ACCA',year:'2022'}];
+    portItems=[{id:uid(),title:'Финансовая модель M&A',url:'',desc:'DCF-модель для оценки поглощения — экономия 120 млн ₽.'}];
+  }
   renderExpEd();renderEduEd();renderCourseEd();renderPortEd();
   render();
-  updateFreeIndicator();
   const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:.1});
   document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
   document.querySelectorAll('.faq-item').forEach(item=>{
